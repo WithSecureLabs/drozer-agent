@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <TextView
+        android:id="@+id/adb_server_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingTop="2dip"
+        android:text="@+string/adb_server_name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/adb_server_port"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/adb_server_name"
+        android:paddingBottom="2dip"
+        android:text="@+string/adb_server_port"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <com.mwr.droidhg.agent.views.ConnectorStatusIndicator
+        android:id="@+id/adb_server_status_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/adb_server_name"
+        android:layout_alignBottom="@+id/adb_server_name"
+        android:layout_toRightOf="@+id/adb_server_name"
+        android:layout_marginLeft="5dip" />
+
+</RelativeLayout>

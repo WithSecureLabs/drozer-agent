@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/mercury_graphic"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/mercury"
+        android:contentDescription="@string/app_name" />
+
+    <com.mwr.droidhg.agent.views.EndpointListView
+        android:id="@+id/endpoint_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/server_list_row_view"
+        android:layout_below="@+id/mercury_graphic"
+        android:layout_alignParentLeft="true" />
+    
+    <com.mwr.droidhg.agent.views.ServerListRowView
+        android:id="@+id/server_list_row_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

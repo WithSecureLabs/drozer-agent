@@ -1,0 +1,66 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mwr.droidhg.agent"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+	            <action android:name="android.intent.action.VIEW" />
+	            
+	            <category android:name="android.intent.category.DEFAULT" />
+	            <category android:name="android.intent.category.BROWSABLE" />
+	            
+	            <data android:scheme="droidhg" android:host="com.mwr.droidhg.agent" />
+	        </intent-filter>
+        </activity>
+        <activity
+            android:name=".EndpointActivity"
+            android:label="@string/title_activity_endpoint" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mwr.droidhg.agent.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ServerActivity"
+            android:label="@string/title_activity_server" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mwr.droidhg.agent.MainActivity" />
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mwr.droidhg.agent.MainActivity" />
+        </activity>
+
+        <service
+            android:name="ClientService"
+            android:process=":remote" />
+        <service
+            android:name="ServerService"
+            android:process=":remote" />
+        <service
+            android:name="SessionService"
+            android:process=":remote" />
+    </application>
+
+</manifest>

@@ -1,0 +1,6 @@
+.mercury_history
+bin/*
+gen/*
+libs/*/*.so
+local.properties
+obj/*
