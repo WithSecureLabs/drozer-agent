@@ -1,7 +1,5 @@
 package com.mwr.droidhg.api.builders;
 
-import android.provider.Settings;
-
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.api.Protobuf.Message;
 import com.mwr.droidhg.api.Protobuf.Message.SystemRequest;
@@ -28,7 +26,7 @@ public class SystemRequestFactory {
 	
 	public SystemRequestFactory setDevice() {
 		this.builder.setDevice(Message.Device.newBuilder()
-				.setId(Settings.Secure.getString(Agent.getContext().getContentResolver(), Settings.Secure.ANDROID_ID))
+				.setId(Agent.getUID())
 				.setManufacturer(android.os.Build.MANUFACTURER)
 				.setModel(android.os.Build.MODEL)
 				.setSoftware(android.os.Build.VERSION.RELEASE));
