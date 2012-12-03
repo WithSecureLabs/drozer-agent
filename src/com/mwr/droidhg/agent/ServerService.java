@@ -51,7 +51,10 @@ public class ServerService extends Service {
 			switch(msg.what) {
 			case MSG_GET_SERVER_STATUS:
 				try {
-					msg.replyTo.send(Message.obtain(null, MSG_GET_SERVER_STATUS, service.getStatus()));
+					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+					message.setData(service.getStatus());
+					
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
@@ -62,7 +65,10 @@ public class ServerService extends Service {
 				try {
 					service.startServer();
 					
-					msg.replyTo.send(Message.obtain(null, MSG_GET_SERVER_STATUS, service.getStatus()));
+					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+					message.setData(service.getStatus());
+					
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
@@ -72,8 +78,11 @@ public class ServerService extends Service {
 			case MSG_STOP_SERVER:
 				try {
 					service.stopServer();
+
+					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+					message.setData(service.getStatus());
 					
-					msg.replyTo.send(Message.obtain(null, MSG_GET_SERVER_STATUS, service.getStatus()));
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
@@ -116,7 +125,10 @@ public class ServerService extends Service {
 			public void update(Observable arg0, Object arg1) {
 				for(Messenger m : ServerService.this.messengers)
 					try {
-						m.send(Message.obtain(null, MSG_GET_SERVER_STATUS, ServerService.this.getStatus()));
+						Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+						message.setData(ServerService.this.getStatus());
+						
+						m.send(message);
 					}
 					catch (RemoteException e) {
 						Log.e(getString(R.string.log_tag_server_service), "failed to send updated server status");

@@ -50,7 +50,10 @@ public class ClientService extends Service {
 			switch(msg.what) {
 			case MSG_GET_ENDPOINTS_STATUS:
 				try {
-					msg.replyTo.send(Message.obtain(null, MSG_GET_ENDPOINTS_STATUS, service.getEndpointsStatus()));
+					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+					message.setData(service.getEndpointsStatus());
+					
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
@@ -61,7 +64,10 @@ public class ClientService extends Service {
 				try {
 					service.startEndpoint(((Bundle)msg.obj).getInt("endpoint_id"));
 					
-					msg.replyTo.send(Message.obtain(null, MSG_GET_ENDPOINTS_STATUS, service.getEndpointsStatus()));
+					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+					message.setData(service.getEndpointsStatus());
+					
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
@@ -72,7 +78,10 @@ public class ClientService extends Service {
 				try {
 					service.stopEndpoint(((Bundle)msg.obj).getInt("endpoint_id"));
 					
-					msg.replyTo.send(Message.obtain(null, MSG_GET_ENDPOINTS_STATUS, service.getEndpointsStatus()));
+					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+					message.setData(service.getEndpointsStatus());
+					
+					msg.replyTo.send(message);
 				}
 				catch(RemoteException e) {
 					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
@@ -123,7 +132,10 @@ public class ClientService extends Service {
 			public void onEndpointStatusChanged(Endpoint endpoint) {
 				for(Messenger m : ClientService.this.messengers)
 					try {
-						m.send(Message.obtain(null, MSG_GET_ENDPOINTS_STATUS, ClientService.this.getEndpointsStatus()));
+						Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+						message.setData(ClientService.this.getEndpointsStatus());
+						
+						m.send(message);
 					}
 					catch(RemoteException e) {
 						Log.e(getString(R.string.log_tag_client_service), "failed to send updated endpoint status");

@@ -68,7 +68,7 @@ public class Agent {
 		@Override
 		public void handleMessage(Message msg) {
 			//Context context = this.context.get();
-			Bundle data = (Bundle)msg.obj;
+			Bundle data = msg.getData();
 			
 			switch(msg.what) {
 			case ClientService.MSG_GET_ENDPOINTS_STATUS:
