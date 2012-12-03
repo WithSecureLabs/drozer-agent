@@ -2,6 +2,7 @@ package com.mwr.droidhg.api.builders;
 
 
 import android.provider.Settings;
+import android.util.Log;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.api.Protobuf.Message;
@@ -38,7 +39,7 @@ public class SystemResponseFactory {
 	
 	public SystemResponseFactory addDevice() {
 		this.builder.addDevices(Message.Device.newBuilder()
-				.setId(Settings.Secure.getString(Agent.getContext().getContentResolver(), Settings.Secure.ANDROID_ID))
+				.setId(Agent.getUID())
 				.setManufacturer(android.os.Build.MANUFACTURER)
 				.setModel(android.os.Build.MODEL)
 				.setSoftware(android.os.Build.VERSION.RELEASE));

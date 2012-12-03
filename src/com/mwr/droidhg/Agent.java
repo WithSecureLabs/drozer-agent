@@ -1,11 +1,15 @@
 package com.mwr.droidhg;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.EndpointManager;
 import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.agent.ServerService;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.connector.Session;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,6 +21,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.util.Log;
 
 public class Agent {
@@ -130,6 +135,7 @@ public class Agent {
 	private static Messenger messenger = null;
 	private static ServerParameters server_parameters = null;
 	private static ServerServiceConnection server_service_connection = null;
+	private static String uid = null;
 	
 	public static void bindServices() {
 		ClientService.startAndBindToService(context, client_service_connection);
@@ -162,6 +168,18 @@ public class Agent {
 	
 	public static SharedPreferences getSettings() {
 		return context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS);
+	}
+	
+	public static String getUID() {
+		if(uid == null)
+			uid = Settings.Secure.getString(Agent.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+		
+		// sometimes, a device will not have an ANDROID_ID, particularly if we are
+		// in lower API versions; in that case we generate one at random
+		if(uid == null)
+			uid = new BigInteger(64, new SecureRandom()).toString(32);
+		
+		return uid;
 	}
 	
 	public static void sendToClientService(Message msg) throws RemoteException {
