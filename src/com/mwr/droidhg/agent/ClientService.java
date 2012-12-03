@@ -62,7 +62,7 @@ public class ClientService extends Service {
 				
 			case MSG_START_ENDPOINT:
 				try {
-					service.startEndpoint(((Bundle)msg.obj).getInt("endpoint_id"));
+					service.startEndpoint(msg.getData().getInt("endpoint_id"));
 					
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 					message.setData(service.getEndpointsStatus());
@@ -76,7 +76,7 @@ public class ClientService extends Service {
 				
 			case MSG_STOP_ENDPOINT:
 				try {
-					service.stopEndpoint(((Bundle)msg.obj).getInt("endpoint_id"));
+					service.stopEndpoint(msg.getData().getInt("endpoint_id"));
 					
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 					message.setData(service.getEndpointsStatus());

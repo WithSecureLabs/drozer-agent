@@ -195,7 +195,10 @@ public class Agent {
 			endpoint.enabled = true;
 			endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.sendToClientService(Message.obtain(null, ClientService.MSG_START_ENDPOINT, data));
+			Message message = Message.obtain(null, ClientService.MSG_START_ENDPOINT);
+			message.setData(data);
+			
+			Agent.sendToClientService(message);
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to start endpoint " + endpoint.getId());
@@ -227,7 +230,10 @@ public class Agent {
 			endpoint.enabled = false;
 			endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.sendToClientService(Message.obtain(null, ClientService.MSG_STOP_ENDPOINT, data));
+			Message message = Message.obtain(null, ClientService.MSG_STOP_ENDPOINT);
+			message.setData(data);
+			
+			Agent.sendToClientService(message);
 		}
 		catch (RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to stop endpoint " + endpoint.getId());
