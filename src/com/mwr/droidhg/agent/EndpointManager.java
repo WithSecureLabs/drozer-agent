@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.Endpoint.EndpointSerializer;
 
@@ -148,7 +149,8 @@ public class EndpointManager extends SQLiteOpenHelper {
 				return endpoint;
 		}
 		
-		return null;
+		// if we get here, we haven't found the Endpoint in the cached data - it may be new
+		return this.getFromDatabase(id);
 	}
 	
 	public Endpoint get(int id, boolean reload) {
@@ -170,6 +172,46 @@ public class EndpointManager extends SQLiteOpenHelper {
 				endpoint.setAttributes(fresh);
 			// TODO: raise an exception if fresh does not exist
 		}
+		
+		return endpoint;
+	}
+	
+	private Endpoint getFromDatabase(int id) {
+		Endpoint endpoint = null;
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cur = db.query(TABLE_NAME, null, "id=?", new String[] { Integer.valueOf(id).toString() }, null, null, null, null);
+		
+		for(boolean has_item = cur.moveToFirst(); has_item; has_item = cur.moveToNext()) {
+			endpoint = Endpoint.deserialize(this.serializer, cur);
+			endpoint.addObserver(new Observer() {
+
+				@Override
+				public void update(Observable observable, Object data) {
+					Endpoint endpoint = (Endpoint)observable;
+					
+					if(EndpointManager.this.on_endpoint_status_change_listener != null) {
+						if(endpoint.getStatus() == Endpoint.Status.ONLINE) {
+							EndpointManager.this.on_endpoint_status_change_listener.onEndpointStarted(endpoint);
+						}
+						else if(endpoint.getStatus() == Endpoint.Status.OFFLINE) {
+							EndpointManager.this.on_endpoint_status_change_listener.onEndpointStopped(endpoint);
+						}
+						
+						EndpointManager.this.on_endpoint_status_change_listener.onEndpointStatusChanged(endpoint);
+					}
+				}
+				
+			});
+			
+			// update the status to UNKNOWN, but probably offline
+			endpoint.setStatus(Status.OFFLINE);
+			// finally, add the new endpoint to the collection
+			this.endpoints.add(endpoint);
+		}
+		
+		cur.close();
+		db.close();
 		
 		return endpoint;
 	}
