@@ -38,7 +38,7 @@ public abstract class ReflectedType {
 		else if(object instanceof String)
 			return new ReflectedString((String)object);
 		else if(object.getClass().isArray())
-			return ReflectedArray.fromNative(object);
+			return ReflectedArray.fromNative((Object[])object);
 		else
 			return new ReflectedObject(object);
 	}
