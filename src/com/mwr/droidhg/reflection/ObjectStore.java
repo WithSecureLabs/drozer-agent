@@ -1,10 +1,19 @@
 package com.mwr.droidhg.reflection;
 
+import java.util.List;
+
 import android.util.SparseArray;
 
 public class ObjectStore {
 	
 	private SparseArray<Object> objects = new SparseArray<Object>();
+	
+	public ObjectStore() {}
+	
+	public ObjectStore(List<Object> objects) {
+		for(Object obj : objects)
+			this.objects.put(obj.hashCode(), obj);
+	}
 
 	public void clear() {
 		this.objects.clear();
