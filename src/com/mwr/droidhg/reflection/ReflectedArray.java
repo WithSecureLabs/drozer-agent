@@ -24,7 +24,7 @@ public class ReflectedArray extends ReflectedType implements Iterable<ReflectedT
 			this.elements[i] = ReflectedType.fromArgument(array.getElement(i), object_store);
 	}
 	
-	public ReflectedArray fromNative(Object[] elements) {
+	public static ReflectedArray fromNative(Object[] elements) {
 		ReflectedType[] reflected_elements = new ReflectedType[elements.length];
 		
 		for(int i=0; i<elements.length; i++)
@@ -48,6 +48,10 @@ public class ReflectedArray extends ReflectedType implements Iterable<ReflectedT
 		//return Argument.newBuilder().setType(Argument.ArgumentType.ARRAY).setObject(ObjectReference.newBuilder().setReference(this.reference)).build();
 	}
 	
+	public ReflectedType[] getElements() {
+		return this.elements;
+	}
+	
 	@Override
 	public Object getNative() {
 		if(this.type == Array.ArrayType.PRIMITIVE) {
@@ -61,7 +65,7 @@ public class ReflectedArray extends ReflectedType implements Iterable<ReflectedT
 				return boolean_array;
 				
 			case BYTE:
-				byte[] byte_array = new byte[this.elements.length];
+				Byte[] byte_array = new Byte[this.elements.length];
 				
 				for(int i=0; i<this.elements.length; i++)
 					byte_array[i] = ((Byte)this.elements[i].getNative()).byteValue();
@@ -141,7 +145,7 @@ public class ReflectedArray extends ReflectedType implements Iterable<ReflectedT
 	@Override
 	public Class<?> getType() {
 		switch(this.type) {
-		case ARRAY:			return null;
+		case ARRAY:			return Object[][].class;
 		case OBJECT:		return Object[].class;
 		case PRIMITIVE:		return ((ReflectedPrimitive)this.elements[0]).getArrayType();
 		case STRING:		return String[].class;
