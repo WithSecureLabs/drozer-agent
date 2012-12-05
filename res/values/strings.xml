@@ -2,7 +2,7 @@
 
     <string name="active_endpoint">Connected to a Mercury server.</string>
     <string name="active_endpoints">Connected to %d Mercury servers.</string>
-    <string name="adb_server_name">Start Embedded Server</string>
+    <string name="adb_server_name">Embedded Server</string>
     <string name="adb_server_port">Port</string>
     <string name="app_name">Mercury Agent</string>
     <string name="cancel">Cancel</string>
