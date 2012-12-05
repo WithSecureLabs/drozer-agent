@@ -1,13 +1,19 @@
 package com.mwr.droidhg.api.builders;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.MessageOrBuilder;
 import com.mwr.droidhg.api.Protobuf.Message;
 import com.mwr.droidhg.api.Protobuf.Message.ReflectionResponse;
 import com.mwr.droidhg.connector.Session;
+import com.mwr.droidhg.reflection.ReflectedType;
 
 public class ReflectionResponseFactory {
 	
 	private ReflectionResponse.Builder builder = null;
+	
+	public static ReflectionResponseFactory data(byte[] bytes) {
+		return new ReflectionResponseFactory(ReflectionResponse.ResponseStatus.SUCCESS).setData(bytes);
+	}
 	
 	public static ReflectionResponseFactory error(String message) {
 		return new ReflectionResponseFactory(ReflectionResponse.ResponseStatus.ERROR).setErrorMessage(message);
@@ -47,6 +53,8 @@ public class ReflectionResponseFactory {
 			return primitiveArray((String[])value);
 		else if(value.getClass().isArray() && value instanceof Object[])
 			return objectArray((Object[])value);
+		else if(value.getClass().isArray() && value.getClass().getComponentType() == Byte.TYPE)
+			return data((byte[])value);
 		else if(value.getClass().isArray())
 			return primitiveArray(value);
 		//else if(!primitive)
@@ -69,7 +77,7 @@ public class ReflectionResponseFactory {
 	public ReflectionResponse build() {
 		return this.builder.build();
 	}
-	
+
 	private Message.Argument buildArgument(String string) {
 		return Message.Argument.newBuilder().setType(Message.Argument.ArgumentType.STRING).setString(string).build();
 	}
@@ -145,6 +153,12 @@ public class ReflectionResponseFactory {
 	
 	public ReflectionResponseFactory isSuccess() {
 		this.builder.setStatus(ReflectionResponse.ResponseStatus.SUCCESS);
+		
+		return this;
+	}
+	
+	public ReflectionResponseFactory setData(byte[] bytes) {
+		this.builder.setResult(ReflectedType.fromNative(bytes).getArgument());
 		
 		return this;
 	}
