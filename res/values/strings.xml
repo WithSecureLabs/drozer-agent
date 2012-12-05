@@ -2,7 +2,7 @@
 
     <string name="active_endpoint">Connected to a Mercury server.</string>
     <string name="active_endpoints">Connected to %d Mercury servers.</string>
-    <string name="adb_server_name">Connect via ADB</string>
+    <string name="adb_server_name">Start Embedded Server</string>
     <string name="adb_server_port">Port</string>
     <string name="app_name">Mercury Agent</string>
     <string name="cancel">Cancel</string>
@@ -23,7 +23,7 @@
     <string name="save">Save</string>
     <string name="server_settings">adb Server Settings</string>
     <string name="server_port">Port</string>
-    <string name="server_port_summary">Specify the port that the local server will use, when in adb mode.</string>
+    <string name="server_port_summary">Specify the port that the embedded server will listen on.</string>
     <string name="session_connected">A user is accessing your device using Mercury.</string>
     <string name="status_placeholder">Status Message goes Here</string>
     <string name="title_activity_endpoint">Mercury Endpoint</string>
