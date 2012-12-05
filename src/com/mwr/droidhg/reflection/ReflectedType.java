@@ -7,7 +7,7 @@ public abstract class ReflectedType {
 	public static ReflectedType fromArgument(Argument argument, ObjectStore object_store) {
 		switch(argument.getType()) {
 		case ARRAY:		return new ReflectedArray(argument.getArray(), object_store);
-		case DATA:		return null;
+		case DATA:		return new ReflectedBinary(argument.getData());
 		case OBJECT:	return new ReflectedObject(argument.getObject(), object_store);
 		case PRIMITIVE:	return new ReflectedPrimitive(argument.getPrimitive());
 		case STRING:	return new ReflectedString(argument.getString());
@@ -37,6 +37,8 @@ public abstract class ReflectedType {
 			return new ReflectedPrimitive((Short)object);
 		else if(object instanceof String)
 			return new ReflectedString((String)object);
+		else if(object.getClass().isArray() && object.getClass().getComponentType() == Byte.TYPE)
+			return ReflectedBinary.fromNative((byte[])object);
 		else if(object.getClass().isArray())
 			return ReflectedArray.fromNative((Object[])object);
 		else
