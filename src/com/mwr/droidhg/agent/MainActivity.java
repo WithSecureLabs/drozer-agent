@@ -53,20 +53,6 @@ public class MainActivity extends Activity {
 			}
         	
         });
-        
-//        Agent.getEndpointManager().setOnEndpointStatusChangeListener(new EndpointManager.OnEndpointStatusChangeListener() {
-//
-//			@Override
-//			public void onEndpointStarted(Endpoint endpoint) {
-//				Toast.makeText(MainActivity.this, "Connected to " + endpoint.getName() + ".", Toast.LENGTH_SHORT).show();
-//			}
-//
-//			@Override
-//			public void onEndpointStopped(Endpoint endpoint) {
-//				Toast.makeText(MainActivity.this, "Disconnected from " + endpoint.getName() + ".", Toast.LENGTH_SHORT).show();
-//			}
-//        	
-//        });
     }
     
     @Override
