@@ -197,11 +197,16 @@ public class Agent {
 	public static void setContext(Context context) {
 		Agent.context = context.getApplicationContext();
 		
-		client_service_connection = new ClientServiceConnection();
-		endpoint_manager = new EndpointManager(context);
-		messenger = new Messenger(new IncomingHandler(context));
-		server_parameters = new ServerParameters();
-		server_service_connection = new ServerServiceConnection();
+		if(client_service_connection == null)
+			client_service_connection = new ClientServiceConnection();
+		if(endpoint_manager == null)
+			endpoint_manager = new EndpointManager(context);
+		if(messenger == null)
+			messenger = new Messenger(new IncomingHandler(context));
+		if(server_parameters == null)
+			server_parameters = new ServerParameters();
+		if(server_service_connection == null)
+			server_service_connection = new ServerServiceConnection();
 	}
 	
 	public static void startEndpoint(Endpoint endpoint) {
