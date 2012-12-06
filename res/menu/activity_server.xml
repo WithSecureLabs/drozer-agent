@@ -4,7 +4,6 @@
 	    android:id="@+id/menu_edit_server"
 	    android:title="@string/edit_server"
         android:icon="@drawable/ic_action_edit"
-        android:showAsAction="ifRoom"
         android:orderInCategory="10" />
 
 </menu>

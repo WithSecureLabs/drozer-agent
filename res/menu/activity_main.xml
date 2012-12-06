@@ -3,8 +3,7 @@
 	<item
 	    android:id="@+id/menu_new_endpoint"
 	    android:title="@string/new_endpoint"
-        android:icon="@android:drawable/ic_input_add"
-        android:showAsAction="ifRoom"
+        android:icon="@drawable/ic_input_add"
         android:orderInCategory="10"></item>
     
     <item

@@ -4,13 +4,11 @@
 	    android:id="@+id/menu_edit_endpoint"
 	    android:title="@string/edit_endpoint"
         android:icon="@drawable/ic_action_edit"
-        android:showAsAction="ifRoom"
         android:orderInCategory="10" />
    	<item
    	    android:id="@+id/menu_delete_endpoint"
    	    android:title="@string/delete_endpoint"
    	    android:icon="@drawable/ic_action_delete"
-        android:showAsAction="ifRoom"
    	    android:orderInCategory="20" />
 
 </menu>
