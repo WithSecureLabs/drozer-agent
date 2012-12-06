@@ -8,11 +8,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-		android:layout_centerVertical="true"
-		android:paddingTop="5dip"
-		android:paddingBottom="5dip"
-        android:src="@drawable/ic_launcher"
-        android:contentDescription="@string/app_name" />
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip"
+        android:src="@drawable/ic_notification" />
 
     <RelativeLayout
         android:layout_width="match_parent"

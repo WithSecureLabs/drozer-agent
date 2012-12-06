@@ -87,7 +87,7 @@ public class SessionService extends NotifyingService {
 
 	@Override
 	protected void onCreateNotification(RemoteViews view) {
-		view.setImageViewResource(R.id.cs_notification_icon, R.drawable.ic_launcher);
+		view.setImageViewResource(R.id.cs_notification_icon, R.drawable.ic_notification);
 		view.setTextViewText(R.id.cs_notification_ticker, getString(R.string.session_connected));		
 	}
 	

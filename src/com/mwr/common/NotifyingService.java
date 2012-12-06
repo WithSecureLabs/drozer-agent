@@ -31,7 +31,7 @@ public abstract class NotifyingService extends Service {
 		
 		this.onCreateNotification(contentView);
 		
-		notification.icon = R.drawable.ic_launcher;
+		notification.icon = R.drawable.ic_notification;
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		notification.contentIntent = intent;
 		notification.contentView = contentView;
