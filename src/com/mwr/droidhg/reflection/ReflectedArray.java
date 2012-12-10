@@ -65,7 +65,7 @@ public class ReflectedArray extends ReflectedType implements Iterable<ReflectedT
 				return boolean_array;
 				
 			case BYTE:
-				Byte[] byte_array = new Byte[this.elements.length];
+				byte[] byte_array = new byte[this.elements.length];
 				
 				for(int i=0; i<this.elements.length; i++)
 					byte_array[i] = ((Byte)this.elements[i].getNative()).byteValue();
