@@ -4,11 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class AboutActivity extends Activity {
 	

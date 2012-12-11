@@ -1,6 +1,5 @@
 package com.mwr.droidhg.api.builders;
 
-import com.google.protobuf.ByteString;
 import com.google.protobuf.MessageOrBuilder;
 import com.mwr.droidhg.api.Protobuf.Message;
 import com.mwr.droidhg.api.Protobuf.Message.ReflectionResponse;

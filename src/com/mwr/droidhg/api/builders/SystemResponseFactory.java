@@ -1,8 +1,6 @@
 package com.mwr.droidhg.api.builders;
 
-
 import android.provider.Settings;
-import android.util.Log;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.api.Protobuf.Message;

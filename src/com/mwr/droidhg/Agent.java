@@ -9,7 +9,6 @@ import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.agent.ServerService;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
-import com.mwr.droidhg.connector.Session;
 
 import android.content.ComponentName;
 import android.content.Context;
