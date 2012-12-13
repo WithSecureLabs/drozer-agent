@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="droidhg Agent" default="help">
+<project name="agent" default="help">
 
   <target name="-pre-compile">
     <exec executable="protoc">
