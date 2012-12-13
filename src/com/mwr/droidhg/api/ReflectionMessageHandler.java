@@ -10,6 +10,7 @@ import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.ReflectionResponseFactory;
 import com.mwr.droidhg.connector.InvalidMessageException;
 import com.mwr.droidhg.connector.Session;
+import com.mwr.droidhg.reflection.ObjectStore;
 import com.mwr.droidhg.reflection.ReflectedType;
 import com.mwr.droidhg.reflection.Reflector;
 
@@ -164,7 +165,7 @@ public class ReflectionMessageHandler implements Handler {
 				if(Reflector.isPropertyPrimitive(object, request.getGetProperty().getProperty()))
 					return ReflectionResponseFactory.primitive(value);
 				else {
-					if(value != null)
+					if(value != null && this.shouldPutInStore(value))
 						this.session.object_store.put(value);
 					
 					return ReflectionResponseFactory.send(value);
@@ -206,7 +207,7 @@ public class ReflectionMessageHandler implements Handler {
 				else {
 					Object result = Reflector.invoke(object, method_name, arguments);
 					
-					if(result != null)
+					if(result != null && this.shouldPutInStore(result))
 						this.session.object_store.put(result);
 					
 					return ReflectionResponseFactory.send(result);
@@ -228,6 +229,15 @@ public class ReflectionMessageHandler implements Handler {
 		else {
 			return ReflectionResponseFactory.error("cannot find object " + request.getInvoke().getObject().getReference());
 		}
+	}
+	
+	private ReflectedType[] parseArguments(List<Message.Argument> arguments) {
+		ReflectedType[] resolved = new ReflectedType[arguments.size()];
+		
+		for(int i=0; i<arguments.size(); i++)
+			resolved[i] = ReflectedType.fromArgument(arguments.get(i), this.session.object_store);
+		
+		return resolved;
 	}
 	
 	public ReflectionResponseFactory resolve(Message.ReflectionRequest request) throws InvalidMessageException {
@@ -266,14 +276,12 @@ public class ReflectionMessageHandler implements Handler {
 			return ReflectionResponseFactory.error("cannot find object " + request.getSetProperty().getObject().getReference()); 
 		}
 	}
-	
-	private ReflectedType[] parseArguments(List<Message.Argument> arguments) {
-		ReflectedType[] resolved = new ReflectedType[arguments.size()];
-		
-		for(int i=0; i<arguments.size(); i++)
-			resolved[i] = ReflectedType.fromArgument(arguments.get(i), this.session.object_store);
-		
-		return resolved;
+
+	private boolean shouldPutInStore(Object obj) {
+		return !(obj.getClass().isPrimitive() ||
+				obj.getClass() == String.class ||
+				obj.getClass().isArray() && obj.getClass().getComponentType().isPrimitive() ||
+				obj.getClass().isArray() && obj.getClass() == String.class);
 	}
 
 }
