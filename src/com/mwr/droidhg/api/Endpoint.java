@@ -4,6 +4,20 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+
+import android.util.Log;
+
+import com.mwr.common.NaiveTrustManager;
+import com.mwr.droidhg.Agent;
 
 public class Endpoint extends ConnectorParameters {
 	
@@ -18,6 +32,7 @@ public class Endpoint extends ConnectorParameters {
 	private String name = "Endpoint";
 	private String host = "droidhg.local";
 	private int port = 31415;
+	private boolean ssl = true;
 	
 	public Endpoint() {
 		this(-1, "Endpoint", "droidhg.local", 31415);
@@ -88,7 +103,31 @@ public class Endpoint extends ConnectorParameters {
 	}
 
 	public Socket toSocket() throws IOException {
-		return new Socket(this.toInetAddress(), this.getPort());
+		if(this.ssl)
+			return this.toSSLSocket();
+		else
+			return new Socket(this.toInetAddress(), this.getPort());
+	}
+	
+	public Socket toSSLSocket() {
+		try {
+			SSLContext context = SSLContext.getInstance("TLS");
+			context.init(new KeyManager[0], new TrustManager[] { new NaiveTrustManager() }, new SecureRandom());
+			
+			return ((SSLSocketFactory)context.getSocketFactory()).createSocket(this.toInetAddress(), this.getPort());
+		}
+		catch(IOException e) {
+			Log.e("toSSLSocket", e.getMessage());
+			return null;
+		}
+		catch(KeyManagementException e) {
+			Log.e("toSSLSocket", e.getMessage());
+			return null;
+		}
+		catch (NoSuchAlgorithmException e) {
+			Log.e("toSSLSocket", e.getMessage());
+			return null;
+		}
 	}
 	
 	public String toString() {
