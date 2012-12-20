@@ -49,5 +49,10 @@ public class SocketTransport extends Transport {
 	protected OutputStream getOutputStream() throws IOException {
 		return this.out;
 	}
+	
+	@Override
+	public boolean isLive() {
+		return !this.socket.isClosed();
+	}
 
 }

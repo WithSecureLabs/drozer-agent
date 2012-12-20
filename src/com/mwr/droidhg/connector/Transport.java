@@ -10,6 +10,7 @@ public abstract class Transport {
 	public abstract void close();
 	protected abstract InputStream getInputStream() throws IOException;
 	protected abstract OutputStream getOutputStream() throws IOException;
+	public abstract boolean isLive();
 	
 	public Frame receive() throws APIVersionException, IOException, TransportDisconnectedException {
 		if(this.getInputStream() != null)
