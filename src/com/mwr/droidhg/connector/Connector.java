@@ -69,8 +69,10 @@ public abstract class Connector extends Thread {
 	}
 	
 	protected void createConnection(Transport transport) {
-		this.connection = new Connection(this, transport);
-		this.connection.start();
+		if(transport.isLive()) {
+			this.connection = new Connection(this, transport);
+			this.connection.start();
+		}
 	}
 	
 	public boolean dieWithLastSession() {
