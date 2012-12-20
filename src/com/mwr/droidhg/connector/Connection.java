@@ -56,7 +56,7 @@ public class Connection extends Thread {
 	}
 	
 	private void checkForLiveness() {
-		if(this.connector.checkForLiveness() && System.currentTimeMillis() - this.last_message_at > LIVENESS_THRESHOLD) {
+		if(this.connector.checkForLiveness() && System.currentTimeMillis() - this.last_message_at > LIVENESS_THRESHOLD || !this.transport.isLive()) {
 			Log.i("connection", "connection was reset, no message for " + (System.currentTimeMillis() - this.last_message_at) + "ms");
 			
 			this.stopConnection(false);
