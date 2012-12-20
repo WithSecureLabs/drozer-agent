@@ -1,7 +1,16 @@
 package com.mwr.droidhg;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.KeyManagerFactory;
 
 import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.EndpointManager;
@@ -130,6 +139,7 @@ public class Agent {
 	private static Context context = null;
 	
 	private static ClientServiceConnection client_service_connection = null;
+	private static KeyManagerFactory key_manager_factory = null;
 	private static EndpointManager endpoint_manager = null;
 	private static Messenger messenger = null;
 	private static ServerParameters server_parameters = null;
@@ -151,6 +161,34 @@ public class Agent {
 	
 	public static EndpointManager getEndpointManager() {
 		return endpoint_manager;
+	}
+	
+	public static KeyManagerFactory getKeyManagerFactory() {
+		if(key_manager_factory == null) {
+			try {
+				KeyStore key_store = KeyStore.getInstance("BKS");
+				key_store.load(new FileInputStream(getContext().getFilesDir() + "/mercury.bks"), "mercury".toCharArray());
+				key_manager_factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+				key_manager_factory.init(key_store, "mercury".toCharArray());
+			}
+			catch(CertificateException e) {
+				Log.e("agent", e.getMessage());
+			}
+			catch(IOException e) {
+				Log.e("agent", e.getMessage());
+			}
+			catch(KeyStoreException e) {
+				Log.e("agent", e.getMessage());
+			}
+			catch(NoSuchAlgorithmException e) {
+				Log.e("agent", e.getMessage());
+			}
+			catch(UnrecoverableKeyException e) {
+				Log.e("agent", e.getMessage());
+			}
+		}
+		
+		return key_manager_factory;
 	}
 	
 	public static Messenger getMessenger() {

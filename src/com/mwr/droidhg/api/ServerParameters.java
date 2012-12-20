@@ -2,12 +2,18 @@ package com.mwr.droidhg.api;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocket;
 
 import com.mwr.droidhg.Agent;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.util.Log;
 
 public class ServerParameters extends ConnectorParameters implements OnSharedPreferenceChangeListener {
 	
@@ -19,6 +25,7 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	
 	private OnChangeListener on_change_listener = null;
 	private int port = 31415;
+	private boolean ssl = true;
 	
 	public ServerParameters() {
 		this.setPortFromPreferences();
@@ -30,6 +37,10 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	
 	public int getPort() {
 		return this.port;
+	}
+	
+	public boolean isSSL() {
+		return this.ssl;
 	}
 	
 	@Override
@@ -56,7 +67,31 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	}
 	
 	public ServerSocket toServerSocket() throws IOException {
-		return new ServerSocket(this.port);
+		if(this.ssl)
+			return this.toSSLServerSocket();
+		else
+			return new ServerSocket(this.port);
+	}
+	
+	public SSLServerSocket toSSLServerSocket() throws IOException {
+		try {
+			SSLContext context = SSLContext.getInstance("TLS");
+			context.init(Agent.getKeyManagerFactory().getKeyManagers(), null, null);
+			
+			return (SSLServerSocket)context.getServerSocketFactory().createServerSocket(this.port);
+		}
+		catch(KeyManagementException e) {
+			Log.e("toSSLServerSocket", e.getMessage());
+			return null;
+		}
+		catch(NoSuchAlgorithmException e) {
+			Log.e("toSSLServerSocket", e.getMessage());
+			return null;
+		}
+		catch(NullPointerException e) {
+			Log.e("toSSLServerSocket", "Null Pointer: most likely the KeyManagerFactory was not intialised properly");
+			return null;
+		}
 	}
 
 	public boolean update(ServerParameters parameters) {
