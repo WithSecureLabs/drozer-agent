@@ -42,8 +42,11 @@ public class Frame {
 	
 	public static Frame readFrom(InputStream in) throws IOException, APIVersionException {
 		byte[] bytes = new byte[HEADER_SIZE];
+		int length = in.read(bytes);
 		
-		if(in.read(bytes) != HEADER_SIZE)
+		if(length == -1)
+			throw new IOException("invalid input stream");
+		else if(length != HEADER_SIZE)
 			return null;
 		
 		ByteBuffer buf = ByteBuffer.wrap(bytes);
