@@ -11,8 +11,11 @@ public abstract class Transport {
 	protected abstract InputStream getInputStream() throws IOException;
 	protected abstract OutputStream getOutputStream() throws IOException;
 	
-	public Frame receive() throws IOException, APIVersionException {
-		return Frame.readFrom(this.getInputStream());
+	public Frame receive() throws APIVersionException, IOException, TransportDisconnectedException {
+		if(this.getInputStream() != null)
+			return Frame.readFrom(this.getInputStream());
+		else
+			throw new TransportDisconnectedException();
 	}
 	
 	public void send(Frame frame) throws IOException {

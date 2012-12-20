@@ -121,6 +121,14 @@ public class Connection extends Thread {
 		catch(SocketTimeoutException e) {
 			return null;
 		}
+		catch(APIVersionException e) {
+			Log.e("connection", "unexpected API version whilst reading frame: " + e.getMessage());
+			Log.d("connection", Log.getStackTraceString(e));
+			
+			this.stopConnection();
+			
+			return null;
+		}
 		catch(IOException e) {
 			Log.e("connection", "IOException whilst reading frame: " + e.getMessage());
 			Log.d("connection", Log.getStackTraceString(e));
@@ -129,8 +137,8 @@ public class Connection extends Thread {
 			
 			return null;
 		}
-		catch(APIVersionException e) {
-			Log.e("connection", "unexpected API version whilst reading frame: " + e.getMessage());
+		catch(TransportDisconnectedException e) {
+			Log.e("connection", "the transport was dropped whilst reading a frame: " + e.getMessage());
 			Log.d("connection", Log.getStackTraceString(e));
 			
 			this.stopConnection();
