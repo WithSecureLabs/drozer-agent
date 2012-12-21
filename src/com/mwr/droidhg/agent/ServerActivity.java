@@ -14,11 +14,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class ServerActivity extends Activity implements Observer {
 
 	private ServerParameters parameters = null;
+	
+	private TextView label_server_ssl = null;
 	private CheckBox server_enabled = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
 
@@ -28,6 +31,7 @@ public class ServerActivity extends Activity implements Observer {
         
         this.setContentView(R.layout.activity_server);
         
+        this.label_server_ssl = (TextView)this.findViewById(R.id.label_server_ssl);
         this.server_enabled = (CheckBox)this.findViewById(R.id.server_enabled);
         this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
         
@@ -104,6 +108,7 @@ public class ServerActivity extends Activity implements Observer {
     	
     	this.parameters = parameters;
     	
+    	this.label_server_ssl.setText(this.parameters.isSSL() ? R.string.ssl_enabled : R.string.ssl_disabled);
     	this.server_enabled.setChecked(this.parameters.isEnabled());
     	this.server_status_indicator.setConnector(this.parameters);
     	
