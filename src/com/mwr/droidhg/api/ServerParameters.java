@@ -13,7 +13,9 @@ import java.security.UnrecoverableKeyException;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.X509KeyManager;
 
+import com.mwr.common.tls.X509Fingerprint;
 import com.mwr.droidhg.Agent;
 
 import android.content.SharedPreferences;
@@ -48,6 +50,10 @@ public class ServerParameters extends ConnectorParameters implements
 
 	private void clearKeyManagerFactory() {
 		this.key_manager_factory = null;
+	}
+	
+	public String getCertificateFingerprint() {
+		return new X509Fingerprint(((X509KeyManager)this.getKeyManagerFactory().getKeyManagers()[0]).getCertificateChain("mercury")[0]).toString();
 	}
 
 	/**
