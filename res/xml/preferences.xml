@@ -21,7 +21,7 @@
 	    <EditTextPreference
 	        android:key="ssl_keystore_path"
 	        android:dependency="server_ssl"
-	        android:defaultValue="/data/data/com.mwr.droidhg.agent/mercury.bks"
+	        android:defaultValue="/data/data/com.mwr.droidhg.agent/files/mercury.bks"
 	        android:title="@string/ssl_keystore_path"
 	        android:summary="@string/ssl_keystore_path_description" />
 	    <EditTextPreference
