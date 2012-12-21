@@ -58,29 +58,6 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
-    	case R.id.menu_new_endpoint:
-    		EndpointDialog dialog = new EndpointDialog(this);
-    		dialog.setEndpoint(new Endpoint());
-        	dialog.setOnSaveListener(new EndpointDialog.OnSaveListener() {
-				
-				@Override
-				public boolean onSave(Endpoint endpoint) {
-					if(Agent.getEndpointManager().add(endpoint)) {
-						Toast.makeText(MainActivity.this.getApplicationContext(), "Created new Endpoint", Toast.LENGTH_SHORT).show();
-						
-						return true;
-					}
-					else {
-						Toast.makeText(MainActivity.this.getApplicationContext(), "Error creating Endpoint", Toast.LENGTH_SHORT).show();
-						
-						return false;
-					}
-				}
-				
-			});
-        	dialog.create().show();
-    		return true;
-    		
     	case R.id.menu_refresh:
     		Agent.updateEndpointStatuses();
     		Agent.updateServerStatus();

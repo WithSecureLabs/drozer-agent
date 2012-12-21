@@ -1,10 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-	<item
-	    android:id="@+id/menu_new_endpoint"
-	    android:title="@string/new_endpoint"
-        android:icon="@drawable/ic_input_add"
-        android:orderInCategory="10"></item>
     
     <item
         android:id="@+id/menu_refresh"
