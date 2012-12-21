@@ -73,6 +73,10 @@ public class Endpoint extends ConnectorParameters {
 		return this.id == -1;
 	}
 	
+	public boolean isSSL() {
+		return this.ssl;
+	}
+	
 	public Object serialize(EndpointSerializer serializer) {
 		return serializer.serialize(this);
 	}
