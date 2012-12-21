@@ -162,7 +162,7 @@ public class ServerService extends Service {
 	
 	public void startServer() {
 		if(this.server == null) {
-			this.server_parameters.setPortFromPreferences();
+			this.server_parameters.setFromPreferences();
 			
 			this.server_parameters.enabled = true;
 			this.server = new Server(this.server_parameters);

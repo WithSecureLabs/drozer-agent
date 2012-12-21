@@ -25,10 +25,10 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	
 	private OnChangeListener on_change_listener = null;
 	private int port = 31415;
-	private boolean ssl = true;
+	private boolean ssl = false;
 	
 	public ServerParameters() {
-		this.setPortFromPreferences();
+		this.setFromPreferences();
 	}
 	
 	public ServerParameters(int port) {
@@ -45,8 +45,8 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if(key.equals("server_port"))
-			this.setPortFromPreferences();
+		if(key.equals("server_port") || key.equals("server_ssl"))
+			this.setFromPreferences();
 	}
 	
 	public void setPort(int port) {
@@ -60,10 +60,18 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 		this.on_change_listener = listener;
 	}
 	
-	public void setPortFromPreferences() {
+	public void setFromPreferences() {
 		this.setPort(Integer.parseInt(Agent.getSettings().getString("server_port", "31415")));
+		this.setSSL(Agent.getSettings().getBoolean("server_ssl", false));
 		
 		Agent.getSettings().registerOnSharedPreferenceChangeListener(this);
+	}
+	
+	public void setSSL(boolean ssl) {
+		this.ssl = ssl;
+		
+		if(this.on_change_listener != null)
+			this.on_change_listener.onChange(this);
 	}
 	
 	public ServerSocket toServerSocket() throws IOException {
