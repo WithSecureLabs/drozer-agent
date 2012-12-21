@@ -8,8 +8,10 @@ import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.agent.views.ServerParametersDialog;
 import com.mwr.droidhg.api.ServerParameters;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
@@ -21,6 +23,7 @@ public class ServerActivity extends Activity implements Observer {
 
 	private ServerParameters parameters = null;
 	
+	private TextView label_server_fingerprint = null;
 	private TextView label_server_ssl = null;
 	private CheckBox server_enabled = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
@@ -31,6 +34,7 @@ public class ServerActivity extends Activity implements Observer {
         
         this.setContentView(R.layout.activity_server);
         
+        this.label_server_fingerprint = (TextView)this.findViewById(R.id.label_server_fingerprint);
         this.label_server_ssl = (TextView)this.findViewById(R.id.label_server_ssl);
         this.server_enabled = (CheckBox)this.findViewById(R.id.server_enabled);
         this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
@@ -102,11 +106,41 @@ public class ServerActivity extends Activity implements Observer {
     	Agent.bindServices();
     }
     
+    class CalculateFingerprint extends AsyncTask<Object, Object, String> {
+
+		@Override
+		protected String doInBackground(Object... params) {
+			return ServerActivity.this.parameters.getCertificateFingerprint();
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			ServerActivity.this.label_server_fingerprint.setText("Calculating Fingerprint...");
+		}
+		
+		@Override
+		protected void onPostExecute(String result) {
+			ServerActivity.this.fingerprint_calculation = null;
+			ServerActivity.this.label_server_fingerprint.setText(result);
+		}
+    	
+    }
+    
+    private CalculateFingerprint fingerprint_calculation;
+    
     private void setServerParameters(ServerParameters parameters) {
     	if(this.parameters != null)
     		this.parameters.deleteObserver(this);
     	
     	this.parameters = parameters;
+    	
+    	if(this.fingerprint_calculation != null)
+    		this.fingerprint_calculation.cancel(true);
+
+		if(ServerActivity.this.parameters.isSSL()) {
+	    	this.fingerprint_calculation = new CalculateFingerprint();
+	    	this.fingerprint_calculation.execute();
+		}
     	
     	this.label_server_ssl.setText(this.parameters.isSSL() ? R.string.ssl_enabled : R.string.ssl_disabled);
     	this.server_enabled.setChecked(this.parameters.isEnabled());
