@@ -10,6 +10,13 @@
 	        android:summary="@string/server_port_summary"
 	        android:defaultValue="31415"
 	        android:numeric="integer" />
+	    <SwitchPreference
+	        android:key="server_ssl"
+	        android:switchTextOn="@string/on"
+	        android:summaryOff="@string/enable_ssl_server_off"
+	        android:summaryOn="@string/enable_ssl_server_on"
+	        android:title="@string/enable_ssl"
+	        android:switchTextOff="@string/off" android:disableDependentsState="false"/>
 	</PreferenceCategory>
 	<PreferenceCategory
 	    android:title="@string/system_settings"
