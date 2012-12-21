@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mwr.droidhg.agent"
     android:versionCode="2"
-    android:versionName="2.0" >
+    android:versionName="2.1" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -47,6 +47,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mwr.droidhg.agent.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.mwr.droidhg.agent.EndpointSettingsActivity"
+            android:label="@string/new_endpoint">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mwr.droidhg.agent.SettingsActivity" />
         </activity>
         <activity
             android:name="com.mwr.droidhg.agent.ServerActivity"
