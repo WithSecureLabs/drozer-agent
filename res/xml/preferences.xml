@@ -16,7 +16,26 @@
 	        android:summaryOff="@string/enable_ssl_server_off"
 	        android:summaryOn="@string/enable_ssl_server_on"
 	        android:title="@string/enable_ssl"
-	        android:switchTextOff="@string/off" android:disableDependentsState="false"/>
+	        android:switchTextOff="@string/off"
+	        android:disableDependentsState="false" />
+	    <EditTextPreference
+	        android:key="ssl_keystore_path"
+	        android:dependency="server_ssl"
+	        android:defaultValue="/data/data/com.mwr.droidhg.agent/mercury.bks"
+	        android:title="@string/ssl_keystore_path"
+	        android:summary="@string/ssl_keystore_path_description" />
+	    <EditTextPreference
+	        android:dependency="server_ssl"
+	        android:key="ssl_keystore_password"
+	        android:defaultValue="mercury"
+	        android:title="@string/ssl_keystore_password"
+	        android:summary="@string/ssl_keystore_password_description" />
+	    <EditTextPreference
+	        android:dependency="server_ssl"
+	        android:key="ssl_key_password"
+	        android:defaultValue="mercury"
+	        android:title="@string/ssl_key_password"
+	        android:summary="@string/ssl_key_password_description" />
 	</PreferenceCategory>
 	<PreferenceCategory
 	    android:title="@string/system_settings"

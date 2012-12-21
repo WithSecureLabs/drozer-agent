@@ -28,7 +28,7 @@
     <string name="new_endpoint">New Endpoint</string>
     <string name="no">No</string>
     <string name="save">Save</string>
-    <string name="server_settings">adb Server Settings</string>
+    <string name="server_settings">Embedded Server</string>
     <string name="server_port">Port</string>
     <string name="server_port_summary">Specify the port that the embedded server will listen on.</string>
     <string name="session_connected">A user is accessing your device using Mercury.</string>
@@ -44,5 +44,18 @@
     <string name="log_tag_main_activity">Main</string>
     <string name="log_tag_server_service">ServerService</string>
     <string name="log_tag_session_service">SessionService</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="enable_ssl">Enable SSL</string>
+    <string name="ssl_enabled">SSL Enabled</string>
+    <string name="ssl_disabled">SSL Disabled</string>
+    <string name="enable_ssl_server_on">Connections between from clients to the embedded server will be encrypted.</string>
+    <string name="enable_ssl_server_off">Connections from clients to the embedded server will be in clear text.</string>
+    <string name="ssl_keystore_path">Keystore Path</string>
+    <string name="ssl_keystore_path_description">Specify the path to the Keystore containing the SSL keys.</string>
+    <string name="ssl_keystore_password">Keystore Password</string>
+    <string name="ssl_keystore_password_description">Specify the password for the Keystore containing the SSL keys.</string>
+    <string name="ssl_key_password">Key Password</string>
+    <string name="ssl_key_password_description">Specify the password for the SSL key.</string>
 
 </resources>
