@@ -25,10 +25,12 @@ public class SettingsActivity extends PreferenceActivity {
 	public void onActivityResult(int request_code, int result_code, Intent data) {
 		if(result_code == RESULT_OK) {
 			Bundle bundle = data.getExtras();
+			Endpoint endpoint;
 			
 			switch(request_code) {
 			case SettingsActivity.NEW_ENDPOINT:
-				Endpoint endpoint = new Endpoint(bundle.getString(("endpoint:name")),
+				endpoint = new Endpoint(
+						bundle.getString(("endpoint:name")),
 						bundle.getString("endpoint:host"),
 						bundle.getInt("endpoint:port"));
 				
@@ -43,7 +45,22 @@ public class SettingsActivity extends PreferenceActivity {
 				break;
 				
 			case SettingsActivity.EDIT_ENDPOINT:
-				Toast.makeText(this.getApplicationContext(), "updating endpoint " + bundle.getInt("endpoint:id"), Toast.LENGTH_LONG).show();
+				endpoint = new Endpoint(
+						bundle.getInt("endpoint:id"),
+						bundle.getString(("endpoint:name")),
+						bundle.getString("endpoint:host"),
+						bundle.getInt("endpoint:port"));
+				
+				if(Agent.getEndpointManager().update(endpoint)) {
+					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());
+					preference.setTitle(endpoint.getName());
+					preference.setSummary(endpoint.toConnectionString());
+					
+					Toast.makeText(this.getApplicationContext(), "Updated " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+				}
+				else {
+					Toast.makeText(this.getApplicationContext(), "There was a problem whilst updating " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+				}
 				break;
 			}
 		}

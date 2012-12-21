@@ -31,7 +31,6 @@ public class EndpointActivity extends Activity implements Observer {
         Bundle extras = this.getIntent().getExtras();
         
         this.setContentView(R.layout.activity_endpoint);
-//        this.getActionBar().setDisplayHomeAsUpEnabled(true);
         
         this.endpoint_enabled = (CheckBox)this.findViewById(R.id.endpoint_enabled);
         this.endpoint_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.endpoint_status_indicator);
@@ -83,31 +82,6 @@ public class EndpointActivity extends Activity implements Observer {
     			})
     			.setNegativeButton(R.string.no, null)
     			.show();
-    		return true;
-    		
-    	case R.id.menu_edit_endpoint:
-    		Agent.stopEndpoint(endpoint);
-			
-    		EndpointDialog dialog = new EndpointDialog(this);
-    		dialog.setEndpoint(this.endpoint);
-        	dialog.setOnSaveListener(new EndpointDialog.OnSaveListener() {
-				
-				@Override
-				public boolean onSave(Endpoint endpoint) {
-					if(Agent.getEndpointManager().update(endpoint)) {
-						Toast.makeText(EndpointActivity.this.getApplicationContext(), "Updated Endpoint", Toast.LENGTH_SHORT).show();
-						
-						return true;
-					}
-					else {
-						Toast.makeText(EndpointActivity.this.getApplicationContext(), "Error updating Endpoint", Toast.LENGTH_SHORT).show();
-						
-						return false;
-					}
-				}
-				
-			});
-        	dialog.create().show();
     		return true;
     	
     	default:

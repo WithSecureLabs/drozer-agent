@@ -1,10 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <item
-	    android:id="@+id/menu_edit_endpoint"
-	    android:title="@string/edit_endpoint"
-        android:icon="@drawable/ic_action_edit"
-        android:orderInCategory="10" />
    	<item
    	    android:id="@+id/menu_delete_endpoint"
    	    android:title="@string/delete_endpoint"
