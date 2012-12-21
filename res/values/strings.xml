@@ -22,6 +22,7 @@
     <string name="endpoint_host">Host</string>
     <string name="endpoint_name">Endpoint</string>
     <string name="endpoint_port">Port</string>
+    <string name="endpoint_settings">Endpoint Settings</string>
     <string name="license">Mercury Agent is released under the MWR Code License v1. For details see mwr.to/clv1</string>
     <string name="refresh">Refresh</string>
     <string name="menu_settings">Settings</string>

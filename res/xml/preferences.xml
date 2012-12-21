@@ -38,6 +38,10 @@
 	        android:summary="@string/ssl_key_password_description" />
 	</PreferenceCategory>
 	<PreferenceCategory
+	    android:title="@string/endpoint_settings"
+	    android:key="endpoint_settings">
+	</PreferenceCategory>
+	<PreferenceCategory
 	    android:title="@string/system_settings"
 	    android:key="system_settings">
 	    <Preference
