@@ -1,6 +1,7 @@
 package com.mwr.droidhg.agent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -14,8 +15,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class EndpointManager extends SQLiteOpenHelper {
+	
+	// 1 -> 2 add ssl field to endpoints
+	private static final int DATABASE_VERSION = 2;
 	
 	public interface OnDatasetChangeListener {
 		
@@ -37,7 +42,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		public Endpoint deserialize(Object ser) {
 			Cursor cur = (Cursor)ser;
 			
-			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3));
+			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1);
 		}
 
 		@Override
@@ -47,6 +52,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 			cv.put("name", endpoint.getName());
 			cv.put("host", endpoint.getHost());
 			cv.put("port", endpoint.getPort());
+			cv.put("ssl", endpoint.isSSL() ? 1 : 0);
 			
 			return cv;
 		}
@@ -62,7 +68,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 	private final SQLiteSerializer serializer = new SQLiteSerializer();
 	
 	public EndpointManager(Context context) {
-		super(context, DB_FILE_NAME, null, 1);
+		super(context, DB_FILE_NAME, null, DATABASE_VERSION);
 	}
 	
 	public int activeSize() {
@@ -218,16 +224,20 @@ public class EndpointManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
+		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
 				"id integer primary key autoincrement," +
 				"name varchar(255) not null," +
 				"host varchar(255) not null,"+
-				"port integer not null)");
+				"port integer not null,+" +
+				"ssl integer not null)");
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int i, int j) {
-		return;
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		Log.w("EndpointManager", "Upgrading database from version " + oldVersion + " to " + newVersion);
+		
+		if(oldVersion <= 1)
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl integer default 0 not null");
 	}
 	
 	public boolean remove(Endpoint endpoint) {
