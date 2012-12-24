@@ -12,6 +12,9 @@ import android.preference.PreferenceCategory;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class EndpointSettingsActivity extends PreferenceActivity {
 	
@@ -21,11 +24,14 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 	private EditTextPreference endpoint_name;
 	private EditTextPreference endpoint_port;
 	private CheckBoxPreference endpoint_ssl;
+	
+	private Button button_forget;
 
 	@Override
 	@SuppressWarnings("deprecation")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.activity_endpoint_settings);
 		
 		Bundle bundle = this.getIntent().getExtras();
 		
@@ -68,6 +74,34 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		this.endpoint_ssl.setDefaultValue(this.endpoint.isSSL());
 		
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl);
+		
+		this.button_forget = (Button)this.findViewById(R.id.button_forget);
+		
+		if(this.endpoint.isNew()) {
+			this.button_forget.setVisibility(View.GONE);
+		}
+		else {
+			this.button_forget.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Agent.stopEndpoint(EndpointSettingsActivity.this.endpoint);
+					
+					if(Agent.getEndpointManager().remove(EndpointSettingsActivity.this.endpoint)) {
+						Bundle bundle = new Bundle();
+			    		bundle.putBoolean("endpoint:deleted", true);
+			    		bundle.putInt("endpoint:id", EndpointSettingsActivity.this.endpoint.getId());
+			    		
+			    		Intent intent = EndpointSettingsActivity.this.getIntent();
+			    		intent.putExtras(bundle);
+			    		
+			    		EndpointSettingsActivity.this.setResult(RESULT_OK, intent);
+						EndpointSettingsActivity.this.finish();
+					}
+				}
+				
+			});
+		}
 	}
 
     @Override

@@ -46,24 +46,32 @@ public class SettingsActivity extends PreferenceActivity {
 				break;
 				
 			case SettingsActivity.EDIT_ENDPOINT:
-				endpoint = new Endpoint(
-						bundle.getInt("endpoint:id"),
-						bundle.getString(("endpoint:name")),
-						bundle.getString("endpoint:host"),
-						bundle.getInt("endpoint:port"),
-						bundle.getBoolean("endpoint:ssl"));
-				
-				if(Agent.getEndpointManager().update(endpoint)) {
-					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());
-					preference.setTitle(endpoint.getName());
-					preference.setSummary(endpoint.toConnectionString());
+				if(bundle.containsKey("endpoint:deleted")) {
+					Toast.makeText(this.getApplicationContext(), "Removed Endpoint", Toast.LENGTH_SHORT).show();
+					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + bundle.getInt("endpoint:id"));
 					
-					Toast.makeText(this.getApplicationContext(), "Updated " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+					preference.setEnabled(false);
 				}
 				else {
-					Toast.makeText(this.getApplicationContext(), "There was a problem whilst updating " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+					endpoint = new Endpoint(
+							bundle.getInt("endpoint:id"),
+							bundle.getString(("endpoint:name")),
+							bundle.getString("endpoint:host"),
+							bundle.getInt("endpoint:port"),
+							bundle.getBoolean("endpoint:ssl"));
+					
+					if(Agent.getEndpointManager().update(endpoint)) {
+						Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());
+						preference.setTitle(endpoint.getName());
+						preference.setSummary(endpoint.toConnectionString());
+						
+						Toast.makeText(this.getApplicationContext(), "Updated " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+					}
+					else {
+						Toast.makeText(this.getApplicationContext(), "There was a problem whilst updating " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+					}
+					break;
 				}
-				break;
 			}
 		}
 	}
