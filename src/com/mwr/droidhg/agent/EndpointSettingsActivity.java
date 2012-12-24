@@ -64,6 +64,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		
 		this.endpoint_ssl = new CheckBoxPreference(this);
 		this.endpoint_ssl.setTitle(R.string.enable_ssl);
+		this.endpoint_ssl.setSummary(R.string.enable_ssl_description);
 		this.endpoint_ssl.setDefaultValue(this.endpoint.isSSL());
 		
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl);
