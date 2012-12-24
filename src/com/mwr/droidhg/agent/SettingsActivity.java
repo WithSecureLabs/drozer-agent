@@ -32,7 +32,8 @@ public class SettingsActivity extends PreferenceActivity {
 				endpoint = new Endpoint(
 						bundle.getString(("endpoint:name")),
 						bundle.getString("endpoint:host"),
-						bundle.getInt("endpoint:port"));
+						bundle.getInt("endpoint:port"),
+						bundle.getBoolean("endpoint:ssl"));
 				
 				if(Agent.getEndpointManager().add(endpoint)) {
 					this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
@@ -49,7 +50,8 @@ public class SettingsActivity extends PreferenceActivity {
 						bundle.getInt("endpoint:id"),
 						bundle.getString(("endpoint:name")),
 						bundle.getString("endpoint:host"),
-						bundle.getInt("endpoint:port"));
+						bundle.getInt("endpoint:port"),
+						bundle.getBoolean("endpoint:ssl"));
 				
 				if(Agent.getEndpointManager().update(endpoint)) {
 					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());

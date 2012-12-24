@@ -39,14 +39,23 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public Endpoint(String name, String host, int port) {
-		this(-1, name, host, port);
+		this(-1, name, host, port, false);
+	}
+	
+	public Endpoint(String name, String host, int port, boolean ssl) {
+		this(-1, name, host, port, ssl);
 	}
 	
 	public Endpoint(int id, String name, String host, int port) {
+		this(id, name, host, port, false);
+	}
+	
+	public Endpoint(int id, String name, String host, int port, boolean ssl) {
 		this.id = id;
 		this.name = name;
 		this.host = host;
 		this.port = port;
+		this.ssl = ssl;
 	}
 	
 	public static Endpoint deserialize(EndpointSerializer serializer, Object serialized) {
@@ -84,10 +93,12 @@ public class Endpoint extends ConnectorParameters {
 	public void setAttributes(Endpoint endpoint) {
 		if(!this.host.equals(endpoint.getHost()) ||
 				!this.name.equals(endpoint.getName()) ||
-				this.port != endpoint.getPort()) {
+				this.port != endpoint.getPort() ||
+				this.ssl != endpoint.isSSL()) {
 			this.host = endpoint.getHost();
 			this.name = endpoint.getName();
 			this.port = endpoint.getPort();
+			this.ssl = endpoint.isSSL();
 			
 			this.setChanged();
 			this.notifyObservers();

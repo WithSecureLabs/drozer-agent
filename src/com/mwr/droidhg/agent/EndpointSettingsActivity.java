@@ -90,6 +90,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
     		bundle.putString("endpoint:name", this.endpoint_name.getText());
     		bundle.putString("endpoint:host", this.endpoint_host.getText());
     		bundle.putInt("endpoint:port", Integer.parseInt(this.endpoint_port.getText()));
+    		bundle.putBoolean("endpoint:ssl", this.endpoint_ssl.isChecked());
     		
     		Intent intent = this.getIntent();
     		intent.putExtras(bundle);
