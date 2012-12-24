@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-   	<item
-   	    android:id="@+id/menu_delete_endpoint"
-   	    android:title="@string/delete_endpoint"
-   	    android:icon="@drawable/ic_action_delete"
-   	    android:orderInCategory="20" />
-
-</menu>

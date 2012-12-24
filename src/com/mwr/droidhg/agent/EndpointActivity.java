@@ -52,41 +52,7 @@ public class EndpointActivity extends Activity implements Observer {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	getMenuInflater().inflate(R.menu.activity_endpoint, menu);
-        return true;
-    }
-    
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    	case R.id.menu_delete_endpoint:
-    		new AlertDialog.Builder(this)
-    			.setIcon(android.R.drawable.ic_dialog_alert)
-    			.setTitle(R.string.delete_endpoint)
-    			.setMessage(R.string.confirm_delete_endpoint)
-    			.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-    				@Override
-    				public void onClick(DialogInterface dialog, int which) {
-    					Agent.stopEndpoint(endpoint);
-    					
-    					if(Agent.getEndpointManager().remove(EndpointActivity.this.endpoint)) {
-    						Toast.makeText(EndpointActivity.this.getApplicationContext(), "Removed Endpoint", Toast.LENGTH_SHORT).show();
-    						
-    						EndpointActivity.this.finish();
-    					}
-    					else {
-    						Toast.makeText(EndpointActivity.this.getApplicationContext(), "Error removing Endpoint", Toast.LENGTH_SHORT).show();
-    					}
-    				}
-    				
-    			})
-    			.setNegativeButton(R.string.no, null)
-    			.show();
-    		return true;
-    	
-    	default:
-    		return super.onOptionsItemSelected(item);
-    	}
+        return false;
     }
     
     @Override
