@@ -1,7 +1,6 @@
 package com.mwr.droidhg.agent;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.agent.views.EndpointDialog;
 import com.mwr.droidhg.agent.views.EndpointListView;
 import com.mwr.droidhg.agent.views.ServerListRowView;
 import com.mwr.droidhg.api.Endpoint;
@@ -12,7 +11,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	

@@ -1,16 +1,7 @@
 package com.mwr.droidhg;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-
-import javax.net.ssl.KeyManagerFactory;
 
 import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.EndpointManager;

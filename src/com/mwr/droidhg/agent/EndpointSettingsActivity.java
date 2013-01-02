@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class EndpointSettingsActivity extends PreferenceActivity {
 	
@@ -69,8 +68,8 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		((PreferenceCategory)this.findPreference("endpoint_settings")).addPreference(this.endpoint_port);
 		
 		this.endpoint_ssl = new CheckBoxPreference(this);
-		this.endpoint_ssl.setTitle(R.string.enable_ssl);
-		this.endpoint_ssl.setSummary(R.string.enable_ssl_description);
+		this.endpoint_ssl.setTitle(R.string.ssl_enable);
+		this.endpoint_ssl.setSummary(R.string.ssl_enable_description);
 		this.endpoint_ssl.setDefaultValue(this.endpoint.isSSL());
 		
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl);

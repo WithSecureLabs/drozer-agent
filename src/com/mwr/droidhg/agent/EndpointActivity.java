@@ -5,18 +5,13 @@ import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
-import com.mwr.droidhg.agent.views.EndpointDialog;
 import com.mwr.droidhg.api.Endpoint;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
 public class EndpointActivity extends Activity implements Observer {
 	

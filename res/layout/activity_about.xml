@@ -3,6 +3,8 @@
     android:id="@+id/about_mercury"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context=".AboutActivity" >
 
     <ImageView
@@ -32,7 +34,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/about_mercury_description"
-        android:text="@string/copyright"
+        android:text="@string/about_mercury_copyright"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -43,7 +45,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/about_mercury_copyright"
         android:paddingTop="8dp"
-        android:text="@string/license"
+        android:text="@string/about_mercury_license"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

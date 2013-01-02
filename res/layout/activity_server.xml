@@ -1,7 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context=".ServerActivity" >
     
     <com.mwr.droidhg.agent.views.ConnectorStatusIndicator
         android:id="@+id/server_status_indicator"
@@ -9,8 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/server_enabled"
         android:layout_alignBottom="@+id/server_enabled"
-        android:layout_toRightOf="@+id/server_enabled"
-        android:layout_marginLeft="5dip" />
+        android:layout_toRightOf="@+id/server_enabled" />
 
     <CheckBox
         android:id="@+id/server_enabled"

@@ -10,14 +10,12 @@ import java.security.SecureRandom;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import android.util.Log;
 
 import com.mwr.common.NaiveTrustManager;
-import com.mwr.droidhg.Agent;
 
 public class Endpoint extends ConnectorParameters {
 	

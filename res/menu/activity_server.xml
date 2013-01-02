@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
-	<item
-	    android:id="@+id/menu_edit_server"
-	    android:title="@string/edit_server"
-        android:icon="@drawable/ic_action_edit"
-        android:orderInCategory="10" />
-
-</menu>

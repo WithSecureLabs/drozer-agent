@@ -10,7 +10,6 @@ import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.ReflectionResponseFactory;
 import com.mwr.droidhg.connector.InvalidMessageException;
 import com.mwr.droidhg.connector.Session;
-import com.mwr.droidhg.reflection.ObjectStore;
 import com.mwr.droidhg.reflection.ReflectedType;
 import com.mwr.droidhg.reflection.Reflector;
 

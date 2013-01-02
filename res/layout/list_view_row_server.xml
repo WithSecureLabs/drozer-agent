@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:paddingTop="2dip"
-        android:text="@+string/adb_server_name"
+        android:text="@string/embedded_server"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
         android:id="@+id/adb_server_port"
@@ -19,7 +19,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/adb_server_name"
         android:paddingBottom="2dip"
-        android:text="@+string/adb_server_port"
+        android:text="@string/embedded_server_port"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <com.mwr.droidhg.agent.views.ConnectorStatusIndicator

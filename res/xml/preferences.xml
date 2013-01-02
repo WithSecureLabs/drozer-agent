@@ -2,18 +2,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
     
     <PreferenceCategory
-        android:title="@string/server_settings"
+        android:title="@string/embedded_server"
         android:key="server_settings">
 	    <EditTextPreference
 	        android:key="server_port"
-	        android:title="@string/server_port"
-	        android:summary="@string/server_port_summary"
+	        android:title="@string/embedded_server_port"
+	        android:summary="@string/embedded_server_port_summary"
 	        android:defaultValue="31415"
 	        android:numeric="integer" />
 	    <CheckBoxPreference
 	        android:key="server_ssl"
-	        android:title="@string/enable_ssl"
-	        android:summary="@string/enable_ssl_description"
+	        android:title="@string/ssl_enable"
+	        android:summary="@string/ssl_enable_description"
 	        android:disableDependentsState="false" />
 	    <EditTextPreference
 	        android:key="ssl_keystore_path"

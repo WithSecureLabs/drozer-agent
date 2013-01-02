@@ -50,7 +50,7 @@
         </activity>
         <activity
             android:name="com.mwr.droidhg.agent.EndpointSettingsActivity"
-            android:label="@string/new_endpoint">
+            android:label="@string/endpoint_new">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.mwr.droidhg.agent.SettingsActivity" />

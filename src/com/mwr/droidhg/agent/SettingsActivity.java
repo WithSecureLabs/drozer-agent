@@ -109,7 +109,7 @@ public class SettingsActivity extends PreferenceActivity {
 	private Preference createNewEndpointPreference() {
 		Preference preference = new Preference(this);
 		preference.setKey("endpoint_new");
-		preference.setTitle(R.string.new_endpoint);
+		preference.setTitle(R.string.endpoint_new);
 		preference.setSummary("");
 		preference.setOrder(1000);
 		

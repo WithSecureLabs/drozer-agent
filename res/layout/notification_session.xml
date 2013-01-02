@@ -35,7 +35,7 @@
 	        android:layout_height="wrap_content"
 	        android:layout_alignLeft="@+id/cs_notification_name"
 	        android:layout_below="@+id/cs_notification_name"
-	        android:text="@string/status_placeholder"
+	        android:text="@string/session_status_placeholder"
 	        android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 	

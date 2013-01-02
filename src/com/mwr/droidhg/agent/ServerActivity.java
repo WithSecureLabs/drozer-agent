@@ -5,19 +5,15 @@ import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
-import com.mwr.droidhg.agent.views.ServerParametersDialog;
 import com.mwr.droidhg.api.ServerParameters;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ServerActivity extends Activity implements Observer {
 
@@ -56,40 +52,7 @@ public class ServerActivity extends Activity implements Observer {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	getMenuInflater().inflate(R.menu.activity_server, menu);
-        return true;
-    }
-    
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	switch(item.getItemId()) {
-    	case R.id.menu_edit_server:
-    		Agent.stopServer();
-			
-    		ServerParametersDialog dialog = new ServerParametersDialog(this);
-    		dialog.setParameters(this.parameters);
-        	dialog.setOnSaveListener(new ServerParametersDialog.OnSaveListener() {
-				
-				@Override
-				public boolean onSave(ServerParameters parameters) {
-					if(ServerActivity.this.parameters.update(parameters)) {
-						Toast.makeText(ServerActivity.this.getApplicationContext(), "Updated Server", Toast.LENGTH_SHORT).show();
-						
-						return true;
-					}
-					else {
-						Toast.makeText(ServerActivity.this.getApplicationContext(), "Error updating Server", Toast.LENGTH_SHORT).show();
-						
-						return false;
-					}
-				}
-				
-			});
-        	dialog.create().show();
-    		return true;
-    	
-    	default:
-    		return super.onOptionsItemSelected(item);
-    	}
+        return false;
     }
     
     @Override

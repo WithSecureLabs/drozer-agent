@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:paddingTop="2dip"
-        android:text="@+string/endpoint_name"
+        android:text="@string/endpoint_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
         android:id="@+id/endpoint_connection_string"
@@ -21,7 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/endpoint_name"
         android:paddingBottom="2dip"
-        android:text="@+string/endpoint_connection_string"
+        android:text="@string/endpoint_connection_string"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <com.mwr.droidhg.agent.views.ConnectorStatusIndicator
