@@ -70,6 +70,13 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		
 		((PreferenceCategory)this.findPreference("endpoint_settings")).addPreference(this.endpoint_port);
 		
+		this.endpoint_password = new EditTextPreference(this);
+		this.endpoint_password.setTitle(R.string.endpoint_password);
+		this.endpoint_password.setSummary(R.string.endpoint_password_description);
+		this.endpoint_password.setDefaultValue(this.endpoint.getPassword());
+		
+		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_password);
+		
 		this.endpoint_ssl = new CheckBoxPreference(this);
 		this.endpoint_ssl.setKey("endpoint_ssl_enabled");
 		this.endpoint_ssl.setTitle(R.string.ssl_enable);
@@ -97,13 +104,6 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl_truststore_password);
 		this.endpoint_ssl_truststore_password.setDependency(this.endpoint_ssl.getKey());
-		
-		this.endpoint_password = new EditTextPreference(this);
-		this.endpoint_password.setTitle(R.string.endpoint_password);
-		this.endpoint_password.setSummary(R.string.endpoint_password_description);
-		this.endpoint_password.setDefaultValue(this.endpoint.getPassword());
-		
-		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_password);
 		
 		this.button_forget = (Button)this.findViewById(R.id.button_forget);
 		
