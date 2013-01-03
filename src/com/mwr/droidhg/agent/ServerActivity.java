@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ public class ServerActivity extends Activity implements Observer {
 	
 	private TextView label_server_fingerprint = null;
 	private TextView label_server_ssl = null;
-	private CheckBox server_enabled = null;
+	private CompoundButton server_enabled = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
 
     @Override
@@ -33,7 +32,7 @@ public class ServerActivity extends Activity implements Observer {
         
         this.label_server_fingerprint = (TextView)this.findViewById(R.id.label_server_fingerprint);
         this.label_server_ssl = (TextView)this.findViewById(R.id.label_server_ssl);
-        this.server_enabled = (CheckBox)this.findViewById(R.id.server_enabled);
+        this.server_enabled = (CompoundButton)this.findViewById(R.id.server_enabled);
         this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
         
         this.setServerParameters(Agent.getServerParameters());

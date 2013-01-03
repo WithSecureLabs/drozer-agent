@@ -14,13 +14,7 @@
         android:layout_alignBottom="@+id/server_enabled"
         android:layout_toRightOf="@+id/server_enabled" />
 
-    <CheckBox
-        android:id="@+id/server_enabled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/enabled" />
+    <include layout="@layout/toggle_server" />
 
     <TextView
         android:id="@+id/label_server_details"
