@@ -33,7 +33,9 @@ public class SettingsActivity extends PreferenceActivity {
 						bundle.getString(("endpoint:name")),
 						bundle.getString("endpoint:host"),
 						bundle.getInt("endpoint:port"),
-						bundle.getBoolean("endpoint:ssl"));
+						bundle.getBoolean("endpoint:ssl"),
+						bundle.getString("endpoint:ssl_truststore_path"),
+						bundle.getString("endpoint:ssl_truststore_password"));
 				
 				if(Agent.getEndpointManager().add(endpoint)) {
 					this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
@@ -58,7 +60,9 @@ public class SettingsActivity extends PreferenceActivity {
 							bundle.getString(("endpoint:name")),
 							bundle.getString("endpoint:host"),
 							bundle.getInt("endpoint:port"),
-							bundle.getBoolean("endpoint:ssl"));
+							bundle.getBoolean("endpoint:ssl"),
+							bundle.getString("endpoint:ssl_truststore_path"),
+							bundle.getString("endpoint:ssl_truststore_password"));
 					
 					if(Agent.getEndpointManager().update(endpoint)) {
 						Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());

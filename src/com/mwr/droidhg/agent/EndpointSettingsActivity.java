@@ -10,6 +10,7 @@ import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 	private EditTextPreference endpoint_name;
 	private EditTextPreference endpoint_port;
 	private CheckBoxPreference endpoint_ssl;
+	private EditTextPreference endpoint_ssl_truststore_password;
+	private EditTextPreference endpoint_ssl_truststore_path;
 	
 	private Button button_forget;
 
@@ -68,11 +71,32 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		((PreferenceCategory)this.findPreference("endpoint_settings")).addPreference(this.endpoint_port);
 		
 		this.endpoint_ssl = new CheckBoxPreference(this);
+		this.endpoint_ssl.setKey("endpoint_ssl_enabled");
 		this.endpoint_ssl.setTitle(R.string.ssl_enable);
 		this.endpoint_ssl.setSummary(R.string.ssl_enable_description);
 		this.endpoint_ssl.setDefaultValue(this.endpoint.isSSL());
+		this.endpoint_ssl.setDisableDependentsState(false);
 		
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl);
+		
+		this.endpoint_ssl_truststore_path = new EditTextPreference(this);
+		
+		this.endpoint_ssl_truststore_path.setKey("endpoint_ssl_truststore_path");
+		this.endpoint_ssl_truststore_path.setTitle(R.string.endpoint_ssl_truststore_path);
+		this.endpoint_ssl_truststore_path.setSummary(R.string.endpoint_ssl_truststore_path_description);
+		this.endpoint_ssl_truststore_path.setDefaultValue(this.endpoint.getSSLTrustStorePath());
+		
+		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl_truststore_path);
+		this.endpoint_ssl_truststore_path.setDependency(this.endpoint_ssl.getKey());
+		
+		this.endpoint_ssl_truststore_password = new EditTextPreference(this);
+		this.endpoint_ssl_truststore_password.setKey("endpoint_ssl_truststore_password");
+		this.endpoint_ssl_truststore_password.setTitle(R.string.endpoint_ssl_truststore_password);
+		this.endpoint_ssl_truststore_password.setSummary(R.string.endpoint_ssl_truststore_password_description);
+		this.endpoint_ssl_truststore_password.setDefaultValue(this.endpoint.getSSLTrustStorePassword());
+		
+		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl_truststore_password);
+		this.endpoint_ssl_truststore_password.setDependency(this.endpoint_ssl.getKey());
 		
 		this.button_forget = (Button)this.findViewById(R.id.button_forget);
 		
@@ -124,6 +148,8 @@ public class EndpointSettingsActivity extends PreferenceActivity {
     		bundle.putString("endpoint:host", this.endpoint_host.getText());
     		bundle.putInt("endpoint:port", Integer.parseInt(this.endpoint_port.getText()));
     		bundle.putBoolean("endpoint:ssl", this.endpoint_ssl.isChecked());
+    		bundle.putString("endpoint:ssl_truststore_path", this.endpoint_ssl_truststore_path.getText());
+    		bundle.putString("endpoint:ssl_truststore_password", this.endpoint_ssl_truststore_password.getText());
     		
     		Intent intent = this.getIntent();
     		intent.putExtras(bundle);

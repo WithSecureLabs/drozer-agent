@@ -32,6 +32,10 @@
     <string name="endpoint_new">New Endpoint</string>
     <string name="endpoint_port">Port</string>
     <string name="endpoint_settings">Endpoint Settings</string>
+    <string name="endpoint_ssl_truststore_password">Trust Store Password</string>
+    <string name="endpoint_ssl_truststore_password_description">Specify the password for the Keystore containing the CA certificates.</string>
+    <string name="endpoint_ssl_truststore_path">Trust Store Path</string>
+    <string name="endpoint_ssl_truststore_path_description">Specify the path to the Keystore containing the CA certificates.</string>
     
     <!-- Logging -->
     <string name="log_tag_agent">Agent</string>
