@@ -39,7 +39,7 @@ public class Endpoint extends ConnectorParameters {
 	private String name = "Endpoint";
 	private String host = "droidhg.local";
 	private int port = 31415;
-	private boolean ssl = true;
+	private boolean ssl = false;
 	private String ssl_truststore_password = "mercury";
 	private String ssl_truststore_path = "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks";
 	
