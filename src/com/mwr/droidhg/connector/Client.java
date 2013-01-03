@@ -23,10 +23,7 @@ public class Client extends Connector {
 	public void resetConnection() {
 		this.endpoint.setStatus(Endpoint.Status.CONNECTING);
 		
-		try {
-			Thread.sleep(1000);
-		}
-		catch(InterruptedException e) {}
+		Thread.yield();
 		
 		super.resetConnection();
 	}
