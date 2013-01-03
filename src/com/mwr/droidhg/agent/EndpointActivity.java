@@ -3,20 +3,19 @@ package com.mwr.droidhg.agent;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.widget.CompoundButton;
+
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.Endpoint;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-
 public class EndpointActivity extends Activity implements Observer {
 	
 	private Endpoint endpoint = null;
-	private CheckBox endpoint_enabled = null;
+	private CompoundButton endpoint_enabled = null;
 	private ConnectorStatusIndicator endpoint_status_indicator = null;
 
     @Override
@@ -27,7 +26,7 @@ public class EndpointActivity extends Activity implements Observer {
         
         this.setContentView(R.layout.activity_endpoint);
         
-        this.endpoint_enabled = (CheckBox)this.findViewById(R.id.endpoint_enabled);
+        this.endpoint_enabled = (CompoundButton)this.findViewById(R.id.endpoint_enabled);
         this.endpoint_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.endpoint_status_indicator);
         
         this.setEndpoint(Agent.getEndpointManager().get(extras.getInt("endpoint_id")));

@@ -6,6 +6,7 @@
     
     <!-- General -->
     <string name="cancel">Cancel</string>
+    <string name="disabled">Disabled</string>
     <string name="edit">Edit</string>
     <string name="enabled">Enabled</string>
     <string name="menu_settings">Settings</string>
