@@ -41,7 +41,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		public Endpoint deserialize(Object ser) {
 			Cursor cur = (Cursor)ser;
 			
-			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1);
+			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1, cur.getString(5), cur.getString(6));
 		}
 
 		@Override
@@ -52,6 +52,8 @@ public class EndpointManager extends SQLiteOpenHelper {
 			cv.put("host", endpoint.getHost());
 			cv.put("port", endpoint.getPort());
 			cv.put("ssl", endpoint.isSSL() ? 1 : 0);
+			cv.put("ssl_truststore_path", endpoint.getSSLTrustStorePath());
+			cv.put("ssl_truststore_password", endpoint.getSSLTrustStorePassword());
 			
 			return cv;
 		}
@@ -224,19 +226,24 @@ public class EndpointManager extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-				"id integer primary key autoincrement," +
-				"name varchar(255) not null," +
-				"host varchar(255) not null,"+
-				"port integer not null,+" +
-				"ssl integer not null)");
+				"id integer PRIMARY KEY AUTOINCREMENT, " +
+				"name varchar(255) NOT NULL, " +
+				"host varchar(255) NOT NULL, "+
+				"port integer NOT NULL, " +
+				"ssl integer DEFAULT 0 NOT NULL, " +
+				"ssl_truststore_path varchar(255) NOT NULL, " +
+				"ssl_truststore_password varchar(255) NOT NULL)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		Log.w("EndpointManager", "Upgrading database from version " + oldVersion + " to " + newVersion);
 		
-		if(oldVersion <= 1)
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl integer default 0 not null");
+		if(oldVersion <= 1) {
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl integer DEFAULT 0 NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_path varchar(255) NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_password varchar(255) NOT NULL");
+		}
 	}
 	
 	public boolean remove(Endpoint endpoint) {
