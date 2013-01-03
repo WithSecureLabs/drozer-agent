@@ -12,63 +12,59 @@ import com.mwr.droidhg.api.Endpoint;
 
 public class Client extends Connector {
 	
-	private Endpoint endpoint = null;
-	
 	public Client(Endpoint endpoint) {
-		super();
-		
-		this.endpoint = endpoint;
+		super(endpoint);
 	}
 	
+	@Override
 	public void resetConnection() {
-		this.endpoint.setStatus(Endpoint.Status.CONNECTING);
+		this.parameters.setStatus(Endpoint.Status.CONNECTING);
 		
 		Thread.yield();
 		
 		super.resetConnection();
 	}
 	
+	@Override
 	public void run() {
+		Endpoint endpoint = (Endpoint)this.parameters;
+		
 		this.running = true;
 		
 		while(this.running) {
 			try {
 				if(this.connection == null) {
-					this.endpoint.setStatus(Endpoint.Status.CONNECTING);
+					this.parameters.setStatus(Endpoint.Status.CONNECTING);
 					
-					Socket socket = new EndpointSocketFactory().createSocket(this.endpoint);
+					Socket socket = new EndpointSocketFactory().createSocket(endpoint);
 					
 					this.createConnection(new SocketTransport(socket));
 				}
 				else if(this.connection.started && !this.connection.running) {
-					Log.i("client " + this.endpoint.getId(), "session was reset");
+					Log.i("client " + endpoint.getId(), "session was reset");
 					
 					this.resetConnection();
 				}
 			}
 			catch(UnknownHostException e) {
-				Log.e("client " + this.endpoint.getId(), "unknown host: " + this.endpoint.getHost());
+				Log.e("client " + endpoint.getId(), "unknown host: " + endpoint.getHost());
 				
-				this.stopClient();
+				this.stopConnector();
 			}
 			catch(IOException e) {
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {
-				Log.e("client " + this.endpoint.getId(), "failed to load trust store");
+				Log.e("client " + endpoint.getId(), "failed to load trust store");
 				
-				this.stopClient();
+				this.stopConnector();
 			}
 		}
 	}
 
 	@Override
 	public void setStatus(Status status) {
-		this.endpoint.setStatus(status);
-	}
-	
-	public void stopClient() {
-		super.stopConnector();
+		this.parameters.setStatus(status);
 	}
 
 }

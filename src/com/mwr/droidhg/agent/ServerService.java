@@ -176,7 +176,7 @@ public class ServerService extends Service {
 	public void stopServer() {
 		if(this.server != null) {
 			this.server_parameters.enabled = false;
-			this.server.stopServer();
+			this.server.stopConnector();
 			
 			this.server = null;
 		}

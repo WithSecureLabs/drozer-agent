@@ -15,28 +15,22 @@ import com.mwr.droidhg.api.ServerParameters;
 
 public class Server extends Connector {
 	
-	private ServerParameters parameters = null;
 	private ServerSocket server_socket = null;
 	
 	public Server(ServerParameters parameters) {
-		this.parameters = parameters;
+		super(parameters);
 	}
 	
 	@Override
-	public boolean checkForLiveness() {
-		return false;
-	}
+	public boolean checkForLiveness() { return false; }
 	
 	@Override
-	public boolean dieWithLastSession() {
-		return true;
-	}
+	public boolean dieWithLastSession() { return true; }
 	
 	@Override
-	public boolean mustBind() {
-		return false;
-	}
+	public boolean mustBind() { return false; }
 	
+	@Override
 	public void resetConnection() {
 		this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 		
@@ -63,7 +57,7 @@ public class Server extends Connector {
 				if(this.connection == null) {
 					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 					
-					this.server_socket = new ServerSocketFactory().createSocket(this.parameters);
+					this.server_socket = new ServerSocketFactory().createSocket((ServerParameters)this.parameters);
 					Socket socket = this.server_socket.accept();
 					
 					if(socket != null)
@@ -78,7 +72,7 @@ public class Server extends Connector {
 			catch(CertificateException e) {
 				Log.e("server", "unable to load key material");
 				
-				this.stopServer();
+				this.stopConnector();
 			}
 			catch(IOException e) {
 				this.resetConnection();
@@ -86,17 +80,17 @@ public class Server extends Connector {
 			catch(KeyManagementException e) {
 				Log.e("server", "unable to load key material");
 				
-				this.stopServer();
+				this.stopConnector();
 			}
 			catch(KeyStoreException e) {
 				Log.e("server", "unable to load key material");
 				
-				this.stopServer();
+				this.stopConnector();
 			}
 			catch(UnrecoverableKeyException e) {
 				Log.e("server", "unable to load key material");
 				
-				this.stopServer();
+				this.stopConnector();
 			}
 			
 		}
@@ -109,7 +103,7 @@ public class Server extends Connector {
 		this.parameters.setStatus(status);
 	}
 	
-	public void stopServer() {
+	public void stopConnector() {
 		super.stopConnector();
 		
 		try {

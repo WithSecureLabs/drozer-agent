@@ -186,7 +186,7 @@ public class ClientService extends Service {
 		Client client = this.clients.get(id);
 		
 		if(client != null) {
-			client.stopClient();
+			client.stopConnector();
 			endpoint.enabled = false;
 			
 			this.clients.remove(id);
