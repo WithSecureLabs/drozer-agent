@@ -3,6 +3,10 @@ package com.mwr.droidhg.connector;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 import android.util.Log;
 
@@ -36,10 +40,10 @@ public class Server extends Connector {
 	public void resetConnection() {
 		this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 		
-		try {
-			Thread.sleep(1000);
-		}
-		catch(InterruptedException e) {}
+		//try {
+		//	Thread.sleep(1000);
+		//}
+		//catch(InterruptedException e) {}
 		
 		if(this.server_socket != null) {
 			try {
@@ -62,7 +66,7 @@ public class Server extends Connector {
 				if(this.connection == null) {
 					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 					
-					this.server_socket = this.parameters.toServerSocket();
+					this.server_socket = new ServerSocketFactory().createSocket(this.parameters);
 					Socket socket = this.server_socket.accept();
 					
 					if(socket != null)
@@ -74,8 +78,28 @@ public class Server extends Connector {
 					this.resetConnection();
 				}
 			}
+			catch(CertificateException e) {
+				Log.e("server", "unable to load key material");
+				
+				this.stopServer();
+			}
 			catch(IOException e) {
 				this.resetConnection();
+			}
+			catch(KeyManagementException e) {
+				Log.e("server", "unable to load key material");
+				
+				this.stopServer();
+			}
+			catch(KeyStoreException e) {
+				Log.e("server", "unable to load key material");
+				
+				this.stopServer();
+			}
+			catch(UnrecoverableKeyException e) {
+				Log.e("server", "unable to load key material");
+				
+				this.stopServer();
 			}
 			
 		}

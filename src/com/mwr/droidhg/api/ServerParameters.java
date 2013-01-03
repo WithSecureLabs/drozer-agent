@@ -1,6 +1,7 @@
 package com.mwr.droidhg.api;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.security.KeyManagementException;
@@ -10,6 +11,7 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
+import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
@@ -52,7 +54,7 @@ public class ServerParameters extends ConnectorParameters implements
 		this.key_manager_factory = null;
 	}
 	
-	public String getCertificateFingerprint() {
+	public String getCertificateFingerprint() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		return new X509Fingerprint(((X509KeyManager)this.getKeyManagerFactory().getKeyManagers()[0]).getCertificateChain("mercury")[0]).toString();
 	}
 
@@ -63,30 +65,19 @@ public class ServerParameters extends ConnectorParameters implements
 	 * This factory is cached, so if the key material is updated
 	 * clearKeyManagerFactory() must be called to cause it to take effect.
 	 */
-	private KeyManagerFactory getKeyManagerFactory() {
+	private KeyManagerFactory getKeyManagerFactory() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		if (this.key_manager_factory == null) {
-			try {
-
-				KeyStore key_store = KeyStore.getInstance("BKS");
-				key_store.load(new FileInputStream(this.keystore_path),
-						this.keystore_password);
-				this.key_manager_factory = KeyManagerFactory
-						.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-				this.key_manager_factory.init(key_store, this.key_password);
-			} catch (CertificateException e) {
-				Log.e("getKeyManagerFactory", e.getMessage());
-			} catch (IOException e) {
-				Log.e("getKeyManagerFactory", e.getMessage());
-			} catch (KeyStoreException e) {
-				Log.e("getKeyManagerFactory", e.getMessage());
-			} catch (NoSuchAlgorithmException e) {
-				Log.e("getKeyManagerFactory", e.getMessage());
-			} catch (UnrecoverableKeyException e) {
-				Log.e("getKeyManagerFactory", e.getMessage());
-			}
+			KeyStore key_store = KeyStore.getInstance("BKS");
+			key_store.load(new FileInputStream(this.keystore_path), this.keystore_password);
+			this.key_manager_factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+			this.key_manager_factory.init(key_store, this.key_password);
 		}
 
 		return this.key_manager_factory;
+	}
+	
+	public KeyManager[] getKeyManagers() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
+		return this.getKeyManagerFactory().getKeyManagers();
 	}
 
 	public int getPort() {
@@ -144,34 +135,6 @@ public class ServerParameters extends ConnectorParameters implements
 
 		if (this.on_change_listener != null)
 			this.on_change_listener.onChange(this);
-	}
-
-	public ServerSocket toServerSocket() throws IOException {
-		if (this.ssl)
-			return this.toSSLServerSocket();
-		else
-			return new ServerSocket(this.port);
-	}
-
-	public SSLServerSocket toSSLServerSocket() throws IOException {
-		try {
-			SSLContext context = SSLContext.getInstance("TLS");
-			context.init(this.getKeyManagerFactory().getKeyManagers(), null,
-					null);
-
-			return (SSLServerSocket) context.getServerSocketFactory()
-					.createServerSocket(this.port);
-		} catch (KeyManagementException e) {
-			Log.e("toSSLServerSocket", e.getMessage());
-			return null;
-		} catch (NoSuchAlgorithmException e) {
-			Log.e("toSSLServerSocket", e.getMessage());
-			return null;
-		} catch (NullPointerException e) {
-			Log.e("toSSLServerSocket",
-					"Null Pointer: most likely the KeyManagerFactory was not intialised properly");
-			return null;
-		}
 	}
 
 	public boolean update(ServerParameters parameters) {
