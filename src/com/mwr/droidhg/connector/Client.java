@@ -3,6 +3,7 @@ package com.mwr.droidhg.connector;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.KeyManagementException;
 
 import android.util.Log;
 
@@ -38,7 +39,7 @@ public class Client extends Connector {
 				if(this.connection == null) {
 					this.endpoint.setStatus(Endpoint.Status.CONNECTING);
 					
-					Socket socket = this.endpoint.toSocket();
+					Socket socket = new EndpointSocketFactory().createSocket(this.endpoint);
 					
 					this.createConnection(new SocketTransport(socket));
 				}
@@ -55,6 +56,11 @@ public class Client extends Connector {
 			}
 			catch(IOException e) {
 				this.resetConnection();
+			}
+			catch(KeyManagementException e) {
+				Log.e("client " + this.endpoint.getId(), "failed to load trust store");
+				
+				this.stopClient();
 			}
 		}
 	}

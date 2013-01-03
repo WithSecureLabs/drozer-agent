@@ -20,6 +20,14 @@ import com.mwr.common.KeyStoreTrustManager;
 
 public class Endpoint extends ConnectorParameters {
 	
+	/**
+	 * An EndpointSerializer provides the logic for converting an Endpoint into various
+	 * different formats. An EndpointSerializer defines methods to marshal an Endpoint
+	 * into an object form, and to the recover the Endpoint.
+	 * 
+	 * The EndpointSerializer implementation is passed to the {@link Endpoint#serialize(EndpointSerializer)}
+	 * and {@link Endpoint#deserialize(EndpointSerializer, Object)} methods.
+	 */
 	public interface EndpointSerializer {
 		
 		public Endpoint deserialize(Object serialized);
@@ -97,13 +105,22 @@ public class Endpoint extends ConnectorParameters {
 		return this.ssl_truststore_path;
 	}
 	
-	private TrustManager getTrustManager() {
-		try {
-			return new KeyStoreTrustManager(new FileInputStream(this.getSSLTrustStorePath()), this.getSSLTrustStorePassword().toCharArray());
+	/**
+	 * Instantiate a TrustManager that can verify the SSL certificate served by this
+	 * Endpoint.
+	 */
+	public TrustManager getTrustManager() {
+		if(this.isSSL()) {
+			try {
+				return new KeyStoreTrustManager(new FileInputStream(this.getSSLTrustStorePath()), this.getSSLTrustStorePassword().toCharArray());
+			}
+			catch(Exception e) {
+				Log.e("getTrustManager", e.getMessage());
+				
+				return null;
+			}
 		}
-		catch(Exception e) {
-			Log.e("getTrustManager", e.getMessage());
-			
+		else {
 			return null;
 		}
 	}
@@ -120,6 +137,10 @@ public class Endpoint extends ConnectorParameters {
 		return serializer.serialize(this);
 	}
 	
+	/**
+	 * Copy another Endpoint's attributes into this Endpoint and notify any observers,
+	 * iff the other Endpoint is different.
+	 */
 	public void setAttributes(Endpoint endpoint) {
 		if(!this.host.equals(endpoint.getHost()) ||
 				!this.name.equals(endpoint.getName()) ||
@@ -143,42 +164,25 @@ public class Endpoint extends ConnectorParameters {
 		this.id = id;
 	}
 	
+	/**
+	 * Create a connection string for this endpoint, in the form "hostname:port".
+	 */
 	public String toConnectionString() {
 		return String.format("%s:%d", this.host, this.port);
 	}
 	
+	/**
+	 * Convert the Endpoint's hostname into an InetAddress, performing any required
+	 * DNS resolution. 
+	 */
 	public InetAddress toInetAddress() throws UnknownHostException {
 		return InetAddress.getByName(this.getHost());
 	}
-
-	public Socket toSocket() throws IOException {
-		if(this.ssl)
-			return this.toSSLSocket();
-		else
-			return new Socket(this.toInetAddress(), this.getPort());
-	}
 	
-	public Socket toSSLSocket() {
-		try {
-			SSLContext context = SSLContext.getInstance("TLS");
-			context.init(new KeyManager[0], new TrustManager[] { this.getTrustManager() }, new SecureRandom());
-			
-			return ((SSLSocketFactory)context.getSocketFactory()).createSocket(this.toInetAddress(), this.getPort());
-		}
-		catch(IOException e) {
-			Log.e("toSSLSocket", e.getMessage());
-			return null;
-		}
-		catch(KeyManagementException e) {
-			Log.e("toSSLSocket", e.getMessage());
-			return null;
-		}
-		catch (NoSuchAlgorithmException e) {
-			Log.e("toSSLSocket", e.getMessage());
-			return null;
-		}
-	}
-	
+	/**
+	 * Create a human-readable String representation of this Endpoint, in the form
+	 * "name (hostname:port)".
+	 */
 	public String toString() {
 		return String.format("%s (%s:%d)", this.name, this.host, this.port);
 	}
