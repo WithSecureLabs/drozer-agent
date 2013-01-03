@@ -1,5 +1,6 @@
 package com.mwr.droidhg.api;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -15,7 +16,7 @@ import javax.net.ssl.TrustManager;
 
 import android.util.Log;
 
-import com.mwr.common.NaiveTrustManager;
+import com.mwr.common.KeyStoreTrustManager;
 
 public class Endpoint extends ConnectorParameters {
 	
@@ -76,6 +77,17 @@ public class Endpoint extends ConnectorParameters {
 		return this.port;
 	}
 	
+	private TrustManager getTrustManager() {
+		try {
+			return new KeyStoreTrustManager(new FileInputStream("/data/data/com.mwr.droidhg.agent/files/mercury.bks"), "mercury".toCharArray());
+		}
+		catch(Exception e) {
+			Log.e("getTrustManager", e.getMessage());
+			
+			return null;
+		}
+	}
+	
 	public boolean isNew() {
 		return this.id == -1;
 	}
@@ -125,7 +137,7 @@ public class Endpoint extends ConnectorParameters {
 	public Socket toSSLSocket() {
 		try {
 			SSLContext context = SSLContext.getInstance("TLS");
-			context.init(new KeyManager[0], new TrustManager[] { new NaiveTrustManager() }, new SecureRandom());
+			context.init(new KeyManager[0], new TrustManager[] { this.getTrustManager() }, new SecureRandom());
 			
 			return ((SSLSocketFactory)context.getSocketFactory()).createSocket(this.toInetAddress(), this.getPort());
 		}
