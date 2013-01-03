@@ -19,7 +19,8 @@ import android.util.Log;
 public class EndpointManager extends SQLiteOpenHelper {
 	
 	// 1 -> 2 add ssl field to endpoints
-	private static final int DATABASE_VERSION = 2;
+	// 2 -> 3 add password field to endpoints
+	private static final int DATABASE_VERSION = 3;
 	
 	public interface OnDatasetChangeListener {
 		
@@ -41,7 +42,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		public Endpoint deserialize(Object ser) {
 			Cursor cur = (Cursor)ser;
 			
-			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1, cur.getString(5), cur.getString(6));
+			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1, cur.getString(5), cur.getString(6), cur.getString(7));
 		}
 
 		@Override
@@ -54,6 +55,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 			cv.put("ssl", endpoint.isSSL() ? 1 : 0);
 			cv.put("ssl_truststore_path", endpoint.getSSLTrustStorePath());
 			cv.put("ssl_truststore_password", endpoint.getSSLTrustStorePassword());
+			cv.put("password", endpoint.getPassword());
 			
 			return cv;
 		}
@@ -231,8 +233,9 @@ public class EndpointManager extends SQLiteOpenHelper {
 				"host varchar(255) NOT NULL, "+
 				"port integer NOT NULL, " +
 				"ssl integer DEFAULT 0 NOT NULL, " +
-				"ssl_truststore_path varchar(255) NOT NULL, " +
-				"ssl_truststore_password varchar(255) NOT NULL)");
+				"ssl_truststore_path varchar(255) DEFAULT '' NOT NULL, " +
+				"ssl_truststore_password varchar(255) DEFAULT '' NOT NULL, " +
+				"password varchar(255) DEFAULT '' NOT NULL)");
 	}
 
 	@Override
@@ -241,9 +244,12 @@ public class EndpointManager extends SQLiteOpenHelper {
 		
 		if(oldVersion <= 1) {
 			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl integer DEFAULT 0 NOT NULL");
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_path varchar(255) NOT NULL");
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_password varchar(255) NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_path varchar(255) DEFAULT '' NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_password varchar(255) DEFAULT '' NOT NULL");
 		}
+		
+		if(oldVersion <= 2)
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD password varchar(255) DEFAULT '' NOT NULL");
 	}
 	
 	public boolean remove(Endpoint endpoint) {

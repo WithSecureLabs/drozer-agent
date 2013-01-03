@@ -31,6 +31,7 @@ public class Endpoint extends ConnectorParameters {
 	private int id = -1;
 	private String name = "Endpoint";
 	private String host = "droidhg.local";
+	private String password = "";
 	private int port = 31415;
 	private boolean ssl = false;
 	private String ssl_truststore_password = "mercury";
@@ -49,7 +50,11 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public Endpoint(String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password) {
-		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password);
+		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, "");
+	}
+	
+	public Endpoint(String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
+		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, password);
 	}
 	
 	public Endpoint(int id, String name, String host, int port) {
@@ -57,13 +62,18 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl) {
-		this(id, name, host, port, ssl, "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks", "mercury");
+		this(id, name, host, port, ssl, "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks", "mercury", "");
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password) {
+		this(id, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, "");
+	}
+	
+	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
 		this.id = id;
 		this.name = name;
 		this.host = host;
+		this.password = password;
 		this.port = port;
 		this.ssl = ssl;
 		this.ssl_truststore_password = ssl_truststore_password;
@@ -84,6 +94,10 @@ public class Endpoint extends ConnectorParameters {
 
 	public String getName() {
 		return this.name;
+	}
+	
+	public String getPassword() {
+		return this.password;
 	}
 
 	public int getPort() {
@@ -137,12 +151,14 @@ public class Endpoint extends ConnectorParameters {
 	public void setAttributes(Endpoint endpoint) {
 		if(!this.host.equals(endpoint.getHost()) ||
 				!this.name.equals(endpoint.getName()) ||
+				!this.password.equals(endpoint.getPassword()) ||
 				this.port != endpoint.getPort() ||
 				this.ssl != endpoint.isSSL() ||
 				!this.ssl_truststore_password.equals(endpoint.ssl_truststore_password) ||
 				!this.ssl_truststore_path.equals(endpoint.ssl_truststore_path)) {
 			this.host = endpoint.getHost();
 			this.name = endpoint.getName();
+			this.password = endpoint.getPassword();
 			this.port = endpoint.getPort();
 			this.ssl = endpoint.isSSL();
 			this.ssl_truststore_password = endpoint.getSSLTrustStorePassword();
@@ -182,7 +198,7 @@ public class Endpoint extends ConnectorParameters {
 	
 	@Override
 	public boolean verifyPassword(String password) {
-		return false;
+		return this.getPassword() == null && (password == null || password.equals("")) || password.equals(this.getPassword());
 	}
 	
 }
