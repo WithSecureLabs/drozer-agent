@@ -3,8 +3,6 @@ package com.mwr.droidhg.api;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.cert.CertificateException;
 import java.security.KeyStoreException;
@@ -13,8 +11,6 @@ import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.X509KeyManager;
 
 import com.mwr.common.tls.X509Fingerprint;
@@ -23,7 +19,6 @@ import com.mwr.droidhg.Agent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.util.Log;
 
 public class ServerParameters extends ConnectorParameters implements
 		OnSharedPreferenceChangeListener {

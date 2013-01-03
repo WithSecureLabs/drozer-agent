@@ -1,17 +1,10 @@
 package com.mwr.droidhg.api;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.util.Locale;
 
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
 import android.util.Log;
@@ -168,7 +161,7 @@ public class Endpoint extends ConnectorParameters {
 	 * Create a connection string for this endpoint, in the form "hostname:port".
 	 */
 	public String toConnectionString() {
-		return String.format("%s:%d", this.host, this.port);
+		return String.format(Locale.ENGLISH, "%s:%d", this.host, this.port);
 	}
 	
 	/**
@@ -184,7 +177,7 @@ public class Endpoint extends ConnectorParameters {
 	 * "name (hostname:port)".
 	 */
 	public String toString() {
-		return String.format("%s (%s:%d)", this.name, this.host, this.port);
+		return String.format(Locale.ENGLISH, "%s (%s:%d)", this.name, this.host, this.port);
 	}
 	
 }

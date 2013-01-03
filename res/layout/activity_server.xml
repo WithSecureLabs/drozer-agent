@@ -30,7 +30,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/server_status_indicator"
         android:paddingTop="24dp"
-        android:text="Server Details"
+        android:text="@string/embedded_server_details"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/label_server_details"
-        android:text="Small Text"
+        android:text="@string/ssl_status_placeholder"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
@@ -50,7 +50,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/label_server_ssl"
-        android:text="Small Text"
+        android:text="@string/ssl_fingerprint_placeholder"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>
