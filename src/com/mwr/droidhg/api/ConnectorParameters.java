@@ -26,4 +26,6 @@ public abstract class ConnectorParameters extends Observable {
 		}
 	}
 
+	public abstract boolean verifyPassword(String password);
+
 }

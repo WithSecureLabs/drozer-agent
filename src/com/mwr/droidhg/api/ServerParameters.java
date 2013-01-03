@@ -139,5 +139,10 @@ public class ServerParameters extends ConnectorParameters implements
 
 		return editor.commit();
 	}
+	
+	@Override
+	public boolean verifyPassword(String password) {
+		return true;
+	}
 
 }

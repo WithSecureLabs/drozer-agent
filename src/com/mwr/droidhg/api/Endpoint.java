@@ -180,4 +180,9 @@ public class Endpoint extends ConnectorParameters {
 		return String.format(Locale.ENGLISH, "%s (%s:%d)", this.name, this.host, this.port);
 	}
 	
+	@Override
+	public boolean verifyPassword(String password) {
+		return false;
+	}
+	
 }
