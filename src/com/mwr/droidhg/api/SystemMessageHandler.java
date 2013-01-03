@@ -73,7 +73,7 @@ public class SystemMessageHandler implements Handler {
 	}
 	
 	private Message startSession(Message message) throws InvalidMessageException {
-		Session session = this.connection.startSession();
+		Session session = this.connection.startSession(message.getSystemRequest().getPassword());
 		
 		if(session != null) {
 			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session));
@@ -83,7 +83,7 @@ public class SystemMessageHandler implements Handler {
 			return factory.build();
 		}
 		else {
-			MessageFactory factory = new MessageFactory(SystemResponseFactory.pong(message));
+			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(Session.nullSession()).isError());
 			
 			factory.inReplyTo(message);
 			
