@@ -250,6 +250,10 @@ public class Connection extends Thread {
 		}
 	}
 	
+	public Session startSession() {
+		return this.startSession(null);
+	}
+	
 	/**
 	 * Start a new Mercury Session.
 	 * 
@@ -259,8 +263,8 @@ public class Connection extends Thread {
 	 * We defer to the {@link #connector}, which owns the Session, and return the resultant
 	 * handle.
 	 */
-	public Session startSession() {
-		return this.connector.startSession();
+	public Session startSession(String password) {
+		return this.connector.startSession(password);
 	}
 	
 	/**

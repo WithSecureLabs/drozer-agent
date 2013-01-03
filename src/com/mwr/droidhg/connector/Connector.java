@@ -52,7 +52,14 @@ public abstract class Connector extends Thread {
 	}
 	
 	public Session startSession() {
-		return this.sessions.create();
+		return this.startSession(null);
+	}
+	
+	public Session startSession(String password) {
+		if(this.parameters.verifyPassword(password))
+			return this.sessions.create();
+		else
+			return null;
 	}
 	
 	public void resetConnection() {
