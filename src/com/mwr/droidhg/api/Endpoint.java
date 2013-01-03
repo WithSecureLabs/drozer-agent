@@ -94,9 +94,6 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public String getSSLTrustStorePath() {
-		
-		Log.e("aaaaaaaa", this.ssl_truststore_path);
-		
 		return this.ssl_truststore_path;
 	}
 	
