@@ -77,7 +77,8 @@ public class Agent {
 			switch(msg.what) {
 			case ClientService.MSG_GET_ENDPOINTS_STATUS:
 				for(Endpoint e : getEndpointManager().all())
-					e.setStatus(Endpoint.Status.values()[data.getInt("endpoint-" + e.getId())]);
+					if(data.containsKey("endpoint-" + e.getId()))
+						e.setStatus(Endpoint.Status.values()[data.getInt("endpoint-" + e.getId())]);
 				break;
 			
 			case ServerService.MSG_GET_SERVER_STATUS:
