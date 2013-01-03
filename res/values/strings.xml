@@ -32,6 +32,8 @@
     <string name="endpoint_host">Host</string>
     <string name="endpoint_name">Endpoint</string>
     <string name="endpoint_new">New Endpoint</string>
+    <string name="endpoint_password">Password</string>
+    <string name="endpoint_password_description">Set a password, required to establish a session with this agent.</string>
     <string name="endpoint_port">Port</string>
     <string name="endpoint_settings">Endpoint Settings</string>
     <string name="endpoint_ssl_truststore_password">Trust Store Password</string>

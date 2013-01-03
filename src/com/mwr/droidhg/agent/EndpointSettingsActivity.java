@@ -21,6 +21,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 
 	private EditTextPreference endpoint_host;
 	private EditTextPreference endpoint_name;
+	private EditTextPreference endpoint_password;
 	private EditTextPreference endpoint_port;
 	private CheckBoxPreference endpoint_ssl;
 	private EditTextPreference endpoint_ssl_truststore_password;
@@ -97,6 +98,13 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_ssl_truststore_password);
 		this.endpoint_ssl_truststore_password.setDependency(this.endpoint_ssl.getKey());
 		
+		this.endpoint_password = new EditTextPreference(this);
+		this.endpoint_password.setTitle(R.string.endpoint_password);
+		this.endpoint_password.setSummary(R.string.endpoint_password_description);
+		this.endpoint_password.setDefaultValue(this.endpoint.getPassword());
+		
+		((PreferenceCategory)this.findPreference("security_settings")).addPreference(this.endpoint_password);
+		
 		this.button_forget = (Button)this.findViewById(R.id.button_forget);
 		
 		if(this.endpoint.isNew()) {
@@ -145,6 +153,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
     		bundle.putInt("endpoint:id", this.endpoint.getId());
     		bundle.putString("endpoint:name", this.endpoint_name.getText());
     		bundle.putString("endpoint:host", this.endpoint_host.getText());
+    		bundle.putString("endpoint:password", this.endpoint_password.getText());
     		bundle.putInt("endpoint:port", Integer.parseInt(this.endpoint_port.getText()));
     		bundle.putBoolean("endpoint:ssl", this.endpoint_ssl.isChecked());
     		bundle.putString("endpoint:ssl_truststore_path", this.endpoint_ssl_truststore_path.getText());
