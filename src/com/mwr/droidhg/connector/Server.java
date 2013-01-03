@@ -40,10 +40,7 @@ public class Server extends Connector {
 	public void resetConnection() {
 		this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 		
-		//try {
-		//	Thread.sleep(1000);
-		//}
-		//catch(InterruptedException e) {}
+		Thread.yield();
 		
 		if(this.server_socket != null) {
 			try {
