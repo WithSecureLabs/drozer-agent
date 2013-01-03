@@ -31,12 +31,6 @@ public class ConnectorStatusIndicator extends LinearLayout implements Observer {
 		this.setUpView();
 	}
 	
-	public ConnectorStatusIndicator(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		
-		this.setUpView();
-	}
-	
 	public void setConnector(ConnectorParameters connector_parameters) {
 		if(this.connector_parameters != null)
 			this.connector_parameters.deleteObserver(this);
