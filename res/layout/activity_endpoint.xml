@@ -12,12 +12,6 @@
         android:layout_toRightOf="@+id/endpoint_enabled"
         android:layout_marginLeft="5dip" />
 
-    <CheckBox
-        android:id="@+id/endpoint_enabled"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/enabled" />
+    <include layout="@layout/toggle_endpoint" />
 
 </RelativeLayout>
