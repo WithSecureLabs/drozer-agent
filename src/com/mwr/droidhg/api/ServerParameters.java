@@ -41,6 +41,7 @@ public class ServerParameters extends ConnectorParameters implements
 	private OnChangeListener on_change_listener = null;
 	private int port = 31415;
 	private boolean ssl = false;
+	private String ssl_fingerprint = null;
 
 	public ServerParameters() {
 		this.setFromPreferences();
@@ -52,10 +53,14 @@ public class ServerParameters extends ConnectorParameters implements
 
 	private void clearKeyManagerFactory() {
 		this.key_manager_factory = null;
+		this.ssl_fingerprint = null;
 	}
 	
 	public String getCertificateFingerprint() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		return new X509Fingerprint(((X509KeyManager)this.getKeyManagerFactory().getKeyManagers()[0]).getCertificateChain("mercury")[0]).toString();
+		if(this.ssl_fingerprint == null)
+			this.ssl_fingerprint = new X509Fingerprint(((X509KeyManager)this.getKeyManagerFactory().getKeyManagers()[0]).getCertificateChain("mercury")[0]).toString();
+		
+		return this.ssl_fingerprint;
 	}
 
 	/**
@@ -110,19 +115,13 @@ public class ServerParameters extends ConnectorParameters implements
 	}
 
 	public void setFromPreferences() {
-		this.setPort(Integer.parseInt(Agent.getSettings().getString(
-				"server_port", "31415")));
+		this.setPort(Integer.parseInt(Agent.getSettings().getString("server_port", "31415")));
 		this.setSSL(Agent.getSettings().getBoolean("server_ssl", false));
 
-		if (this.isSSL()) {
-			this.keystore_path = Agent.getSettings().getString(
-					"ssl_keystore_path",
-					"/data/data/com.mwr.droidhg.agent/files/mercury.bks");
-			this.keystore_password = Agent.getSettings()
-					.getString("ssl_keystore_password", "mercury")
-					.toCharArray();
-			this.key_password = Agent.getSettings()
-					.getString("ssl_key_password", "mercury").toCharArray();
+		if(this.isSSL()) {
+			this.keystore_path = Agent.getSettings().getString("ssl_keystore_path", "/data/data/com.mwr.droidhg.agent/files/mercury.bks");
+			this.keystore_password = Agent.getSettings().getString("ssl_keystore_password", "mercury").toCharArray();
+			this.key_password = Agent.getSettings().getString("ssl_key_password", "mercury").toCharArray();
 		}
 
 		this.clearKeyManagerFactory();
@@ -141,8 +140,7 @@ public class ServerParameters extends ConnectorParameters implements
 		Editor editor = Agent.getSettings().edit();
 
 		editor.remove("server_port");
-		editor.putString("server_port", Integer.valueOf(parameters.getPort())
-				.toString());
+		editor.putString("server_port", Integer.valueOf(parameters.getPort()).toString());
 
 		return editor.commit();
 	}

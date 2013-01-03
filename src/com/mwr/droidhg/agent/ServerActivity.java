@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -73,7 +74,12 @@ public class ServerActivity extends Activity implements Observer {
 
 		@Override
 		protected String doInBackground(Object... params) {
-			return ServerActivity.this.parameters.getCertificateFingerprint();
+			try {
+				return ServerActivity.this.parameters.getCertificateFingerprint();
+			}
+			catch(Exception e) {
+				return "failed to calculate";
+			}
 		}
 		
 		@Override
@@ -103,6 +109,9 @@ public class ServerActivity extends Activity implements Observer {
 		if(ServerActivity.this.parameters.isSSL()) {
 	    	this.fingerprint_calculation = new CalculateFingerprint();
 	    	this.fingerprint_calculation.execute();
+		}
+		else {
+			this.label_server_fingerprint.setVisibility(View.GONE);
 		}
     	
     	this.label_server_ssl.setText(this.parameters.isSSL() ? R.string.ssl_enabled : R.string.ssl_disabled);
