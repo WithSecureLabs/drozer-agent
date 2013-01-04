@@ -12,6 +12,8 @@ public abstract class Connector extends Thread {
 	protected ConnectorParameters parameters = null;
 	private SessionCollection sessions = null;
 	
+	private Logger logger = null;
+	
 	public Connector(ConnectorParameters parameters) {
 		this.parameters = parameters;
 		this.sessions = new SessionCollection(this);
@@ -47,8 +49,17 @@ public abstract class Connector extends Thread {
 			this.stopConnection();
 	}
 	
+	public void log(String message) {
+		if(this.logger != null)
+			this.logger.log(this.parameters, message);
+	}
+	
 	public void send(Message message) {
 		this.connection.send(message);
+	}
+	
+	public void setLogger(Logger logger) {
+		this.logger = logger;
 	}
 	
 	public Session startSession() {
@@ -74,6 +85,7 @@ public abstract class Connector extends Thread {
 	public void stopConnector() {
 		this.running = false;
 		
+		this.log("Stopping.");
 		this.stopConnection();
 	}
 	

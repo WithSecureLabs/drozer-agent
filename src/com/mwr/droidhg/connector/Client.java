@@ -12,6 +12,8 @@ import com.mwr.droidhg.api.Endpoint;
 
 public class Client extends Connector {
 	
+	public static final int RESET_TIMEOUT = 5000;
+	
 	public Client(Endpoint endpoint) {
 		super(endpoint);
 	}
@@ -20,7 +22,10 @@ public class Client extends Connector {
 	public void resetConnection() {
 		this.parameters.setStatus(Endpoint.Status.CONNECTING);
 		
-		Thread.yield();
+		try {
+			Thread.sleep(RESET_TIMEOUT);
+		}
+		catch(InterruptedException e) {}
 		
 		super.resetConnection();
 	}
@@ -29,6 +34,7 @@ public class Client extends Connector {
 	public void run() {
 		Endpoint endpoint = (Endpoint)this.parameters;
 		
+		this.log("Starting...");
 		this.running = true;
 		
 		while(this.running) {
@@ -36,30 +42,40 @@ public class Client extends Connector {
 				if(this.connection == null) {
 					this.parameters.setStatus(Endpoint.Status.CONNECTING);
 					
+					this.log("Attempting connection to " + endpoint.toConnectionString() + "...");
 					Socket socket = new EndpointSocketFactory().createSocket(endpoint);
 					
-					this.createConnection(new SocketTransport(socket));
+					if(socket != null) {
+						this.log("Socket connected.");
+						
+						this.log("Attempting to start Mercury thread...");
+						this.createConnection(new SocketTransport(socket));
+					}
 				}
 				else if(this.connection.started && !this.connection.running) {
-					Log.i("client " + endpoint.getId(), "session was reset");
+					this.log("Connection was reset.");
 					
 					this.resetConnection();
 				}
 			}
 			catch(UnknownHostException e) {
-				Log.e("client " + endpoint.getId(), "unknown host: " + endpoint.getHost());
+				this.log("Unknown Host: " + endpoint.getHost());
 				
 				this.stopConnector();
 			}
 			catch(IOException e) {
+				this.log("IO Error. Resetting connection.");
+				
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {
-				Log.e("client " + endpoint.getId(), "failed to load trust store");
+				this.log("Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 		}
+		
+		this.log("Stopped.");
 	}
 
 	@Override

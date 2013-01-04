@@ -43,6 +43,8 @@ public class Connection extends Thread {
 	 */
 	private boolean bindToServer() {
 		if(this.mustBind()) {
+			this.log("Sending BIND_DEVICE to Mercury server...");
+			
 			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice()).setId(1).build());
 			
 	//		while(true) {
@@ -144,6 +146,13 @@ public class Connection extends Thread {
 	}
 	
 	/**
+	 * Send a log message.
+	 */
+	public void log(String message) {
+		this.connector.log(message);
+	}
+	
+	/**
 	 * @return true, if the connection must bind to its peer
 	 */
 	private boolean mustBind() {
@@ -218,6 +227,7 @@ public class Connection extends Thread {
 		if(!this.bindToServer())
 			this.stopConnection();
 
+		this.log("Mercury thread started...");
 		while(this.running) {
 			request = this.receive();
 			
@@ -264,7 +274,16 @@ public class Connection extends Thread {
 	 * handle.
 	 */
 	public Session startSession(String password) {
-		return this.connector.startSession(password);
+		this.log("Attempting to start session...");
+		
+		Session session = this.connector.startSession(password);
+		
+		if(session != null)
+			this.log("Started session: " + session.getSessionId());
+		else
+			this.log("Failed to start session. Maybe wrong password?");
+			
+		return session;
 	}
 	
 	/**
@@ -293,6 +312,8 @@ public class Connection extends Thread {
 	 * We defer to the {@link #connector}, which owns the Session.
 	 */
 	public Session stopSession(String session_id) {
+		this.log("Finishing session " + session_id + ".");
+		
 		return this.connector.stopSession(session_id);
 	}
 	
@@ -309,6 +330,8 @@ public class Connection extends Thread {
 	 */
 	private void unbindFromServer() {
 		if(this.mustBind()) {
+			this.log("Sending UNBIND_DEVICE to Mercury server...");
+			
 			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice()).setId(1).build());
 			
 	//		while(true) {
