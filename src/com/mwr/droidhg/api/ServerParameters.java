@@ -34,6 +34,7 @@ public class ServerParameters extends ConnectorParameters implements
 	private String keystore_path = null;
 	private char[] keystore_password = null;
 	private OnChangeListener on_change_listener = null;
+	private String password = null;
 	private int port = 31415;
 	private boolean ssl = false;
 	private String ssl_fingerprint = null;
@@ -79,6 +80,10 @@ public class ServerParameters extends ConnectorParameters implements
 	public KeyManager[] getKeyManagers() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		return this.getKeyManagerFactory().getKeyManagers();
 	}
+	
+	public String getPassword() {
+		return this.password;
+	}
 
 	public int getPort() {
 		return this.port;
@@ -91,18 +96,12 @@ public class ServerParameters extends ConnectorParameters implements
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if(key.equals("server_port") ||
+				key.equals("server_password") ||
 				key.equals("server_ssl") || 
 				key.equals("ssl_keystore_path") || 
 				key.equals("ssl_keystore_password") || 
 				key.equals("ssl_key_password"))
 			this.setFromPreferences();
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-
-		if (this.on_change_listener != null)
-			this.on_change_listener.onChange(this);
 	}
 
 	public void setOnChangeListener(OnChangeListener listener) {
@@ -111,6 +110,7 @@ public class ServerParameters extends ConnectorParameters implements
 
 	public void setFromPreferences() {
 		this.setPort(Integer.parseInt(Agent.getSettings().getString("server_port", "31415")));
+		this.setPassword(Agent.getSettings().getString("server_password", ""));
 		this.setSSL(Agent.getSettings().getBoolean("server_ssl", false));
 
 		if(this.isSSL()) {
@@ -122,6 +122,20 @@ public class ServerParameters extends ConnectorParameters implements
 		this.clearKeyManagerFactory();
 
 		Agent.getSettings().registerOnSharedPreferenceChangeListener(this);
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+
+		if (this.on_change_listener != null)
+			this.on_change_listener.onChange(this);
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+
+		if (this.on_change_listener != null)
+			this.on_change_listener.onChange(this);
 	}
 
 	public void setSSL(boolean ssl) {
@@ -142,7 +156,7 @@ public class ServerParameters extends ConnectorParameters implements
 	
 	@Override
 	public boolean verifyPassword(String password) {
-		return true;
+		return this.getPassword() == null && (password == null || password.equals("")) || password.equals(this.getPassword());
 	}
 
 }

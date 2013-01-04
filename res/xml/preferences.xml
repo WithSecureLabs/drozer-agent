@@ -10,6 +10,11 @@
 	        android:summary="@string/embedded_server_port_summary"
 	        android:defaultValue="31415"
 	        android:numeric="integer" />
+	    <EditTextPreference
+	        android:key="server_password"
+	        android:title="@string/embedded_server_password"
+	        android:summary="@string/embedded_server_password_summary"
+	        android:defaultValue="" />
 	    <CheckBoxPreference
 	        android:key="server_ssl"
 	        android:title="@string/ssl_enable"
