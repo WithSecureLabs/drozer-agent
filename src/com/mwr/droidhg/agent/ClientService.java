@@ -25,6 +25,7 @@ public class ClientService extends Service {
 	public static final int MSG_GET_ENDPOINTS_STATUS = 1;
 	public static final int MSG_START_ENDPOINT = 2;
 	public static final int MSG_STOP_ENDPOINT = 3;
+	public static final int MSG_GET_ENDPOINT_DETAILED_STATUS = 4;
 	
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
@@ -48,6 +49,18 @@ public class ClientService extends Service {
 				service.messengers.add(msg.replyTo);
 			
 			switch(msg.what) {
+			case MSG_GET_ENDPOINT_DETAILED_STATUS:
+				try {
+					Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
+					message.setData(service.getEndpointDetailedStatus(msg.getData().getInt("endpoint_id")));
+					
+					msg.replyTo.send(message);
+				}
+				catch(RemoteException e) {
+					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				}
+				break;
+				
 			case MSG_GET_ENDPOINTS_STATUS:
 				try {
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
@@ -93,6 +106,40 @@ public class ClientService extends Service {
 			}
 		}
 		
+	}
+	
+	public Bundle getEndpointDetailedStatus(int endpoint_id) {
+		Bundle data = new Bundle();
+		Endpoint endpoint = this.endpoint_manager.get(endpoint_id);
+		
+		data.putInt("endpoint:id", endpoint.getId());
+		data.putBoolean("endpoint:enabled", endpoint.isEnabled());
+		data.putBoolean("endpoint:password_enabled", endpoint.hasPassword());
+    	data.putBoolean("endpoint:ssl_enabled", endpoint.isSSL());
+    	
+    	switch(endpoint.getStatus()) {
+    	case ACTIVE:
+    		data.putBoolean("endpoint:connected", true);
+    		data.putBoolean("endpoint:sessions", true);
+    		break;
+    		
+    	case CONNECTING:
+    		data.putBoolean("endpoint:connected", false);
+    		data.putBoolean("endpoint:sessions", false);
+    		break;
+    		
+    	case ONLINE:
+    		data.putBoolean("endpoint:connected", true);
+    		data.putBoolean("endpoint:sessions", false);
+    		break;
+    		
+    	default:
+    		data.putBoolean("endpoint:connected", false);
+    		data.putBoolean("endpoint:sessions", false);
+    		break;
+    	}
+    	
+    	return data;
 	}
 	
 	public Bundle getEndpointsStatus() {

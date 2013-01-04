@@ -75,6 +75,10 @@ public class Agent {
 			Bundle data = msg.getData();
 			
 			switch(msg.what) {
+			case ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS:
+				getEndpointManager().get(data.getInt("endpoint:id")).setDetailedStatus(data);
+				break;
+				
 			case ClientService.MSG_GET_ENDPOINTS_STATUS:
 				for(Endpoint e : getEndpointManager().all())
 					if(data.containsKey("endpoint-" + e.getId()))
@@ -152,6 +156,21 @@ public class Agent {
 	
 	public static EndpointManager getEndpointManager() {
 		return endpoint_manager;
+	}
+	
+	public static void getEndpointDetailedStatus(Endpoint endpoint) {
+		Bundle data = new Bundle();
+		data.putInt("endpoint_id", endpoint.getId());
+		
+		try {
+			Message message = Message.obtain(null, ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS);
+			message.setData(data);
+			
+			Agent.sendToClientService(message);
+		}
+		catch(RemoteException e) {
+			Log.e(context.getString(R.string.log_tag_agent), "failed to get endpoint detailed status " + endpoint.getId());
+		}
 	}
 	
 	public static Messenger getMessenger() {

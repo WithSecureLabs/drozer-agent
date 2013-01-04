@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import javax.net.ssl.TrustManager;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.mwr.common.KeyStoreTrustManager;
@@ -27,6 +28,18 @@ public class Endpoint extends ConnectorParameters {
 		public Object serialize(Endpoint endpoint);
 		
 	}
+	
+	public interface OnDetailedStatusListener {
+		
+		public void onDetailedStatus(Bundle status);
+		
+	}
+	
+	public interface OnLogMessageListener {
+		
+		public void onLogMessage(String message);
+		
+	}
 
 	private int id = -1;
 	private String name = "Endpoint";
@@ -36,6 +49,8 @@ public class Endpoint extends ConnectorParameters {
 	private boolean ssl = false;
 	private String ssl_truststore_password = "mercury";
 	private String ssl_truststore_path = "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks";
+	
+	private OnDetailedStatusListener on_detailed_status_listener;
 	
 	public Endpoint() {
 		this(-1, "Endpoint", "droidhg.local", 31415);
@@ -132,6 +147,10 @@ public class Endpoint extends ConnectorParameters {
 		}
 	}
 	
+	public boolean hasPassword() {
+		return !(this.getPassword() == null || this.getPassword().equals(""));
+	}
+	
 	public boolean isNew() {
 		return this.id == -1;
 	}
@@ -168,9 +187,17 @@ public class Endpoint extends ConnectorParameters {
 			this.notifyObservers();
 		}
 	}
+	
+	public void setDetailedStatus(Bundle status) {
+		this.on_detailed_status_listener.onDetailedStatus(status);
+	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public void setOnDetailedStatusListener(OnDetailedStatusListener listener) {
+		this.on_detailed_status_listener = listener;
 	}
 	
 	/**
