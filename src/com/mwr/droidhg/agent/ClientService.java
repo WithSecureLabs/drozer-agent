@@ -17,15 +17,18 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.mwr.droidhg.Agent;
+import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.connector.Client;
+import com.mwr.droidhg.connector.Logger;
 
-public class ClientService extends Service {
+public class ClientService extends Service implements Logger {
 	
 	public static final int MSG_GET_ENDPOINTS_STATUS = 1;
 	public static final int MSG_START_ENDPOINT = 2;
 	public static final int MSG_STOP_ENDPOINT = 3;
 	public static final int MSG_GET_ENDPOINT_DETAILED_STATUS = 4;
+	public static final int MSG_LOG_MESSAGE = 5;
 	
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
@@ -152,6 +155,25 @@ public class ClientService extends Service {
 	}
 	
 	@Override
+	public void log(ConnectorParameters parameters, String msg) {
+		Bundle data = new Bundle();
+		data.putInt("endpoint:id", ((Endpoint)parameters).getId());
+		data.putString("message", msg);
+		
+		for(Messenger m : this.messengers) {
+			try {
+				Message message = Message.obtain(null, MSG_LOG_MESSAGE);
+				message.setData(data);
+				
+				m.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(getString(R.string.log_tag_client_service), "failed to send log message");
+			}
+		}
+	}
+	
+	@Override
 	public IBinder onBind(Intent intent) {
 		Log.i(getString(R.string.log_tag_client_service), "received bind request");
 		
@@ -220,6 +242,7 @@ public class ClientService extends Service {
 			Endpoint endpoint = this.endpoint_manager.get(id, true);
 			
 			Client client = new Client(endpoint);
+			client.setLogger(this);
 			
 			this.clients.put(id, client);
 			

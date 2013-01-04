@@ -6,17 +6,21 @@ import java.util.Observer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.Endpoint;
 
-public class EndpointActivity extends Activity implements Observer, Endpoint.OnDetailedStatusListener {
+public class EndpointActivity extends Activity implements Observer, Endpoint.OnDetailedStatusListener, Endpoint.OnLogMessageListener {
 	
 	private Endpoint endpoint = null;
 	private CompoundButton endpoint_enabled = null;
+	private TextView endpoint_messages = null;
 	private ConnectorStatusIndicator endpoint_status_indicator = null;
 	
 	private CheckListItemView status_connected = null;
@@ -48,6 +52,8 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
         	
         });
         
+        this.endpoint_messages = (TextView)this.findViewById(R.id.endpoint_messages);
+        
         this.status_connected = (CheckListItemView)this.findViewById(R.id.endpoint_status_connected);
         this.status_enabled = (CheckListItemView)this.findViewById(R.id.endpoint_status_enabled);
         this.status_password = (CheckListItemView)this.findViewById(R.id.endpoint_status_password);
@@ -70,6 +76,13 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	this.status_password.setStatus(status.getBoolean("endpoint:password_enabled"));
     	this.status_sessions.setStatus(status.getBoolean("endpoint:sessions"));
     	this.status_ssl.setStatus(status.getBoolean("endpoint:ssl_enabled"));
+	}
+	
+	@Override
+	public void onLogMessage(String message) {
+		String log = this.endpoint_messages.getText() + "\n" + message;
+		
+		this.endpoint_messages.setText(log);
 	}
     
     @Override
@@ -119,6 +132,7 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
+    	this.endpoint.setOnLogMessageListener(this);
     }
 
 	@Override

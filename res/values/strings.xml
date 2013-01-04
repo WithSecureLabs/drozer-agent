@@ -34,6 +34,7 @@
     <string name="endpoint_edit">Edit Endpoint</string>
     <string name="endpoint_forget">Forget Endpoint</string>
     <string name="endpoint_host">Host</string>
+    <string name="endpoint_messages">Messages</string>
     <string name="endpoint_name">Endpoint</string>
     <string name="endpoint_new">New Endpoint</string>
     <string name="endpoint_password">Password</string>

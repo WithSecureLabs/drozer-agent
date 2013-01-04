@@ -51,6 +51,7 @@ public class Endpoint extends ConnectorParameters {
 	private String ssl_truststore_path = "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks";
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
+	private OnLogMessageListener on_log_message_listener;
 	
 	public Endpoint() {
 		this(-1, "Endpoint", "droidhg.local", 31415);
@@ -159,6 +160,11 @@ public class Endpoint extends ConnectorParameters {
 		return this.ssl;
 	}
 	
+	public void logMessage(String message) {
+		if(this.on_log_message_listener != null)
+			this.on_log_message_listener.onLogMessage(message);
+	}
+	
 	public Object serialize(EndpointSerializer serializer) {
 		return serializer.serialize(this);
 	}
@@ -189,7 +195,8 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public void setDetailedStatus(Bundle status) {
-		this.on_detailed_status_listener.onDetailedStatus(status);
+		if(this.on_detailed_status_listener != null)
+			this.on_detailed_status_listener.onDetailedStatus(status);
 	}
 
 	public void setId(int id) {
@@ -198,6 +205,10 @@ public class Endpoint extends ConnectorParameters {
 	
 	public void setOnDetailedStatusListener(OnDetailedStatusListener listener) {
 		this.on_detailed_status_listener = listener;
+	}
+	
+	public void setOnLogMessageListener(OnLogMessageListener listener) {
+		this.on_log_message_listener = listener;
 	}
 	
 	/**
