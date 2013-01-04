@@ -93,6 +93,9 @@ public class Agent {
 				getEndpointManager().get(data.getInt("endpoint:id")).logMessage(data.getString("message"));
 				break;
 				
+			case ServerService.MSG_LOG_MESSAGE:
+				getServerParameters().logMessage(data.getString("message"));
+				
 			default:
 				super.handleMessage(msg);
 			}

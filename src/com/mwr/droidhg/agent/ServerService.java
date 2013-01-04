@@ -18,14 +18,19 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mwr.droidhg.api.ConnectorParameters;
+import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.connector.Logger;
 import com.mwr.droidhg.connector.Server;
 
-public class ServerService extends Service {
+public class ServerService extends Service implements Logger {
 	
 	public static final int MSG_GET_SERVER_STATUS = 10;
 	public static final int MSG_START_SERVER = 11;
 	public static final int MSG_STOP_SERVER = 12;
+	public static final int MSG_GET_DETAILED_STATUS = 13;
+	public static final int MSG_LOG_MESSAGE = 14;
 	
 	private final Messenger messenger = new Messenger(new IncomingHandler(this));
 	private final ArrayList<Messenger> messengers = new ArrayList<Messenger>();
@@ -105,6 +110,24 @@ public class ServerService extends Service {
 	}
 	
 	@Override
+	public void log(ConnectorParameters connector, String msg) {
+		Bundle data = new Bundle();
+		data.putString("message", msg);
+		
+		for(Messenger m : this.messengers) {
+			try {
+				Message message = Message.obtain(null, MSG_LOG_MESSAGE);
+				message.setData(data);
+				
+				m.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(getString(R.string.log_tag_server_service), "failed to send log message");
+			}
+		}
+	}
+	
+	@Override
 	public IBinder onBind(Intent intent) {
 		Log.i(getString(R.string.log_tag_server_service), "received bind request");
 		
@@ -166,6 +189,7 @@ public class ServerService extends Service {
 			
 			this.server_parameters.enabled = true;
 			this.server = new Server(this.server_parameters);
+			this.server.setLogger(this);
 			
 			this.server.start();
 			
