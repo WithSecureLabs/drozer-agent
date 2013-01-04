@@ -16,38 +16,44 @@ public class MainActivity extends Activity {
 	
 	private EndpointListView endpoint_list_view = null;
 	private ServerListRowView server_list_row_view = null;
+	
+	private void launchEndpointActivity(Endpoint endpoint) {
+		Intent intent = new Intent(MainActivity.this, EndpointActivity.class);
+		intent.putExtra("endpoint_id", endpoint.getId());
+		
+		MainActivity.this.startActivity(intent);
+	}
+	
+	private void launchServerActivity() {
+		MainActivity.this.startActivity(new Intent(MainActivity.this, ServerActivity.class));
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
         
         Agent.setContext(this.getApplicationContext());
         
         this.endpoint_list_view = (EndpointListView)this.findViewById(R.id.endpoint_list_view);
-        this.server_list_row_view = (ServerListRowView)this.findViewById(R.id.server_list_row_view);
-        
         this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getEndpointManager()));
         this.endpoint_list_view.setOnEndpointSelectListener(new EndpointListView.OnEndpointSelectListener() {
 			
 			@Override
 			public void onEndpointSelect(Endpoint endpoint) {
-				Intent intent = new Intent(MainActivity.this, EndpointActivity.class);
-				
-				intent.putExtra("endpoint_id", endpoint.getId());
-				
-				MainActivity.this.startActivity(intent);
+				MainActivity.this.launchEndpointActivity(endpoint);
 			}
 			
 		});
         
+        this.server_list_row_view = (ServerListRowView)this.findViewById(R.id.server_list_row_view);
         this.server_list_row_view.setServerParameters(Agent.getServerParameters());
-        
         this.server_list_row_view.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				MainActivity.this.startActivity(new Intent(MainActivity.this, ServerActivity.class));
+				MainActivity.this.launchServerActivity();
 			}
         	
         });

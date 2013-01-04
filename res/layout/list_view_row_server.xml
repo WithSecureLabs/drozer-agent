@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp" >
     
     <TextView
         android:id="@+id/adb_server_name"
@@ -9,7 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingTop="2dip"
         android:text="@string/embedded_server"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -18,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/adb_server_name"
-        android:paddingBottom="2dip"
         android:text="@string/embedded_server_port"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

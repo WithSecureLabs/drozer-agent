@@ -3,7 +3,11 @@
     android:id="@+id/list_view_row_endpoint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp" >
 
     <TextView
         android:id="@+id/endpoint_name"
@@ -11,7 +15,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:paddingTop="2dip"
         android:text="@string/endpoint_name"
         android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
@@ -20,7 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/endpoint_name"
-        android:paddingBottom="2dip"
         android:text="@string/endpoint_connection_string"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

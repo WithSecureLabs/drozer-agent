@@ -11,8 +11,7 @@ import com.mwr.droidhg.api.ServerParameters;
 import com.mwr.droidhg.api.ServerParameters.OnChangeListener;
 
 public class ServerListRowView extends LinearLayout {
-
-	//private TextView adb_server_name_field = null;
+	
 	private TextView adb_server_port_field = null;
 	private ConnectorStatusIndicator adb_server_status_indicator = null;
 	private ServerParameters server_parameters = null;
@@ -29,18 +28,11 @@ public class ServerListRowView extends LinearLayout {
 		this.initView();
 	}
 	
-	public ServerListRowView(Context context, AttributeSet attrs, int i) {
-		super(context, attrs, i);
-		
-		this.initView();
-	}
-	
 	private void initView() {
 		this.addView(View.inflate(this.getContext(), R.layout.list_view_row_server, null));
 
         this.setBackgroundResource(android.R.drawable.list_selector_background);
 		
-		//this.adb_server_name_field = (TextView)this.findViewById(R.id.adb_server_name);
 		this.adb_server_port_field = (TextView)this.findViewById(R.id.adb_server_port);
 		this.adb_server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.adb_server_status_indicator);
 	}
