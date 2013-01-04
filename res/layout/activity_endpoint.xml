@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res/com.mwr.droidhg.agent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
@@ -16,5 +17,47 @@
         android:layout_marginLeft="5dip" />
 
     <include layout="@layout/toggle_endpoint" />
+
+    <TextView
+        android:id="@+id/label_endpoint_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/endpoint_status_indicator"
+        android:paddingTop="24dp"
+        android:text="@string/endpoint_details"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/endpoint_status_ssl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/label_endpoint_details" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/endpoint_status_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/endpoint_status_ssl" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/endpoint_status_enabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/endpoint_status_password" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/endpoint_status_connected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/endpoint_status_enabled" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/endpoint_status_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/endpoint_status_connected" />
 
 </RelativeLayout>

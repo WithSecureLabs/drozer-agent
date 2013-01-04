@@ -31,12 +31,6 @@ public class EndpointListRowView extends LinearLayout implements Observer {
 		this.setUpView();
 	}
 	
-	public EndpointListRowView(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		
-		this.setUpView();
-	}
-	
 	public void setEndpoint(Endpoint endpoint) {
 		if(this.endpoint != null)
     		this.endpoint.deleteObserver(this);
