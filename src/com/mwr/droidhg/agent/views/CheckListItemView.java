@@ -1,0 +1,48 @@
+package com.mwr.droidhg.agent.views;
+
+import com.mwr.droidhg.agent.R;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class CheckListItemView extends LinearLayout {
+
+	private TextView label = null;
+	private ImageView status = null;
+	
+	public CheckListItemView(Context context) {
+		super(context);
+		
+		this.setUpView();
+	}
+
+	public CheckListItemView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		
+		this.setUpView();
+	}
+	
+	public void setLabel(int resId) {
+		this.setLabel(this.getContext().getString(resId));
+	}
+	
+	public void setLabel(String text) {
+		this.label.setText(text);
+	}
+	
+	public void setStatus(boolean status) {
+		this.status.setImageResource(status ? android.R.drawable.button_onoff_indicator_on : android.R.drawable.button_onoff_indicator_off);
+	}
+
+	private void setUpView() {
+		this.addView(View.inflate(this.getContext(), R.layout.check_list_item, null));
+		
+		this.label = (TextView)this.findViewById(R.id.check_list_item_label);
+		this.status = (ImageView)this.findViewById(R.id.check_list_item_status);
+	}
+	
+}
