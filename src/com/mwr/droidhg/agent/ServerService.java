@@ -19,7 +19,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.mwr.droidhg.api.ConnectorParameters;
-import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
 import com.mwr.droidhg.connector.Logger;
 import com.mwr.droidhg.connector.Server;

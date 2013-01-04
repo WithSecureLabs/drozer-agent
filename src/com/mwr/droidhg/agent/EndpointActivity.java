@@ -6,9 +6,7 @@ import java.util.Observer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.mwr.droidhg.Agent;

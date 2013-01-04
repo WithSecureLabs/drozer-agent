@@ -11,7 +11,6 @@ import com.mwr.droidhg.api.ServerParameters;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CompoundButton;

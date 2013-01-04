@@ -8,8 +8,6 @@ import java.security.KeyStoreException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
-import android.util.Log;
-
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.ServerParameters;
 
