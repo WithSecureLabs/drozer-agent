@@ -52,49 +52,60 @@ public class Server extends Connector {
 	public void run() {
 		this.running = true;
 		
+		this.log("Starting Server...");
 		while(this.running) {
 			try {
 				if(this.connection == null) {
 					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
 					
+					this.log("Attempting to bind to port " + ((ServerParameters)this.parameters).getPort() + "...");
 					this.server_socket = new ServerSocketFactory().createSocket((ServerParameters)this.parameters);
+					
+					this.log("Waiting for connections...");
 					Socket socket = this.server_socket.accept();
 					
-					if(socket != null)
+					if(socket != null) {
+						this.log("Accepted connection...");
+						
+						this.log("Starting Mercury thread...");
 						this.createConnection(new SocketTransport(socket));
+					}
 				}
 				else if(this.connection.started && !this.connection.running) {
-					Log.i("server", "session was reset");
+					this.log("Connection was reset.");
 					
 					this.resetConnection();
 				}
 			}
 			catch(CertificateException e) {
-				Log.e("server", "unable to load key material");
+				this.log("Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(IOException e) {
+				this.log("IO Error. Resetting connection.");
+				
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {
-				Log.e("server", "unable to load key material");
+				this.log("Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(KeyStoreException e) {
-				Log.e("server", "unable to load key material");
+				this.log("Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(UnrecoverableKeyException e) {
-				Log.e("server", "unable to load key material");
+				this.log("Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			
 		}
 		
+		this.log("Stopped.");
 		this.parameters.setStatus(ServerParameters.Status.OFFLINE);
 	}
 
