@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 
+import android.util.Log;
+
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Endpoint;
 
@@ -36,6 +38,7 @@ public class Client extends Connector {
 		this.running = true;
 		
 		while(this.running) {
+			Log.i("Client", "enter loop");
 			try {
 				if(this.connection == null) {
 					this.parameters.setStatus(Endpoint.Status.CONNECTING);
@@ -50,10 +53,22 @@ public class Client extends Connector {
 						this.createConnection(new SocketTransport(socket));
 					}
 				}
-				else if(this.connection.started && !this.connection.running) {
-					this.log("Connection was reset.");
+				else {
+					synchronized(this.connection) {
+						try {
+							Log.i("Server", "attempting to block on the connection");
+							
+							this.connection.wait();
+						}
+						catch(InterruptedException e) {}
+						catch(IllegalMonitorStateException e){}
+					}
 					
-					this.resetConnection();
+					if(this.connection.started && !this.connection.running) {
+						this.log("Connection was reset.");
+						
+						this.resetConnection();
+					}
 				}
 			}
 			catch(UnknownHostException e) {

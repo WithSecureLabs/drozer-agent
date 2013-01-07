@@ -8,6 +8,8 @@ import java.security.KeyStoreException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
+import android.util.Log;
+
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.ServerParameters;
 
@@ -52,6 +54,7 @@ public class Server extends Connector {
 		
 		this.log("Starting Server...");
 		while(this.running) {
+			Log.i("Server", "enter loop");
 			try {
 				if(this.connection == null) {
 					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
@@ -71,10 +74,23 @@ public class Server extends Connector {
 						this.createConnection(new SocketTransport(socket));
 					}
 				}
-				else if(this.connection.started && !this.connection.running) {
-					this.log("Connection was reset.");
-					
-					this.resetConnection();
+				else {
+					synchronized(this.connection) {
+						try {
+							Log.i("Server", "attempting to block on the connection");
+							
+							this.connection.wait();
+						}
+						catch(InterruptedException e) {}
+						catch(IllegalMonitorStateException e){}
+					}
+					// block until connection == null or connection.started && !connection.running
+							
+						if(this.connection.started && !this.connection.running) {
+							this.log("Connection was reset.");
+							
+							this.resetConnection();
+						}
 				}
 			}
 			catch(CertificateException e) {

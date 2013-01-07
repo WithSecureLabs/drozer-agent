@@ -219,6 +219,7 @@ public class Connection extends Thread {
 	public void run() {
 		this.running = true;
 		this.started = true;
+		this.tryAndNotifyAll();
 		
 		this.last_message_at = System.currentTimeMillis();
 		
@@ -298,6 +299,7 @@ public class Connection extends Thread {
 	 */
 	public void stopConnection(boolean kill_sessions) {
 		this.running = false;
+		this.tryAndNotifyAll();
 		
 		if(kill_sessions)
 			this.stopSessions();
@@ -322,6 +324,18 @@ public class Connection extends Thread {
 	 */
 	public void stopSessions() {
 		this.connector.stopSessions();
+	}
+	
+	private void tryAndNotifyAll() {
+
+		synchronized(this) {
+		try {
+			this.notifyAll();
+		}
+		catch(IllegalMonitorStateException e) {
+			Log.e("Connection", "could not notifyAll(), the Connection was not locked");
+		}
+		}
 	}
 	
 	/**
