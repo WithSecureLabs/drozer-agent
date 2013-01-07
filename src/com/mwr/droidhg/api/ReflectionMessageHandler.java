@@ -84,15 +84,12 @@ public class ReflectionMessageHandler implements Handler {
 		}
 		catch(Exception e) {
 			if(e.getMessage() != null) {
-				Log.e("ReflectionMessageHandler", e.getMessage());
-				Log.e("ReflectionMessageHandler", Log.getStackTraceString(e));
-				
 				response = ReflectionResponseFactory.error(e.getMessage());
 			}
+			else if(e.getCause() != null && e.getCause().getMessage() != null) {
+				response = ReflectionResponseFactory.error(e.getCause().getMessage());
+			}
 			else {
-				Log.e("ReflectionMessageHandler", "Unknown Exception");
-				Log.e("ReflectionMessageHandler", Log.getStackTraceString(e));
-				
 				response = ReflectionResponseFactory.error("Unknown Exception");
 			}
 		}
@@ -183,9 +180,6 @@ public class ReflectionMessageHandler implements Handler {
 	}
 	
 	private ReflectionResponseFactory handleException(Throwable tr) {
-		Log.e("ReflectionMessageHandler", tr.getMessage() == null ? tr.getClass().getName() : tr.getMessage());
-		Log.e("ReflectionMessageHandler", Log.getStackTraceString(tr));
-		
 		return ReflectionResponseFactory.error(tr.toString());
 	}
 	
