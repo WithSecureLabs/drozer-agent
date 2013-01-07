@@ -10,6 +10,7 @@ import java.security.cert.CertificateException;
 
 import android.util.Log;
 
+import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.ServerParameters;
 
@@ -54,7 +55,6 @@ public class Server extends Connector {
 		
 		this.log("Starting Server...");
 		while(this.running) {
-			Log.i("Server", "enter loop");
 			try {
 				if(this.connection == null) {
 					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
@@ -77,8 +77,6 @@ public class Server extends Connector {
 				else {
 					synchronized(this.connection) {
 						try {
-							Log.i("Server", "attempting to block on the connection");
-							
 							this.connection.wait();
 						}
 						catch(InterruptedException e) {}
@@ -87,34 +85,34 @@ public class Server extends Connector {
 					// block until connection == null or connection.started && !connection.running
 							
 						if(this.connection.started && !this.connection.running) {
-							this.log("Connection was reset.");
+							this.log(LogMessage.WARN, "Connection was reset.");
 							
 							this.resetConnection();
 						}
 				}
 			}
 			catch(CertificateException e) {
-				this.log("Error loading key material for SSL.");
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(IOException e) {
-				this.log("IO Error. Resetting connection.");
+				this.log(LogMessage.ERROR, "IO Error. Resetting connection.");
 				
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {
-				this.log("Error loading key material for SSL.");
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(KeyStoreException e) {
-				this.log("Error loading key material for SSL.");
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}
 			catch(UnrecoverableKeyException e) {
-				this.log("Error loading key material for SSL.");
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}

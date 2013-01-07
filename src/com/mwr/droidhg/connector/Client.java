@@ -7,6 +7,7 @@ import java.security.KeyManagementException;
 
 import android.util.Log;
 
+import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Endpoint;
 
@@ -38,7 +39,6 @@ public class Client extends Connector {
 		this.running = true;
 		
 		while(this.running) {
-			Log.i("Client", "enter loop");
 			try {
 				if(this.connection == null) {
 					this.parameters.setStatus(Endpoint.Status.CONNECTING);
@@ -56,8 +56,6 @@ public class Client extends Connector {
 				else {
 					synchronized(this.connection) {
 						try {
-							Log.i("Server", "attempting to block on the connection");
-							
 							this.connection.wait();
 						}
 						catch(InterruptedException e) {}
@@ -72,17 +70,17 @@ public class Client extends Connector {
 				}
 			}
 			catch(UnknownHostException e) {
-				this.log("Unknown Host: " + endpoint.getHost());
+				this.log(LogMessage.ERROR, "Unknown Host: " + endpoint.getHost());
 				
 				this.stopConnector();
 			}
 			catch(IOException e) {
-				this.log("IO Error. Resetting connection.");
+				this.log(LogMessage.ERROR, "IO Error. Resetting connection.");
 				
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {
-				this.log("Error loading key material for SSL.");
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
 				
 				this.stopConnector();
 			}

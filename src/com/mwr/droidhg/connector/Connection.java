@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import android.util.Log;
 
+import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Protobuf.Message;
 import com.mwr.droidhg.api.builders.MessageFactory;
@@ -43,7 +44,7 @@ public class Connection extends Thread {
 	 */
 	private boolean bindToServer() {
 		if(this.mustBind()) {
-			this.log("Sending BIND_DEVICE to Mercury server...");
+			this.log(LogMessage.DEBUG, "Sending BIND_DEVICE to Mercury server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice()).setId(1).build());
 			
@@ -152,6 +153,10 @@ public class Connection extends Thread {
 		this.connector.log(message);
 	}
 	
+	public void log(int level, String message) {
+		this.connector.log(level, message);
+	}
+	
 	/**
 	 * @return true, if the connection must bind to its peer
 	 */
@@ -178,24 +183,21 @@ public class Connection extends Thread {
 			return null;
 		}
 		catch(APIVersionException e) {
-			Log.e("connection", "unexpected API version whilst reading frame: " + e.getMessage());
-			Log.d("connection", Log.getStackTraceString(e));
+			this.log(LogMessage.ERROR, "unexpected API version");
 			
 			this.stopConnection();
 			
 			return null;
 		}
 		catch(IOException e) {
-			Log.e("connection", "IOException whilst reading frame: " + e.getMessage());
-			Log.d("connection", Log.getStackTraceString(e));
+			this.log(LogMessage.ERROR, "IO Error.");
 			
 			this.stopConnection();
 			
 			return null;
 		}
 		catch(TransportDisconnectedException e) {
-			Log.e("connection", "the transport was dropped whilst reading a frame: " + e.getMessage());
-			Log.d("connection", Log.getStackTraceString(e));
+			this.log(LogMessage.ERROR, "the Transport was dropped, whilst trying to read a frame");
 			
 			this.stopConnection();
 			
@@ -254,8 +256,7 @@ public class Connection extends Thread {
 			this.transport.send(new Frame(message));
 		}
 		catch(IOException e) {
-			Log.e("connection", "IOException whilst transmitting frame: " + e.getMessage());
-			Log.d("connection", Log.getStackTraceString(e));
+			this.log(LogMessage.ERROR, "IO Error");
 			
 			this.stopConnection(false);
 		}
@@ -282,7 +283,7 @@ public class Connection extends Thread {
 		if(session != null)
 			this.log("Started session: " + session.getSessionId());
 		else
-			this.log("Failed to start session. Maybe wrong password?");
+			this.log(LogMessage.ERROR, "Failed to start session. Maybe wrong password?");
 			
 		return session;
 	}
@@ -327,14 +328,13 @@ public class Connection extends Thread {
 	}
 	
 	private void tryAndNotifyAll() {
-
 		synchronized(this) {
-		try {
-			this.notifyAll();
-		}
-		catch(IllegalMonitorStateException e) {
-			Log.e("Connection", "could not notifyAll(), the Connection was not locked");
-		}
+			try {
+				this.notifyAll();
+			}
+			catch(IllegalMonitorStateException e) {
+				Log.e("Connection", "could not notifyAll(), the Connection was not locked");
+			}
 		}
 	}
 	
@@ -344,7 +344,7 @@ public class Connection extends Thread {
 	 */
 	private void unbindFromServer() {
 		if(this.mustBind()) {
-			this.log("Sending UNBIND_DEVICE to Mercury server...");
+			this.log(LogMessage.DEBUG, "Sending UNBIND_DEVICE to Mercury server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice()).setId(1).build());
 			

@@ -54,6 +54,12 @@ public abstract class Connector extends Thread {
 	public void log(String message) {
 		this.log(new LogMessage(message));
 	}
+
+
+	public void log(int level, String message) {
+		this.log(new LogMessage(level, message));		
+	}
+	
 	public void log(LogMessage message) {
 		if(this.logger != null)
 			this.logger.log(this.parameters, message);
