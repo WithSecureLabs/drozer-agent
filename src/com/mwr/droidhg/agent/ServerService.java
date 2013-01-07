@@ -3,6 +3,7 @@ package com.mwr.droidhg.agent;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -253,7 +254,7 @@ public class ServerService extends Service implements Logger {
 			
 			this.server.start();
 			
-			Toast.makeText(this, "Started server on port " + Integer.valueOf(this.server_parameters.getPort()).toString(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, String.format(Locale.ENGLISH, this.getString(R.string.embedded_server_started), this.server_parameters.getPort()), Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -261,6 +262,8 @@ public class ServerService extends Service implements Logger {
 		if(this.server != null) {
 			this.server_parameters.enabled = false;
 			this.server.stopConnector();
+			
+			Toast.makeText(this, String.format(Locale.ENGLISH, this.getString(R.string.embedded_server_stopped), this.server_parameters.getPort()), Toast.LENGTH_SHORT).show();
 			
 			this.server = null;
 		}

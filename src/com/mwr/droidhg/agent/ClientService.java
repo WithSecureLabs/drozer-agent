@@ -3,6 +3,7 @@ package com.mwr.droidhg.agent;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Service;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 import android.util.SparseArray;
+import android.widget.Toast;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
@@ -264,6 +266,8 @@ public class ClientService extends Service implements Logger {
 			
 			endpoint.enabled = true;
 			client.start();
+			
+			Toast.makeText(this, String.format(Locale.ENGLISH, this.getString(R.string.endpoint_started), endpoint.toConnectionString()), Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -276,6 +280,8 @@ public class ClientService extends Service implements Logger {
 			endpoint.enabled = false;
 			
 			this.clients.remove(id);
+			
+			Toast.makeText(this, String.format(Locale.ENGLISH, this.getString(R.string.endpoint_stopped), endpoint.toConnectionString()), Toast.LENGTH_SHORT).show();
 		}
 	}
 

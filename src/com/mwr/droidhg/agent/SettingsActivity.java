@@ -41,16 +41,16 @@ public class SettingsActivity extends PreferenceActivity {
 				if(Agent.getEndpointManager().add(endpoint)) {
 					this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
 					
-					Toast.makeText(this.getApplicationContext(), "Created new Endpoint", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_created), Toast.LENGTH_SHORT).show();
 				}
 				else {
-					Toast.makeText(this.getApplicationContext(), "Error creating Endpoint", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_create_error), Toast.LENGTH_SHORT).show();
 				}
 				break;
 				
 			case SettingsActivity.EDIT_ENDPOINT:
 				if(bundle.containsKey("endpoint:deleted")) {
-					Toast.makeText(this.getApplicationContext(), "Removed Endpoint", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_removed), Toast.LENGTH_SHORT).show();
 					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + bundle.getInt("endpoint:id"));
 					
 					preference.setEnabled(false);
@@ -71,10 +71,10 @@ public class SettingsActivity extends PreferenceActivity {
 						preference.setTitle(endpoint.getName());
 						preference.setSummary(endpoint.toConnectionString());
 						
-						Toast.makeText(this.getApplicationContext(), "Updated " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+						Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_updated), Toast.LENGTH_SHORT).show();
 					}
 					else {
-						Toast.makeText(this.getApplicationContext(), "There was a problem whilst updating " + endpoint.getName(), Toast.LENGTH_SHORT).show();
+						Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_update_error), Toast.LENGTH_SHORT).show();
 					}
 					break;
 				}

@@ -29,9 +29,13 @@
     <string name="embedded_server_password_summary">Set a password, required to establish a session with this agent.</string>
     <string name="embedded_server_port">Port</string>
     <string name="embedded_server_port_summary">Specify the port that the embedded server will listen on.</string>
+    <string name="embedded_server_started">Started embedded server on port %d.</string>
+    <string name="embedded_server_stopped">Stopped embedded server, that was listening on port %d.</string>
     
     <!-- Endpoint -->
     <string name="endpoint_connection_string">hostname:port</string>
+    <string name="endpoint_create_error">There was an error creating that Endpoint.</string>
+    <string name="endpoint_created">Successfully created Endpoint.</string>
     <string name="endpoint_details">Endpoint Details</string>
     <string name="endpoint_edit">Edit Endpoint</string>
     <string name="endpoint_forget">Forget Endpoint</string>
@@ -43,11 +47,16 @@
     <string name="endpoint_password_description">Set a password, required to establish a session with this agent.</string>
     <string name="endpoint_password_protected">Password Protected</string>
     <string name="endpoint_port">Port</string>
+    <string name="endpoint_removed">That Endpoint was successfully deleted.</string>
     <string name="endpoint_settings">Endpoint Settings</string>
     <string name="endpoint_ssl_truststore_password">Trust Store Password</string>
     <string name="endpoint_ssl_truststore_password_description">Specify the password for the Keystore containing the CA certificates.</string>
     <string name="endpoint_ssl_truststore_path">Trust Store Path</string>
     <string name="endpoint_ssl_truststore_path_description">Specify the path to the Keystore containing the CA certificates.</string>
+    <string name="endpoint_started">Opened connection to %s.</string>
+    <string name="endpoint_stopped">Closed connection to %s.</string>
+    <string name="endpoint_update_error">There was an error updating that Endpoint.</string>
+    <string name="endpoint_updated">Successfully updated the Endpoint.</string>
     
     <!-- Logging -->
     <string name="log_tag_agent">Agent</string>
