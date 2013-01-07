@@ -3,6 +3,7 @@ package com.mwr.droidhg.agent.views;
 import com.mwr.droidhg.agent.R;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +25,13 @@ public class CheckListItemView extends LinearLayout {
 		super(context, attrs);
 		
 		this.setUpView();
+		
+		TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CheckListItemView);
+		
+		this.setLabel(a.getString(R.styleable.CheckListItemView_text));
+		this.setStatus(a.getBoolean(R.styleable.CheckListItemView_defaultValue, false));
+		
+		a.recycle();
 	}
 	
 	public void setLabel(int resId) {

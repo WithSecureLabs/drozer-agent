@@ -25,6 +25,7 @@
     <string name="embedded_server_details">Server Details</string>
     <string name="embdded_server_messages">Messages</string>
     <string name="embedded_server_password">Password</string>
+    <string name="embedded_server_password_protected">Password Protected</string>
     <string name="embedded_server_password_summary">Set a password, required to establish a session with this agent.</string>
     <string name="embedded_server_port">Port</string>
     <string name="embedded_server_port_summary">Specify the port that the embedded server will listen on.</string>

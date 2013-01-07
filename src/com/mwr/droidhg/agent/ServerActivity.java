@@ -95,12 +95,6 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
     private void refreshStatus() {
-    	this.status_enabled.setLabel(R.string.enabled);
-    	this.status_listening.setLabel(R.string.connected);
-    	this.status_password.setLabel(R.string.endpoint_password_protected);
-    	this.status_sessions.setLabel(R.string.session_active);
-    	this.status_ssl.setLabel(R.string.ssl_enabled);
-    	
     	Agent.getServerDetailedStatus();
     }
     
