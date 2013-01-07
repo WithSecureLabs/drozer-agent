@@ -1,18 +1,19 @@
 package com.mwr.droidhg.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
-public abstract class ConnectorParameters extends Observable {
-	
-	public interface OnLogMessageListener {
-		
-		public void onLogMessage(String message);
-		
-	}
+import com.mwr.common.logging.LogMessage;
+import com.mwr.common.logging.Logger;
+import com.mwr.common.logging.OnLogMessageListener;
+
+public abstract class ConnectorParameters extends Observable implements Logger {
 	
 	public enum Status { ACTIVE, CONNECTING, UNKNOWN, UPDATING, ONLINE, OFFLINE };
 	
 	public volatile boolean enabled = false;
+	private List<LogMessage> log_messages = new ArrayList<LogMessage>();
 	private OnLogMessageListener on_log_message_listener;
 	public volatile Status status = Status.UNKNOWN;
 	
@@ -20,13 +21,30 @@ public abstract class ConnectorParameters extends Observable {
 		return this.enabled;
 	}
 	
+	@Override
+	public List<LogMessage> getLogMessages() {
+		return this.log_messages;
+	}
+	
 	public synchronized Status getStatus() {
 		return this.status;
 	}
 	
-	public void logMessage(String message) {
+	public void log(String message) {
+		this.log(new LogMessage(message));
+	}
+	
+	@Override
+	public void log(LogMessage message) {
+		this.log_messages.add(message);
+		
 		if(this.on_log_message_listener != null)
-			this.on_log_message_listener.onLogMessage(message);
+			this.on_log_message_listener.onLogMessage(this, message);
+	}
+	
+	@Override
+	public void log(Logger logger, LogMessage message) {
+		this.log(message);
 	}
 	
 	public void setOnLogMessageListener(OnLogMessageListener listener) {
