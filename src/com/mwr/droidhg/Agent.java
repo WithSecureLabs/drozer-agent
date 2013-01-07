@@ -86,6 +86,10 @@ public class Agent {
 						e.setStatus(Endpoint.Status.values()[data.getInt("endpoint-" + e.getId())]);
 				break;
 			
+			case ServerService.MSG_GET_SERVER_DETAILED_STATUS:
+				getServerParameters().setDetailedStatus(data);
+				break;
+				
 			case ServerService.MSG_GET_SERVER_STATUS:
 				getServerParameters().setStatus(ServerParameters.Status.values()[data.getInt("server")]);
 				break;
@@ -183,6 +187,17 @@ public class Agent {
 	
 	public static Messenger getMessenger() {
 		return messenger;
+	}
+	
+	public static void getServerDetailedStatus() {
+		try {
+			Message message = Message.obtain(null, ServerService.MSG_GET_SERVER_DETAILED_STATUS);
+			
+			Agent.sendToServerService(message);
+		}
+		catch(RemoteException e) {
+			Log.e(context.getString(R.string.log_tag_agent), "failed to get server detailed status");
+		}
 	}
 	
 	public static ServerParameters getServerParameters() {

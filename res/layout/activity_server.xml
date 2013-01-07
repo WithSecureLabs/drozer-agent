@@ -26,34 +26,44 @@
         android:paddingTop="24dp"
         android:text="@string/embedded_server_details"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/label_server_ssl"
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/server_status_ssl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/label_server_details"
-        android:text="@string/ssl_status_placeholder"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android:id="@+id/label_server_fingerprint"
+        android:layout_below="@id/label_server_details" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/server_status_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/label_server_ssl"
-        android:text="@string/ssl_fingerprint_placeholder"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-     <TextView
+        android:layout_below="@+id/server_status_ssl" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/server_status_enabled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/server_status_password" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/server_status_listening"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/server_status_enabled" />
+    <com.mwr.droidhg.agent.views.CheckListItemView
+        android:id="@+id/server_status_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+		android:layout_below="@id/server_status_listening" />
+	
+    <TextView
         android:id="@+id/label_server_messages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@id/label_server_fingerprint"
+        android:layout_below="@id/server_status_sessions"
         android:paddingTop="24dp"
         android:text="@string/embdded_server_messages"
         android:textAppearance="?android:attr/textAppearanceLarge" />

@@ -4,27 +4,29 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
+import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.ServerParameters;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
-public class ServerActivity extends Activity implements Observer {
+public class ServerActivity extends Activity implements Observer, ServerParameters.OnDetailedStatusListener {
 
 	private ServerParameters parameters = null;
 	
-	private TextView label_server_fingerprint = null;
-	private TextView label_server_ssl = null;
 	private CompoundButton server_enabled = null;
 	private ListView server_messages = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
+	
+	private CheckListItemView status_enabled = null;
+	private CheckListItemView status_listening = null;
+	private CheckListItemView status_password = null;
+	private CheckListItemView status_sessions = null;
+	private CheckListItemView status_ssl = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,18 +34,9 @@ public class ServerActivity extends Activity implements Observer {
         
         this.setContentView(R.layout.activity_server);
         
-        this.label_server_fingerprint = (TextView)this.findViewById(R.id.label_server_fingerprint);
-        this.label_server_ssl = (TextView)this.findViewById(R.id.label_server_ssl);
-        this.server_enabled = (CompoundButton)this.findViewById(R.id.server_enabled);
-        
-        this.server_messages = (ListView)this.findViewById(R.id.server_messages);
-        this.server_messages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        this.server_messages.setStackFromBottom(true);
-        
         this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
         
-        this.setServerParameters(Agent.getServerParameters());
-        
+        this.server_enabled = (CompoundButton)this.findViewById(R.id.server_enabled);
         this.server_enabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
@@ -55,12 +48,34 @@ public class ServerActivity extends Activity implements Observer {
 			}
         	
         });
+        
+        this.server_messages = (ListView)this.findViewById(R.id.server_messages);
+        this.server_messages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        this.server_messages.setStackFromBottom(true);
+        
+        this.status_enabled = (CheckListItemView)this.findViewById(R.id.server_status_enabled);
+        this.status_listening = (CheckListItemView)this.findViewById(R.id.server_status_listening);
+        this.status_password = (CheckListItemView)this.findViewById(R.id.server_status_password);
+        this.status_sessions = (CheckListItemView)this.findViewById(R.id.server_status_sessions);
+        this.status_ssl = (CheckListItemView)this.findViewById(R.id.server_status_ssl);
+        
+        this.setServerParameters(Agent.getServerParameters());
+        this.refreshStatus();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
     }
+
+	@Override
+	public void onDetailedStatus(Bundle status) {
+    	this.status_enabled.setStatus(status.getBoolean("server:enabled"));
+    	this.status_listening.setStatus(status.getBoolean("server:connected"));
+    	this.status_password.setStatus(status.getBoolean("server:password_enabled"));
+    	this.status_sessions.setStatus(status.getBoolean("server:sessions"));
+    	this.status_ssl.setStatus(status.getBoolean("server:ssl_enabled"));
+	}
     
     @Override
     protected void onPause() {
@@ -76,32 +91,18 @@ public class ServerActivity extends Activity implements Observer {
     	Agent.bindServices();
     }
     
-    class CalculateFingerprint extends AsyncTask<Object, Object, String> {
-
-		@Override
-		protected String doInBackground(Object... params) {
-			try {
-				return ServerActivity.this.parameters.getCertificateFingerprint();
-			}
-			catch(Exception e) {
-				return "failed to calculate";
-			}
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			ServerActivity.this.label_server_fingerprint.setText("Calculating Fingerprint...");
-		}
-		
-		@Override
-		protected void onPostExecute(String result) {
-			ServerActivity.this.fingerprint_calculation = null;
-			ServerActivity.this.label_server_fingerprint.setText(result);
-		}
+    /**
+     * Refresh the status indicators, to show the current status of the Endpoint.
+     */
+    private void refreshStatus() {
+    	this.status_enabled.setLabel(R.string.enabled);
+    	this.status_listening.setLabel(R.string.connected);
+    	this.status_password.setLabel(R.string.endpoint_password_protected);
+    	this.status_sessions.setLabel(R.string.session_active);
+    	this.status_ssl.setLabel(R.string.ssl_enabled);
     	
+    	Agent.getServerDetailedStatus();
     }
-    
-    private CalculateFingerprint fingerprint_calculation;
     
     private void setServerParameters(ServerParameters parameters) {
     	if(this.parameters != null)
@@ -109,28 +110,18 @@ public class ServerActivity extends Activity implements Observer {
     	
     	this.parameters = parameters;
     	
-    	if(this.fingerprint_calculation != null)
-    		this.fingerprint_calculation.cancel(true);
-
-		if(ServerActivity.this.parameters.isSSL()) {
-	    	this.fingerprint_calculation = new CalculateFingerprint();
-	    	this.fingerprint_calculation.execute();
-		}
-		else {
-			this.label_server_fingerprint.setVisibility(View.GONE);
-		}
-    	
-    	this.label_server_ssl.setText(this.parameters.isSSL() ? R.string.ssl_enabled : R.string.ssl_disabled);
     	this.server_enabled.setChecked(this.parameters.isEnabled());
+    	this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters));
     	this.server_status_indicator.setConnector(this.parameters);
     	
     	this.parameters.addObserver(this);
-        this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters));
+    	this.parameters.setOnDetailedStatusListener(this);
     }
 
 	@Override
 	public void update(Observable observable, Object data) {
 		this.setServerParameters((ServerParameters)observable);
+		this.refreshStatus();
 	}
 
 }

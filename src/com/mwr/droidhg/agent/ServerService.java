@@ -32,6 +32,7 @@ public class ServerService extends Service implements Logger {
 	public static final int MSG_STOP_SERVER = 12;
 	public static final int MSG_GET_DETAILED_STATUS = 13;
 	public static final int MSG_LOG_MESSAGE = 14;
+	public static final int MSG_GET_SERVER_DETAILED_STATUS = 15;
 	
 	private final Messenger messenger = new Messenger(new IncomingHandler(this));
 	private final ArrayList<Messenger> messengers = new ArrayList<Messenger>();
@@ -55,6 +56,18 @@ public class ServerService extends Service implements Logger {
 				service.messengers.add(msg.replyTo);
 			
 			switch(msg.what) {
+			case MSG_GET_SERVER_DETAILED_STATUS:
+				try {
+					Message message = Message.obtain(null, MSG_GET_SERVER_DETAILED_STATUS);
+					message.setData(service.getDetailedStatus());
+					
+					msg.replyTo.send(message);
+				}
+				catch(RemoteException e) {
+					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				}
+				break;
+				
 			case MSG_GET_SERVER_STATUS:
 				try {
 					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
@@ -100,6 +113,38 @@ public class ServerService extends Service implements Logger {
 			}
 		}
 		
+	}
+	
+	public Bundle getDetailedStatus() {
+		Bundle data = new Bundle();
+		
+		data.putBoolean("server:enabled", server_parameters.isEnabled());
+		data.putBoolean("server:password_enabled", server_parameters.hasPassword());
+    	data.putBoolean("server:ssl_enabled", server_parameters.isSSL());
+    	
+    	switch(server_parameters.getStatus()) {
+    	case ACTIVE:
+    		data.putBoolean("server:connected", true);
+    		data.putBoolean("server:sessions", true);
+    		break;
+    		
+    	case CONNECTING:
+    		data.putBoolean("server:connected", false);
+    		data.putBoolean("server:sessions", false);
+    		break;
+    		
+    	case ONLINE:
+    		data.putBoolean("server:connected", true);
+    		data.putBoolean("server:sessions", false);
+    		break;
+    		
+    	default:
+    		data.putBoolean("endpoint:connected", false);
+    		data.putBoolean("endpoint:sessions", false);
+    		break;
+    	}
+    	
+    	return data;
 	}
 	
 	@Override

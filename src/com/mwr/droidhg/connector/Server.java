@@ -63,6 +63,8 @@ public class Server extends Connector {
 					Socket socket = this.server_socket.accept();
 					
 					if(socket != null) {
+						this.parameters.setStatus(ServerParameters.Status.ONLINE);
+						
 						this.log("Accepted connection...");
 						
 						this.log("Starting Mercury thread...");

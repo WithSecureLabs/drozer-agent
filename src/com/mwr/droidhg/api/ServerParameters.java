@@ -19,14 +19,20 @@ import com.mwr.droidhg.Agent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.os.Bundle;
 
-public class ServerParameters extends ConnectorParameters implements
-		OnSharedPreferenceChangeListener {
+public class ServerParameters extends ConnectorParameters implements OnSharedPreferenceChangeListener {
 
 	public interface OnChangeListener {
 
 		public void onChange(ServerParameters parameters);
 
+	}
+	
+	public interface OnDetailedStatusListener {
+		
+		public void onDetailedStatus(Bundle status);
+		
 	}
 
 	private KeyManagerFactory key_manager_factory = null;
@@ -38,6 +44,8 @@ public class ServerParameters extends ConnectorParameters implements
 	private int port = 31415;
 	private boolean ssl = false;
 	private String ssl_fingerprint = null;
+	
+	private OnDetailedStatusListener on_detailed_status_listener;
 
 	public ServerParameters() {
 		this.setFromPreferences();
@@ -88,6 +96,10 @@ public class ServerParameters extends ConnectorParameters implements
 	public int getPort() {
 		return this.port;
 	}
+	
+	public boolean hasPassword() {
+		return this.password != null && this.password != "";
+	}
 
 	public boolean isSSL() {
 		return this.ssl;
@@ -103,9 +115,18 @@ public class ServerParameters extends ConnectorParameters implements
 				key.equals("ssl_key_password"))
 			this.setFromPreferences();
 	}
+	
+	public void setDetailedStatus(Bundle status) {
+		if(this.on_detailed_status_listener != null)
+			this.on_detailed_status_listener.onDetailedStatus(status);
+	}
 
 	public void setOnChangeListener(OnChangeListener listener) {
 		this.on_change_listener = listener;
+	}
+	
+	public void setOnDetailedStatusListener(OnDetailedStatusListener listener) {
+		this.on_detailed_status_listener = listener;
 	}
 
 	public void setFromPreferences() {
