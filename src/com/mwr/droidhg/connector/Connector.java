@@ -2,6 +2,8 @@ package com.mwr.droidhg.connector;
 
 import java.util.Collection;
 
+import com.mwr.common.logging.LogMessage;
+import com.mwr.common.logging.Logger;
 import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.Protobuf.Message;
 
@@ -50,6 +52,9 @@ public abstract class Connector extends Thread {
 	}
 	
 	public void log(String message) {
+		this.log(new LogMessage(message));
+	}
+	public void log(LogMessage message) {
 		if(this.logger != null)
 			this.logger.log(this.parameters, message);
 	}

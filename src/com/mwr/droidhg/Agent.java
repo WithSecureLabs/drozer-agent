@@ -3,6 +3,7 @@ package com.mwr.droidhg;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.EndpointManager;
 import com.mwr.droidhg.agent.R;
@@ -90,11 +91,11 @@ public class Agent {
 				break;
 				
 			case ClientService.MSG_LOG_MESSAGE:
-				getEndpointManager().get(data.getInt("endpoint:id")).logMessage(data.getString("message"));
+				getEndpointManager().get(data.getInt("endpoint:id")).log(LogMessage.fromBundle(data.getBundle("message")));
 				break;
 				
 			case ServerService.MSG_LOG_MESSAGE:
-				getServerParameters().logMessage(data.getString("message"));
+				getServerParameters().log(LogMessage.fromBundle(data.getBundle("message")));
 				
 			default:
 				super.handleMessage(msg);

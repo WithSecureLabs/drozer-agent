@@ -2,6 +2,7 @@ package com.mwr.droidhg.agent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Service;
 import android.content.Context;
@@ -16,11 +17,12 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.mwr.common.logging.LogMessage;
+import com.mwr.common.logging.Logger;
+import com.mwr.common.logging.OnLogMessageListener;
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.connector.Client;
-import com.mwr.droidhg.connector.Logger;
 
 public class ClientService extends Service implements Logger {
 	
@@ -155,10 +157,19 @@ public class ClientService extends Service implements Logger {
 	}
 	
 	@Override
-	public void log(ConnectorParameters parameters, String msg) {
+	public List<LogMessage> getLogMessages() {
+		return null;
+	}
+	
+	@Override
+	public void log(LogMessage msg) {
+	}
+	
+	@Override
+	public void log(Logger logger, LogMessage msg) {
 		Bundle data = new Bundle();
-		data.putInt("endpoint:id", ((Endpoint)parameters).getId());
-		data.putString("message", msg);
+		data.putInt("endpoint:id", ((Endpoint)logger).getId());
+		data.putBundle("message", msg.toBundle());
 		
 		for(Messenger m : this.messengers) {
 			try {
@@ -227,6 +238,11 @@ public class ClientService extends Service implements Logger {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		return START_REDELIVER_INTENT;
+	}
+	
+	@Override
+	public void setOnLogMessageListener(OnLogMessageListener listener) {
+		throw new RuntimeException();
 	}
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {
