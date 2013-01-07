@@ -5,7 +5,6 @@ import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
-import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.ServerParameters;
 
 import android.os.AsyncTask;
@@ -14,16 +13,17 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class ServerActivity extends Activity implements Observer, ConnectorParameters.OnLogMessageListener {
+public class ServerActivity extends Activity implements Observer {
 
 	private ServerParameters parameters = null;
 	
 	private TextView label_server_fingerprint = null;
 	private TextView label_server_ssl = null;
 	private CompoundButton server_enabled = null;
-	private TextView server_messages = null;
+	private ListView server_messages = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
 
     @Override
@@ -35,7 +35,11 @@ public class ServerActivity extends Activity implements Observer, ConnectorParam
         this.label_server_fingerprint = (TextView)this.findViewById(R.id.label_server_fingerprint);
         this.label_server_ssl = (TextView)this.findViewById(R.id.label_server_ssl);
         this.server_enabled = (CompoundButton)this.findViewById(R.id.server_enabled);
-        this.server_messages = (TextView)this.findViewById(R.id.server_messages);
+        
+        this.server_messages = (ListView)this.findViewById(R.id.server_messages);
+        this.server_messages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        this.server_messages.setStackFromBottom(true);
+        
         this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
         
         this.setServerParameters(Agent.getServerParameters());
@@ -57,13 +61,6 @@ public class ServerActivity extends Activity implements Observer, ConnectorParam
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
     }
-
-	@Override
-	public void onLogMessage(String message) {
-		String log = this.server_messages.getText() + "\n" + message;
-		
-		this.server_messages.setText(log);
-	}
     
     @Override
     protected void onPause() {
@@ -128,7 +125,7 @@ public class ServerActivity extends Activity implements Observer, ConnectorParam
     	this.server_status_indicator.setConnector(this.parameters);
     	
     	this.parameters.addObserver(this);
-    	this.parameters.setOnLogMessageListener(this);
+        this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters));
     }
 
 	@Override

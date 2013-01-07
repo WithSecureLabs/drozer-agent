@@ -7,18 +7,18 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.widget.CompoundButton;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.Endpoint;
 
-public class EndpointActivity extends Activity implements Observer, Endpoint.OnDetailedStatusListener, Endpoint.OnLogMessageListener {
+public class EndpointActivity extends Activity implements Observer, Endpoint.OnDetailedStatusListener {
 	
 	private Endpoint endpoint = null;
 	private CompoundButton endpoint_enabled = null;
-	private TextView endpoint_messages = null;
+	private ListView endpoint_messages = null;
 	private ConnectorStatusIndicator endpoint_status_indicator = null;
 	
 	private CheckListItemView status_connected = null;
@@ -50,7 +50,9 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
         	
         });
         
-        this.endpoint_messages = (TextView)this.findViewById(R.id.endpoint_messages);
+        this.endpoint_messages = (ListView)this.findViewById(R.id.endpoint_messages);
+        this.endpoint_messages.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        this.endpoint_messages.setStackFromBottom(true);
         
         this.status_connected = (CheckListItemView)this.findViewById(R.id.endpoint_status_connected);
         this.status_enabled = (CheckListItemView)this.findViewById(R.id.endpoint_status_enabled);
@@ -74,13 +76,6 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	this.status_password.setStatus(status.getBoolean("endpoint:password_enabled"));
     	this.status_sessions.setStatus(status.getBoolean("endpoint:sessions"));
     	this.status_ssl.setStatus(status.getBoolean("endpoint:ssl_enabled"));
-	}
-	
-	@Override
-	public void onLogMessage(String message) {
-		String log = this.endpoint_messages.getText() + "\n" + message;
-		
-		this.endpoint_messages.setText(log);
 	}
     
     @Override
@@ -126,11 +121,11 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	this.setTitle(this.endpoint.getName());
     	
     	this.endpoint_enabled.setChecked(this.endpoint.isEnabled());
+    	this.endpoint_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.endpoint));
     	this.endpoint_status_indicator.setConnector(this.endpoint);
     	
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
-    	this.endpoint.setOnLogMessageListener(this);
     }
 
 	@Override
