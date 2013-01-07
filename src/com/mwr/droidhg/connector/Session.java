@@ -2,8 +2,8 @@ package com.mwr.droidhg.connector;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import android.util.Log;
 
@@ -15,7 +15,7 @@ import com.mwr.droidhg.reflection.ObjectStore;
 public class Session extends Thread {
 	
 	private Connector connector = null;
-	private Queue<Message> messages = new ConcurrentLinkedQueue<Message>();
+	private BlockingQueue<Message> messages = new LinkedBlockingQueue<Message>();
 	public ObjectStore object_store = new ObjectStore();
 	private String session_id = null;
 	private static SecureRandom random = new SecureRandom();
@@ -48,7 +48,12 @@ public class Session extends Thread {
 		this.running = true;
 		
 		while(this.running) {
-			Message message = this.messages.poll();
+			Message message = null;
+			
+			try {
+				message = this.messages.take();
+			}
+			catch (InterruptedException e) {}
 			
 			if(message != null) {
 				try {
@@ -62,8 +67,6 @@ public class Session extends Thread {
 					Log.e("session - " + this.session_id, "dropped invalid request: " + e.getMessage());
 				}
 			}
-			
-			Thread.yield();
 		}
 	}
 	
@@ -73,6 +76,8 @@ public class Session extends Thread {
 	
 	public void stopSession() {
 		this.running = false;
+		
+		this.interrupt();
 	}
 
 }
