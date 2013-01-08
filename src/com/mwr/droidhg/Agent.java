@@ -1,5 +1,10 @@
 package com.mwr.droidhg;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -158,6 +163,34 @@ public class Agent {
 		ServerService.startAndBindToService(context, server_service_connection);
 	}
 	
+	public static void createDefaultKeyMaterial() {
+		try {
+			if(!new File(context.getFilesDir().toString(), "agent.bks").exists())
+				copyResourceToFile(R.raw.agent, context.openFileOutput("agent.bks", Context.MODE_PRIVATE));
+			if(!new File(context.getFilesDir().toString(), "ca.bks").exists())
+				copyResourceToFile(R.raw.ca, context.openFileOutput("ca.bks", Context.MODE_PRIVATE));
+		}
+		catch(FileNotFoundException e) {
+			Log.e("Agent", "Failed to write default key material.");
+		}
+		catch(IOException e) {
+			Log.e("Agent", "Failed to write default key material.");
+		}
+	}
+	
+	private static void copyResourceToFile(int resId, FileOutputStream file) throws IOException {
+		InputStream in = context.getResources().openRawResource(resId);
+		
+		byte[] buf = new byte[1024];
+		
+		int len = in.read(buf);
+		while(len != -1) {
+		    file.write(buf, 0, len);
+		    
+		    len = in.read(buf);
+		}
+	}
+	
 	public static ClientServiceConnection getClientService() {
 		return client_service_connection;
 	}
@@ -249,6 +282,8 @@ public class Agent {
 			server_parameters = new ServerParameters();
 		if(server_service_connection == null)
 			server_service_connection = new ServerServiceConnection();
+		
+		createDefaultKeyMaterial();
 	}
 	
 	public static void startEndpoint(Endpoint endpoint) {

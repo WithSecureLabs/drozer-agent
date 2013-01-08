@@ -42,7 +42,7 @@ public class Endpoint extends ConnectorParameters {
 	private int port = 31415;
 	private boolean ssl = false;
 	private String ssl_truststore_password = "mercury";
-	private String ssl_truststore_path = "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks";
+	private String ssl_truststore_path = "/data/data/com.mwr.droidhg.agent/files/ca.bks";
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
 	
@@ -71,7 +71,7 @@ public class Endpoint extends ConnectorParameters {
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl) {
-		this(id, name, host, port, ssl, "/data/data/com.mwr.droidhg.agent/files/mercury-ca.bks", "mercury", "");
+		this(id, name, host, port, ssl, "/data/data/com.mwr.droidhg.agent/files/ca.bks", "mercury", "");
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password) {
