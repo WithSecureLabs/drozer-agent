@@ -5,12 +5,14 @@ import java.lang.ref.WeakReference;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.ConnectorService;
 import com.mwr.droidhg.agent.ServerService;
+import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
 
@@ -29,7 +31,7 @@ public class IncomingReplyHandler extends Handler {
 
 		switch(msg.what) {
 		case ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS:
-			agent.getEndpointManager().get(data.getInt("endpoint:id")).setDetailedStatus(data);
+			agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).setDetailedStatus(data);
 			break;
 
 		case ClientService.MSG_GET_ENDPOINTS_STATUS:
@@ -47,10 +49,10 @@ public class IncomingReplyHandler extends Handler {
 			break;
 
 		case ConnectorService.MSG_LOG_MESSAGE:
-			if (data.containsKey("endpoint:id"))
-				agent.getEndpointManager().get(data.getInt("endpoint:id")).log(LogMessage.fromBundle(data.getBundle("message")));
+			if (data.containsKey(Endpoint.ENDPOINT_ID))
+				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).log(LogMessage.fromBundle(data.getBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE)));
 			else
-				agent.getServerParameters().log(LogMessage.fromBundle(data.getBundle("message")));
+				agent.getServerParameters().log(LogMessage.fromBundle(data.getBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE)));
 			break;
 
 		default:

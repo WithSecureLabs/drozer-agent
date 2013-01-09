@@ -31,29 +31,29 @@ public class ServerService extends ConnectorService {
 	public Bundle getDetailedStatus() {
 		Bundle data = new Bundle();
 		
-		data.putBoolean("server:enabled", server_parameters.isEnabled());
-		data.putBoolean("server:password_enabled", server_parameters.hasPassword());
-    	data.putBoolean("server:ssl_enabled", server_parameters.isSSL());
+		data.putBoolean(ServerParameters.CONNECTOR_ENABLED, server_parameters.isEnabled());
+		data.putBoolean(ServerParameters.SERVER_PASSWORD, server_parameters.hasPassword());
+    	data.putBoolean(ServerParameters.SERVER_SSL, server_parameters.isSSL());
     	
     	switch(server_parameters.getStatus()) {
     	case ACTIVE:
-    		data.putBoolean("server:connected", true);
-    		data.putBoolean("server:sessions", true);
+    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, true);
     		break;
     		
     	case CONNECTING:
-    		data.putBoolean("server:connected", false);
-    		data.putBoolean("server:sessions", false);
+    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	case ONLINE:
-    		data.putBoolean("server:connected", true);
-    		data.putBoolean("server:sessions", false);
+    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	default:
-    		data.putBoolean("endpoint:connected", false);
-    		data.putBoolean("endpoint:sessions", false);
+    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     	}
     	
@@ -64,9 +64,9 @@ public class ServerService extends ConnectorService {
 		Bundle data = new Bundle();
 
 		if(this.server != null)
-			data.putString("certificate:fingerprint", this.server.getHostCertificateFingerprint());
+			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, this.server.getHostCertificateFingerprint());
 		else
-			data.putString("certificate:fingerprint", "error");
+			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, "error");
 		
 		return data;
 	}

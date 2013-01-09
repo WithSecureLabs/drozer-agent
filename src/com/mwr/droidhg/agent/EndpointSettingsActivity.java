@@ -40,7 +40,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		if(bundle == null)
 			this.endpoint = new Endpoint();
 		else {
-			int endpoint_id = bundle.getInt("endpoint:id");
+			int endpoint_id = bundle.getInt(Endpoint.ENDPOINT_ID);
 			if(endpoint_id > 0) {
 				this.endpoint = Agent.getInstance().getEndpointManager().get(endpoint_id);
 				this.setTitle(this.endpoint.getName());
@@ -150,14 +150,14 @@ public class EndpointSettingsActivity extends PreferenceActivity {
     		
     	case R.id.save_endpoint:
     		Bundle bundle = new Bundle();
-    		bundle.putInt("endpoint:id", this.endpoint.getId());
-    		bundle.putString("endpoint:name", this.endpoint_name.getText());
-    		bundle.putString("endpoint:host", this.endpoint_host.getText());
-    		bundle.putString("endpoint:password", this.endpoint_password.getText());
-    		bundle.putInt("endpoint:port", Integer.parseInt(this.endpoint_port.getText()));
-    		bundle.putBoolean("endpoint:ssl", this.endpoint_ssl.isChecked());
-    		bundle.putString("endpoint:ssl_truststore_path", this.endpoint_ssl_truststore_path.getText());
-    		bundle.putString("endpoint:ssl_truststore_password", this.endpoint_ssl_truststore_password.getText());
+    		bundle.putInt(Endpoint.ENDPOINT_ID, this.endpoint.getId());
+    		bundle.putString(Endpoint.ENDPOINT_NAME, this.endpoint_name.getText());
+    		bundle.putString(Endpoint.ENDPOINT_HOST, this.endpoint_host.getText());
+    		bundle.putString(Endpoint.ENDPOINT_PASSWORD, this.endpoint_password.getText());
+    		bundle.putInt(Endpoint.ENDPOINT_PORT, Integer.parseInt(this.endpoint_port.getText()));
+    		bundle.putBoolean(Endpoint.ENDPOINT_SSL, this.endpoint_ssl.isChecked());
+    		bundle.putString(Endpoint.ENDPOINT_TRUSTSTORE_PATH, this.endpoint_ssl_truststore_path.getText());
+    		bundle.putString(Endpoint.ENDPOINT_TRUSTSTORE_PASSWORD, this.endpoint_ssl_truststore_password.getText());
     		
     		Intent intent = this.getIntent();
     		intent.putExtras(bundle);

@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 public class LogMessage {
 	
+	public static final String LEVEL = "log:level";
+	public static final String MESSAGE = "log:message";
+	
 	public static final int VERBOSE = 0x00000002;
 	public static final int DEBUG = 0x00000003;
 	public static final int INFO = 0x00000004;
@@ -24,7 +27,7 @@ public class LogMessage {
 	}
 
 	public static LogMessage fromBundle(Bundle bundle) {
-		return new LogMessage(bundle.getInt("level"), bundle.getString("message"));
+		return new LogMessage(bundle.getInt(LEVEL), bundle.getString(MESSAGE));
 	}
 	
 	public int getLevel() {
@@ -38,8 +41,8 @@ public class LogMessage {
 	public Bundle toBundle() {
 		Bundle bundle = new Bundle();
 		
-		bundle.putInt("level", this.getLevel());
-		bundle.putString("message", this.getMessage());
+		bundle.putInt(LEVEL, this.getLevel());
+		bundle.putString(MESSAGE, this.getMessage());
 		
 		return bundle;
 	}

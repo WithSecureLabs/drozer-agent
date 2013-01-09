@@ -30,13 +30,13 @@ public class SettingsActivity extends PreferenceActivity {
 			switch(request_code) {
 			case SettingsActivity.NEW_ENDPOINT:
 				endpoint = new Endpoint(
-						bundle.getString(("endpoint:name")),
-						bundle.getString("endpoint:host"),
-						bundle.getInt("endpoint:port"),
-						bundle.getBoolean("endpoint:ssl"),
-						bundle.getString("endpoint:ssl_truststore_path"),
-						bundle.getString("endpoint:ssl_truststore_password"),
-						bundle.getString("endpoint:password"));
+						bundle.getString(Endpoint.ENDPOINT_NAME),
+						bundle.getString(Endpoint.ENDPOINT_HOST),
+						bundle.getInt(Endpoint.ENDPOINT_PORT),
+						bundle.getBoolean(Endpoint.ENDPOINT_SSL),
+						bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PATH),
+						bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PASSWORD),
+						bundle.getString(Endpoint.ENDPOINT_PASSWORD));
 				
 				if(Agent.getInstance().getEndpointManager().add(endpoint)) {
 					this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
@@ -49,22 +49,22 @@ public class SettingsActivity extends PreferenceActivity {
 				break;
 				
 			case SettingsActivity.EDIT_ENDPOINT:
-				if(bundle.containsKey("endpoint:deleted")) {
+				if(bundle.containsKey(Endpoint.ENDPOINT_DELETED)) {
 					Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_removed), Toast.LENGTH_SHORT).show();
-					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + bundle.getInt("endpoint:id"));
+					Preference preference = this.endpoint_preferences.findPreference("endpoint_" + bundle.getInt(Endpoint.ENDPOINT_ID));
 					
 					preference.setEnabled(false);
 				}
 				else {
 					endpoint = new Endpoint(
-							bundle.getInt("endpoint:id"),
-							bundle.getString(("endpoint:name")),
-							bundle.getString("endpoint:host"),
-							bundle.getInt("endpoint:port"),
-							bundle.getBoolean("endpoint:ssl"),
-							bundle.getString("endpoint:ssl_truststore_path"),
-							bundle.getString("endpoint:ssl_truststore_password"),
-							bundle.getString("endpoint:password"));
+							bundle.getInt(Endpoint.ENDPOINT_ID),
+							bundle.getString(Endpoint.ENDPOINT_NAME),
+							bundle.getString(Endpoint.ENDPOINT_HOST),
+							bundle.getInt(Endpoint.ENDPOINT_PORT),
+							bundle.getBoolean(Endpoint.ENDPOINT_SSL),
+							bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PATH),
+							bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PASSWORD),
+							bundle.getString(Endpoint.ENDPOINT_PASSWORD));
 					
 					if(Agent.getInstance().getEndpointManager().update(endpoint)) {
 						Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());
@@ -140,7 +140,7 @@ public class SettingsActivity extends PreferenceActivity {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
 				Bundle bundle = new Bundle();
-				bundle.putInt("endpoint:id", Integer.parseInt(preference.getKey().split("_")[1]));
+				bundle.putInt(Endpoint.ENDPOINT_ID, Integer.parseInt(preference.getKey().split("_")[1]));
 				
 				Intent intent = new Intent(SettingsActivity.this, EndpointSettingsActivity.class);
 				intent.putExtras(bundle);

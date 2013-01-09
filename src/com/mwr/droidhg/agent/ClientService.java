@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.droidhg.Agent;
+import com.mwr.droidhg.api.ConnectorParameters;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.connector.Client;
 
@@ -33,30 +34,30 @@ public class ClientService extends ConnectorService {
 		Bundle data = new Bundle();
 		Endpoint endpoint = this.endpoint_manager.get(endpoint_id);
 		
-		data.putInt("endpoint:id", endpoint.getId());
-		data.putBoolean("endpoint:enabled", endpoint.isEnabled());
-		data.putBoolean("endpoint:password_enabled", endpoint.hasPassword());
-    	data.putBoolean("endpoint:ssl_enabled", endpoint.isSSL());
+		data.putInt(Endpoint.ENDPOINT_ID, endpoint.getId());
+		data.putBoolean(Endpoint.CONNECTOR_ENABLED, endpoint.isEnabled());
+		data.putBoolean(Endpoint.ENDPOINT_PASSWORD, endpoint.hasPassword());
+    	data.putBoolean(Endpoint.ENDPOINT_SSL, endpoint.isSSL());
     	
     	switch(endpoint.getStatus()) {
     	case ACTIVE:
-    		data.putBoolean("endpoint:connected", true);
-    		data.putBoolean("endpoint:sessions", true);
+    		data.putBoolean(Endpoint.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(Endpoint.CONNECTOR_OPEN_SESSIONS, true);
     		break;
     		
     	case CONNECTING:
-    		data.putBoolean("endpoint:connected", false);
-    		data.putBoolean("endpoint:sessions", false);
+    		data.putBoolean(Endpoint.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(Endpoint.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	case ONLINE:
-    		data.putBoolean("endpoint:connected", true);
-    		data.putBoolean("endpoint:sessions", false);
+    		data.putBoolean(Endpoint.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(Endpoint.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	default:
-    		data.putBoolean("endpoint:connected", false);
-    		data.putBoolean("endpoint:sessions", false);
+    		data.putBoolean(Endpoint.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(Endpoint.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     	}
     	
@@ -69,9 +70,9 @@ public class ClientService extends ConnectorService {
 		Client client = this.clients.get(id);
 		
 		if(client != null)
-			data.putString("certificate:fingerprint", client.getPeerCertificateFingerprint());
+			data.putString(Endpoint.CONNECTOR_SSL_FINGERPRINT, client.getPeerCertificateFingerprint());
 		else
-			data.putString("certificate:fingerprint", "error");
+			data.putString(Endpoint.CONNECTOR_SSL_FINGERPRINT, "error");
 		
 		return data;
 	}
@@ -93,7 +94,7 @@ public class ClientService extends ConnectorService {
 		case MSG_GET_ENDPOINT_DETAILED_STATUS:
 			try {
 				Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
-				message.setData(this.getEndpointDetailedStatus(data.getInt("endpoint_id")));
+				message.setData(this.getEndpointDetailedStatus(data.getInt(Endpoint.ENDPOINT_ID)));
 				
 				msg.replyTo.send(message);
 			}
@@ -117,7 +118,7 @@ public class ClientService extends ConnectorService {
 		case MSG_GET_SSL_FINGERPRINT:
 			try {
 				Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
-				message.setData(this.getEndpointFingerprint(data.getInt("endpoint:id")));
+				message.setData(this.getEndpointFingerprint(data.getInt(Endpoint.ENDPOINT_ID)));
 				
 				msg.replyTo.send(message);
 			}
@@ -128,7 +129,7 @@ public class ClientService extends ConnectorService {
 			
 		case MSG_START_ENDPOINT:
 			try {
-				this.startEndpoint(data.getInt("endpoint_id"));
+				this.startEndpoint(data.getInt(Endpoint.ENDPOINT_ID));
 				
 				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 				message.setData(this.getEndpointsStatus());
@@ -142,7 +143,7 @@ public class ClientService extends ConnectorService {
 			
 		case MSG_STOP_ENDPOINT:
 			try {
-				this.stopEndpoint(data.getInt("endpoint_id"));
+				this.stopEndpoint(data.getInt(Endpoint.ENDPOINT_ID));
 				
 				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 				message.setData(this.getEndpointsStatus());
@@ -159,8 +160,8 @@ public class ClientService extends ConnectorService {
 	@Override
 	public void log(Logger logger, LogMessage msg) {
 		Bundle data = new Bundle();
-		data.putInt("endpoint:id", ((Endpoint)logger).getId());
-		data.putBundle("message", msg.toBundle());
+		data.putInt(Endpoint.ENDPOINT_ID, ((Endpoint)logger).getId());
+		data.putBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE, msg.toBundle());
 		
 		this.broadcastLogMessageBundle(data);
 	}

@@ -74,17 +74,17 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
         this.status_sessions = (CheckListItemView)this.findViewById(R.id.endpoint_status_sessions);
         this.status_ssl = (CheckListItemView)this.findViewById(R.id.endpoint_status_ssl);
         
-        this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt("endpoint_id")));
+        this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt(Endpoint.ENDPOINT_ID)));
         this.refreshStatus();
     }
 
 	@Override
 	public void onDetailedStatus(Bundle status) {
-		this.status_connected.setStatus(status.getBoolean("endpoint:connected"));
-    	this.status_enabled.setStatus(status.getBoolean("endpoint:enabled"));
-    	this.status_password.setStatus(status.getBoolean("endpoint:password_enabled"));
-    	this.status_sessions.setStatus(status.getBoolean("endpoint:sessions"));
-    	this.status_ssl.setStatus(status.getBoolean("endpoint:ssl_enabled"));
+		this.status_connected.setStatus(status.getBoolean(Endpoint.CONNECTOR_CONNECTED));
+    	this.status_enabled.setStatus(status.getBoolean(Endpoint.CONNECTOR_ENABLED));
+    	this.status_password.setStatus(status.getBoolean(Endpoint.ENDPOINT_PASSWORD));
+    	this.status_sessions.setStatus(status.getBoolean(Endpoint.CONNECTOR_OPEN_SESSIONS));
+    	this.status_ssl.setStatus(status.getBoolean(Endpoint.ENDPOINT_SSL));
 	}
     
 	@Override

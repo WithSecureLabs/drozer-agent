@@ -14,6 +14,16 @@ import com.mwr.common.KeyStoreTrustManager;
 
 public class Endpoint extends ConnectorParameters {
 	
+	public static final String ENDPOINT_DELETED = "endpoint:deleted";
+	public static final String ENDPOINT_HOST = "endpoint:host";
+	public static final String ENDPOINT_ID = "endpoint:id";
+	public static final String ENDPOINT_NAME = "endpoint:name";
+	public static final String ENDPOINT_PASSWORD = "endpoint:password";
+	public static final String ENDPOINT_PORT = "endpoint:port";
+	public static final String ENDPOINT_SSL = "endpoint:ssl";
+	public static final String ENDPOINT_TRUSTSTORE_PASSWORD = "endpoint:ts:password";
+	public static final String ENDPOINT_TRUSTSTORE_PATH = "endpoint:ts:path";
+	
 	/**
 	 * An EndpointSerializer provides the logic for converting an Endpoint into various
 	 * different formats. An EndpointSerializer defines methods to marshal an Endpoint
@@ -29,6 +39,10 @@ public class Endpoint extends ConnectorParameters {
 		
 	}
 	
+	/**
+	 * An OnDetailedStatusListener will receive a notification whenever an Endpoint's
+	 * detailed status information is updated.
+	 */
 	public interface OnDetailedStatusListener {
 		
 		public void onDetailedStatus(Bundle status);
@@ -50,32 +64,12 @@ public class Endpoint extends ConnectorParameters {
 		this(-1, "Endpoint", "droidhg.local", 31415);
 	}
 	
-	public Endpoint(String name, String host, int port) {
-		this(-1, name, host, port, false);
-	}
-	
-	public Endpoint(String name, String host, int port, boolean ssl) {
-		this(-1, name, host, port, ssl);
-	}
-	
-	public Endpoint(String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password) {
-		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, "");
-	}
-	
 	public Endpoint(String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
 		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, password);
 	}
 	
 	public Endpoint(int id, String name, String host, int port) {
-		this(id, name, host, port, false);
-	}
-	
-	public Endpoint(int id, String name, String host, int port, boolean ssl) {
-		this(id, name, host, port, ssl, "/data/data/com.mwr.droidhg.agent/files/ca.bks", "mercury", "");
-	}
-	
-	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password) {
-		this(id, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, "");
+		this(id, name, host, port, false, "/data/data/com.mwr.droidhg.agent/files/ca.bks", "mercury", "");
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {

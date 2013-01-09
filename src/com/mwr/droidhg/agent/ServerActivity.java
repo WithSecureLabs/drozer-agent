@@ -78,11 +78,11 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 
 	@Override
 	public void onDetailedStatus(Bundle status) {
-    	this.status_enabled.setStatus(status.getBoolean("server:enabled"));
-    	this.status_listening.setStatus(status.getBoolean("server:connected"));
-    	this.status_password.setStatus(status.getBoolean("server:password_enabled"));
-    	this.status_sessions.setStatus(status.getBoolean("server:sessions"));
-    	this.status_ssl.setStatus(status.getBoolean("server:ssl_enabled"));
+    	this.status_enabled.setStatus(status.getBoolean(ServerParameters.CONNECTOR_ENABLED));
+    	this.status_listening.setStatus(status.getBoolean(ServerParameters.CONNECTOR_CONNECTED));
+    	this.status_password.setStatus(status.getBoolean(ServerParameters.SERVER_PASSWORD));
+    	this.status_sessions.setStatus(status.getBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS));
+    	this.status_ssl.setStatus(status.getBoolean(ServerParameters.SERVER_SSL));
 	}
     
     @Override

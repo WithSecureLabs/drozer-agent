@@ -20,6 +20,13 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
 public class ServerParameters extends ConnectorParameters implements OnSharedPreferenceChangeListener {
+	
+	public static final String SERVER_KEY_PASSWORD = "server:key:password";
+	public static final String SERVER_KEYSTORE_PASSWORD = "server:ks:password";
+	public static final String SERVER_KEYSTORE_PATH = "server:ks:path";
+	public static final String SERVER_PASSWORD = "server:password";
+	public static final String SERVER_PORT = "server:port";
+	public static final String SERVER_SSL = "server:ssl";
 
 	public interface OnChangeListener {
 
@@ -95,12 +102,12 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if(key.equals("server_port") ||
-				key.equals("server_password") ||
-				key.equals("server_ssl") || 
-				key.equals("ssl_keystore_path") || 
-				key.equals("ssl_keystore_password") || 
-				key.equals("ssl_key_password"))
+		if(key.equals(SERVER_PORT) ||
+				key.equals(SERVER_PASSWORD) ||
+				key.equals(SERVER_SSL) || 
+				key.equals(SERVER_KEYSTORE_PATH) || 
+				key.equals(SERVER_KEYSTORE_PASSWORD) || 
+				key.equals(SERVER_KEY_PASSWORD))
 			this.setFromPreferences();
 	}
 	
@@ -118,14 +125,14 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	}
 
 	public void setFromPreferences() {
-		this.setPort(Integer.parseInt(Agent.getInstance().getSettings().getString("server_port", "31415")));
-		this.setPassword(Agent.getInstance().getSettings().getString("server_password", ""));
-		this.setSSL(Agent.getInstance().getSettings().getBoolean("server_ssl", false));
+		this.setPort(Integer.parseInt(Agent.getInstance().getSettings().getString(SERVER_PORT, "31415")));
+		this.setPassword(Agent.getInstance().getSettings().getString(SERVER_PASSWORD, ""));
+		this.setSSL(Agent.getInstance().getSettings().getBoolean(SERVER_SSL, false));
 
 		if(this.isSSL()) {
-			this.keystore_path = Agent.getInstance().getSettings().getString("ssl_keystore_path", "/data/data/com.mwr.droidhg.agent/files/mercury.bks");
-			this.keystore_password = Agent.getInstance().getSettings().getString("ssl_keystore_password", "mercury").toCharArray();
-			this.key_password = Agent.getInstance().getSettings().getString("ssl_key_password", "mercury").toCharArray();
+			this.keystore_path = Agent.getInstance().getSettings().getString(SERVER_KEYSTORE_PATH, "/data/data/com.mwr.droidhg.agent/files/mercury.bks");
+			this.keystore_password = Agent.getInstance().getSettings().getString(SERVER_KEYSTORE_PASSWORD, "mercury").toCharArray();
+			this.key_password = Agent.getInstance().getSettings().getString(SERVER_KEY_PASSWORD, "mercury").toCharArray();
 		}
 
 		this.clearKeyManagerFactory();
@@ -136,29 +143,29 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	public void setPassword(String password) {
 		this.password = password;
 
-		if (this.on_change_listener != null)
+		if(this.on_change_listener != null)
 			this.on_change_listener.onChange(this);
 	}
 
 	public void setPort(int port) {
 		this.port = port;
 
-		if (this.on_change_listener != null)
+		if(this.on_change_listener != null)
 			this.on_change_listener.onChange(this);
 	}
 
 	public void setSSL(boolean ssl) {
 		this.ssl = ssl;
 
-		if (this.on_change_listener != null)
+		if(this.on_change_listener != null)
 			this.on_change_listener.onChange(this);
 	}
 
 	public boolean update(ServerParameters parameters) {
 		Editor editor = Agent.getInstance().getSettings().edit();
 
-		editor.remove("server_port");
-		editor.putString("server_port", Integer.valueOf(parameters.getPort()).toString());
+		editor.remove(SERVER_PORT);
+		editor.putString(SERVER_PORT, Integer.valueOf(parameters.getPort()).toString());
 
 		return editor.commit();
 	}

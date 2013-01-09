@@ -5,36 +5,35 @@
         android:title="@string/embedded_server"
         android:key="server_settings">
 	    <EditTextPreference
-	        android:key="server_port"
+	        android:key="server:port"
 	        android:title="@string/embedded_server_port"
 	        android:summary="@string/embedded_server_port_summary"
 	        android:defaultValue="31415"
 	        android:numeric="integer" />
 	    <EditTextPreference
-	        android:key="server_password"
+	        android:key="server:password"
 	        android:title="@string/embedded_server_password"
 	        android:summary="@string/embedded_server_password_summary"
 	        android:defaultValue="" />
 	    <CheckBoxPreference
-	        android:key="server_ssl"
+	        android:key="server:ssl"
 	        android:title="@string/ssl_enable"
 	        android:summary="@string/ssl_enable_description"
 	        android:disableDependentsState="false" />
 	    <EditTextPreference
-	        android:key="ssl_keystore_path"
-	        android:dependency="server_ssl"
+	        android:key="server:ks:path"
+	        android:dependency="server:ssl"
 	        android:defaultValue="/data/data/com.mwr.droidhg.agent/files/agent.bks"
 	        android:title="@string/ssl_keystore_path"
 	        android:summary="@string/ssl_keystore_path_description" />
 	    <EditTextPreference
-	        android:dependency="server_ssl"
-	        android:key="ssl_keystore_password"
+	        android:key="ssl:ks:password"
+	        android:dependency="server:ssl"
 	        android:defaultValue="mercury"
 	        android:title="@string/ssl_keystore_password"
 	        android:summary="@string/ssl_keystore_password_description" />
 	    <EditTextPreference
-	        android:dependency="server_ssl"
-	        android:key="ssl_key_password"
+	        android:key="server:key:password"
 	        android:defaultValue="mercury"
 	        android:title="@string/ssl_key_password"
 	        android:summary="@string/ssl_key_password_description" />

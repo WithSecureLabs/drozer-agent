@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 	
 	private void launchEndpointActivity(Endpoint endpoint) {
 		Intent intent = new Intent(MainActivity.this, EndpointActivity.class);
-		intent.putExtra("endpoint_id", endpoint.getId());
+		intent.putExtra(Endpoint.ENDPOINT_ID, endpoint.getId());
 		
 		MainActivity.this.startActivity(intent);
 	}

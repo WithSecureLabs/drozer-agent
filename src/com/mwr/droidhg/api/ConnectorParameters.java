@@ -10,6 +10,12 @@ import com.mwr.common.logging.OnLogMessageListener;
 
 public abstract class ConnectorParameters extends Observable implements Logger {
 	
+	public static final String CONNECTOR_CONNECTED = "connector:connected";
+	public static final String CONNECTOR_ENABLED = "connector:enabled";
+	public static final String CONNECTOR_LOG_MESSAGE = "connector:logmessage";
+	public static final String CONNECTOR_OPEN_SESSIONS = "connector:opensessions";
+	public static final String CONNECTOR_SSL_FINGERPRINT = "certificate:fingerprint";
+	
 	public enum Status { ACTIVE, CONNECTING, UNKNOWN, UPDATING, ONLINE, OFFLINE };
 	
 	public volatile boolean enabled = false;
