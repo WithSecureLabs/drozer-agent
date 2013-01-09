@@ -1,21 +1,18 @@
 package com.mwr.droidhg.agent;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
+import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.widget.CompoundButton;
@@ -101,48 +98,39 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	this.parameters.setOnDetailedStatusListener(this);
     }
     
-    class FingerprintCalculation extends AsyncTask<String, String, String> {
-    	
-    	private Dialog spinner;
-
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-				return ServerActivity.this.parameters.getCertificateFingerprint();
-			}
-			catch(UnrecoverableKeyException e) {}
-			catch(CertificateException e) {}
-			catch(FileNotFoundException e) {}
-			catch(KeyStoreException e) {}
-			catch(NoSuchAlgorithmException e) {}
-			catch(IOException e) {}
-			
-			return "Unable to calculate.";
-		}
-		
-		@Override
-		protected void onPostExecute(String fingerprint) {
-			if(this.spinner != null)
-				this.spinner.dismiss();
-			
-			ServerActivity.this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
-		}
-		
-		@Override
-		protected void onPreExecute() {
-			this.spinner = ProgressDialog.show(ServerActivity.this, "", getString(R.string.calculating), true);
-		}
-    	
-    }
+    private Dialog spinner;
     
     @Override
     protected void showFingerprintDialog() {
-		if(this.parameters.isSSL()) {
-			new FingerprintCalculation().execute();
-		}
-		else {
+    	if(!this.parameters.isSSL()) {
 			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
 		}
+		else if(this.parameters.getStatus() != Endpoint.Status.ACTIVE && this.parameters.getStatus() != Endpoint.Status.ONLINE) {
+			this.createInformationDialog(R.string.ssl_fingerprint, "offline").show();
+		}
+		else {
+			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
+			
+			Message msg = Message.obtain(null, ServerService.MSG_GET_SSL_FINGERPRINT);
+			msg.replyTo = new Messenger(new IncomingFingerprintHandler(this));;
+			
+			try {
+				Agent.getServerService().send(msg);
+			}
+			catch(RemoteException e) {
+				spinner.dismiss();
+				
+				this.createInformationDialog(R.string.ssl_fingerprint, "error");
+			}
+		}
+    }
+    
+    @Override
+    public void receiveFingerprint(String fingerprint) {
+    	if(this.spinner != null)
+			this.spinner.dismiss();
+		
+		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
     }
 
 	@Override

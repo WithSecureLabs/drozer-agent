@@ -25,6 +25,14 @@ public class Server extends Connector {
 	
 	@Override
 	public boolean dieWithLastSession() { return true; }
+
+	public String getHostCertificateFingerprint() {
+		return this.connection.getHostCertificateFingerprint();
+	}
+	
+	public String getPeerCertificateFingerprint() {
+		return this.connection.getPeerCertificateFingerprint();
+	}
 	
 	@Override
 	public boolean mustBind() { return false; }

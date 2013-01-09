@@ -34,6 +34,7 @@ public class ServerService extends Service implements Logger {
 	public static final int MSG_GET_DETAILED_STATUS = 13;
 	public static final int MSG_LOG_MESSAGE = 14;
 	public static final int MSG_GET_SERVER_DETAILED_STATUS = 15;
+	public static final int MSG_GET_SSL_FINGERPRINT = 16;
 	
 	private final Messenger messenger = new Messenger(new IncomingHandler(this));
 	private final ArrayList<Messenger> messengers = new ArrayList<Messenger>();
@@ -73,6 +74,18 @@ public class ServerService extends Service implements Logger {
 				try {
 					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
 					message.setData(service.getStatus());
+					
+					msg.replyTo.send(message);
+				}
+				catch(RemoteException e) {
+					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				}
+				break;
+				
+			case MSG_GET_SSL_FINGERPRINT:
+				try {
+					Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
+					message.setData(service.getServerFingerprint());
 					
 					msg.replyTo.send(message);
 				}
@@ -151,6 +164,17 @@ public class ServerService extends Service implements Logger {
 	@Override
 	public List<LogMessage> getLogMessages() {
 		return null;
+	}
+	
+	public Bundle getServerFingerprint() {
+		Bundle data = new Bundle();
+
+		if(this.server != null)
+			data.putString("certificate:fingerprint", this.server.getHostCertificateFingerprint());
+		else
+			data.putString("certificate:fingerprint", "error");
+		
+		return data;
 	}
 	
 	public Bundle getStatus() {

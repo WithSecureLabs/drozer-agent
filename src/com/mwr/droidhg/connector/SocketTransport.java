@@ -46,6 +46,13 @@ public class SocketTransport extends Transport {
 			Log.e("SocketConnection", "IOException when closing socket: " + e.getMessage());
 		}
 	}
+	
+	@Override
+	public String getHostCertificateFingerprint() {
+		SSLSession session = ((SSLSocket)this.socket).getSession();
+		
+		return new X509Fingerprint((X509Certificate)session.getLocalCertificates()[0]).toString();		
+	}
 
 	@Override
 	protected InputStream getInputStream() throws IOException {

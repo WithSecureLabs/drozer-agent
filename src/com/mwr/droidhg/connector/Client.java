@@ -17,8 +17,12 @@ public class Client extends Connector {
 		super(endpoint);
 	}
 
-	public String getCertificateFingerprint() {
-		return this.connection.getRemoteCertificateFingerprint();
+	public String getHostCertificateFingerprint() {
+		return this.connection.getHostCertificateFingerprint();
+	}
+	
+	public String getPeerCertificateFingerprint() {
+		return this.connection.getPeerCertificateFingerprint();
 	}
 	
 	@Override

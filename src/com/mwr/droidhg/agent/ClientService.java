@@ -168,9 +168,9 @@ public class ClientService extends Service implements Logger {
 		Client client = this.clients.get(id);
 		
 		if(client != null)
-			data.putString("endpoint:fingerprint", client.getCertificateFingerprint());
+			data.putString("certificate:fingerprint", client.getPeerCertificateFingerprint());
 		else
-			data.putString("endpoint:fingerprint", "error");
+			data.putString("certificate:fingerprint", "error");
 		
 		return data;
 	}

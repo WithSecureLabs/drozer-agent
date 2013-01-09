@@ -8,6 +8,7 @@ import java.io.OutputStream;
 public abstract class Transport {
 	
 	public abstract void close();
+	public abstract String getHostCertificateFingerprint();
 	protected abstract InputStream getInputStream() throws IOException;
 	protected abstract OutputStream getOutputStream() throws IOException;
 	public abstract String getPeerCertificateFingerprint();

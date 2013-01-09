@@ -11,9 +11,7 @@ import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.X509KeyManager;
 
-import com.mwr.common.tls.X509Fingerprint;
 import com.mwr.droidhg.Agent;
 
 import android.content.SharedPreferences;
@@ -43,7 +41,6 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	private String password = null;
 	private int port = 31415;
 	private boolean ssl = false;
-	private String ssl_fingerprint = null;
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
 
@@ -57,16 +54,7 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 
 	private void clearKeyManagerFactory() {
 		this.key_manager_factory = null;
-		this.ssl_fingerprint = null;
 	}
-	
-	public String getCertificateFingerprint() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		if(this.ssl_fingerprint == null)
-			this.ssl_fingerprint = new X509Fingerprint(((X509KeyManager)this.getKeyManagerFactory().getKeyManagers()[0]).getCertificateChain("mercury")[0]).toString();
-		
-		return this.ssl_fingerprint;
-	}
-
 	/**
 	 * Create a KeyManagerFactory based on the key material provided through the
 	 * configuration.

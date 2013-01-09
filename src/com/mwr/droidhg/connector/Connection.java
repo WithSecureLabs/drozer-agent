@@ -85,9 +85,16 @@ public class Connection extends Thread {
 	}
 
 	/**
+	 * Calculates the fingerprint of the host's SSL Certificate.
+	 */
+	public String getHostCertificateFingerprint() {
+		return this.transport.getHostCertificateFingerprint();
+	}
+
+	/**
 	 * Calculates the fingerprint of the peer's SSL Certificate.
 	 */
-	public String getRemoteCertificateFingerprint() {
+	public String getPeerCertificateFingerprint() {
 		return this.transport.getPeerCertificateFingerprint();
 	}
 	

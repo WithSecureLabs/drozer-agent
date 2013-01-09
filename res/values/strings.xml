@@ -5,7 +5,7 @@
     <string name="app_name">Mercury Agent</string>
     
     <!-- General -->
-    <string name="calculating">Calculating. Please wait...</string>
+    <string name="calculating">Calculating. Please wait&#8230;</string>
     <string name="cancel">Cancel</string>
     <string name="connected">Connected</string>
     <string name="disabled">Disabled</string>
