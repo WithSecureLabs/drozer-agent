@@ -162,10 +162,8 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			
 			try {
 				Agent.getClientService().send(msg);
-				Log.i("aaa", "send message");
 			}
 			catch(RemoteException e) {
-				Log.i("aaa", "remote exception");
 				spinner.dismiss();
 				
 				this.createInformationDialog(R.string.ssl_fingerprint, "error");

@@ -163,7 +163,6 @@ public class ClientService extends Service implements Logger {
 	}
 	
 	public Bundle getEndpointFingerprint(int id) {
-		Log.i("aaa", "calculating fingerprint");
 		Bundle data = new Bundle();
 		
 		Client client = this.clients.get(id);
