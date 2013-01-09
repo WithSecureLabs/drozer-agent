@@ -1,9 +1,18 @@
 package com.mwr.droidhg.agent;
 
+import java.lang.ref.WeakReference;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 
@@ -101,11 +110,74 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
     }
+    
+    public static class IncomingHandler extends Handler {
+		
+		private final WeakReference<Context> context;
+		
+		public IncomingHandler(Context context) {
+			this.context = new WeakReference<Context>(context);
+		}
+		
+		@Override
+		public void handleMessage(Message msg) {
+			EndpointActivity context = (EndpointActivity)this.context.get();
+			Bundle data = msg.getData();
+			
+			switch(msg.what) {
+			case ClientService.MSG_GET_SSL_FINGERPRINT:
+				if(data.getString("endpoint:fingerprint") != null)
+					context.receiveFingerprint(data.getString("endpoint:fingerprint"));
+				else
+					context.receiveFingerprint("Error. Fingerprint was null.");
+				break;
+				
+			default:
+				super.handleMessage(msg);
+				break;
+			}
+		}
+		
+	}
 
+    protected Dialog spinner;
+    
 	@Override
 	protected void showFingerprintDialog() {
-		// TODO Auto-generated method stub
+		if(!this.endpoint.isSSL()) {
+			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
+		}
+		else if(this.endpoint.getStatus() != Endpoint.Status.ACTIVE && this.endpoint.getStatus() != Endpoint.Status.ONLINE) {
+			this.createInformationDialog(R.string.ssl_fingerprint, "offline").show();
+		}
+		else {
+			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
+			
+			Bundle data = new Bundle();
+			data.putInt("endpoint:id", endpoint.getId());
+			
+			Message msg = Message.obtain(null, ClientService.MSG_GET_SSL_FINGERPRINT);
+			msg.setData(data);
+			msg.replyTo = new Messenger(new IncomingHandler(this));;
+			
+			try {
+				Agent.getClientService().send(msg);
+				Log.i("aaa", "send message");
+			}
+			catch(RemoteException e) {
+				Log.i("aaa", "remote exception");
+				spinner.dismiss();
+				
+				this.createInformationDialog(R.string.ssl_fingerprint, "error");
+			}
+		}
+	}
+	
+	public void receiveFingerprint(String fingerprint) {
+		if(this.spinner != null)
+			this.spinner.dismiss();
 		
+		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
 	}
 
 	@Override

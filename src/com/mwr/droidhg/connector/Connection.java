@@ -83,6 +83,13 @@ public class Connection extends Thread {
 			this.stopConnection(false);
 		}
 	}
+
+	/**
+	 * Calculates the fingerprint of the peer's SSL Certificate.
+	 */
+	public String getRemoteCertificateFingerprint() {
+		return this.transport.getPeerCertificateFingerprint();
+	}
 	
 	/**
 	 * Gets all Sessions associated with this Connection.

@@ -33,6 +33,7 @@ public class ClientService extends Service implements Logger {
 	public static final int MSG_STOP_ENDPOINT = 3;
 	public static final int MSG_GET_ENDPOINT_DETAILED_STATUS = 4;
 	public static final int MSG_LOG_MESSAGE = 5;
+	public static final int MSG_GET_SSL_FINGERPRINT = 6;
 	
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
@@ -72,6 +73,18 @@ public class ClientService extends Service implements Logger {
 				try {
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 					message.setData(service.getEndpointsStatus());
+					
+					msg.replyTo.send(message);
+				}
+				catch(RemoteException e) {
+					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				}
+				break;
+				
+			case MSG_GET_SSL_FINGERPRINT:
+				try {
+					Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
+					message.setData(service.getEndpointFingerprint(msg.getData().getInt("endpoint:id")));
 					
 					msg.replyTo.send(message);
 				}
@@ -147,6 +160,20 @@ public class ClientService extends Service implements Logger {
     	}
     	
     	return data;
+	}
+	
+	public Bundle getEndpointFingerprint(int id) {
+		Log.i("aaa", "calculating fingerprint");
+		Bundle data = new Bundle();
+		
+		Client client = this.clients.get(id);
+		
+		if(client != null)
+			data.putString("endpoint:fingerprint", client.getCertificateFingerprint());
+		else
+			data.putString("endpoint:fingerprint", "error");
+		
+		return data;
 	}
 	
 	public Bundle getEndpointsStatus() {

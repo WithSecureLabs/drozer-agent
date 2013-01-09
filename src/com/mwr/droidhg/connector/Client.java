@@ -16,6 +16,10 @@ public class Client extends Connector {
 	public Client(Endpoint endpoint) {
 		super(endpoint);
 	}
+
+	public String getCertificateFingerprint() {
+		return this.connection.getRemoteCertificateFingerprint();
+	}
 	
 	@Override
 	public void resetConnection() {

@@ -4,6 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocket;
+
+import com.mwr.common.tls.X509Fingerprint;
 
 import android.util.Log;
 
@@ -48,6 +55,18 @@ public class SocketTransport extends Transport {
 	@Override
 	protected OutputStream getOutputStream() throws IOException {
 		return this.out;
+	}
+	
+	@Override
+	public String getPeerCertificateFingerprint() {
+		try {
+			SSLSession session = ((SSLSocket)this.socket).getSession();
+		
+			return new X509Fingerprint((X509Certificate)session.getPeerCertificates()[0]).toString();
+		}
+		catch(SSLPeerUnverifiedException e) {
+			return "No valid peer certificate";
+		}
 	}
 	
 	@Override
