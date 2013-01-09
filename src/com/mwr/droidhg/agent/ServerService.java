@@ -1,134 +1,32 @@
 package com.mwr.droidhg.agent;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
-import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mwr.common.logging.LogMessage;
-import com.mwr.common.logging.Logger;
-import com.mwr.common.logging.OnLogMessageListener;
 import com.mwr.droidhg.api.ServerParameters;
 import com.mwr.droidhg.connector.Server;
 
-public class ServerService extends Service implements Logger {
+public class ServerService extends ConnectorService {
 	
 	public static final int MSG_GET_SERVER_STATUS = 10;
 	public static final int MSG_START_SERVER = 11;
 	public static final int MSG_STOP_SERVER = 12;
 	public static final int MSG_GET_DETAILED_STATUS = 13;
-	public static final int MSG_LOG_MESSAGE = 14;
 	public static final int MSG_GET_SERVER_DETAILED_STATUS = 15;
 	public static final int MSG_GET_SSL_FINGERPRINT = 16;
 	
-	private final Messenger messenger = new Messenger(new IncomingHandler(this));
-	private final ArrayList<Messenger> messengers = new ArrayList<Messenger>();
-	private static boolean running = false;
 	private Server server = null;
 	private ServerParameters server_parameters = new ServerParameters();
-	
-	static class IncomingHandler extends Handler {
-		
-		private final WeakReference<ServerService> service;
-		
-		public IncomingHandler(ServerService service) {
-			this.service = new WeakReference<ServerService>(service);
-		}
-		
-		@Override
-		public void handleMessage(Message msg) {
-			Bundle data = msg.getData();
-			ServerService service = this.service.get();
-			
-			if(!service.messengers.contains(msg.replyTo) && (data == null || !data.getBoolean("ctrl:no_cache_messenger")))
-				service.messengers.add(msg.replyTo);
-			
-			switch(msg.what) {
-			case MSG_GET_SERVER_DETAILED_STATUS:
-				try {
-					Message message = Message.obtain(null, MSG_GET_SERVER_DETAILED_STATUS);
-					message.setData(service.getDetailedStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_GET_SERVER_STATUS:
-				try {
-					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
-					message.setData(service.getStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_GET_SSL_FINGERPRINT:
-				try {
-					Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
-					message.setData(service.getServerFingerprint());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_START_SERVER:
-				try {
-					service.startServer();
-					
-					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
-					message.setData(service.getStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_STOP_SERVER:
-				try {
-					service.stopServer();
-
-					Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
-					message.setData(service.getStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			default:
-				super.handleMessage(msg);
-			}
-		}
-		
-	}
 	
 	public Bundle getDetailedStatus() {
 		Bundle data = new Bundle();
@@ -162,11 +60,6 @@ public class ServerService extends Service implements Logger {
     	return data;
 	}
 	
-	@Override
-	public List<LogMessage> getLogMessages() {
-		return null;
-	}
-	
 	public Bundle getServerFingerprint() {
 		Bundle data = new Bundle();
 
@@ -187,32 +80,72 @@ public class ServerService extends Service implements Logger {
 	}
 	
 	@Override
-	public void log(LogMessage msg) {
-	}
-	
-	@Override
-	public void log(Logger logger, LogMessage msg) {
-		Bundle data = new Bundle();
-		data.putBundle("message", msg.toBundle());
-		
-		for(Messenger m : this.messengers) {
+	public void handleMessage(Message msg) {
+		switch(msg.what) {
+		case MSG_GET_SERVER_DETAILED_STATUS:
 			try {
-				Message message = Message.obtain(null, MSG_LOG_MESSAGE);
-				message.setData(data);
+				Message message = Message.obtain(null, MSG_GET_SERVER_DETAILED_STATUS);
+				message.setData(this.getDetailedStatus());
 				
-				m.send(message);
+				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(getString(R.string.log_tag_server_service), "failed to send log message");
+				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
 			}
+			break;
+			
+		case MSG_GET_SERVER_STATUS:
+			try {
+				Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+				message.setData(this.getStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_GET_SSL_FINGERPRINT:
+			try {
+				Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
+				message.setData(this.getServerFingerprint());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_START_SERVER:
+			try {
+				this.startServer();
+				
+				Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+				message.setData(this.getStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_STOP_SERVER:
+			try {
+				this.stopServer();
+
+				Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+				message.setData(this.getStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
 		}
-	}
-	
-	@Override
-	public IBinder onBind(Intent intent) {
-		Log.i(getString(R.string.log_tag_server_service), "received bind request");
-		
-		return this.messenger.getBinder();
 	}
 	
 	@Override
@@ -221,22 +154,14 @@ public class ServerService extends Service implements Logger {
 		
 		ServerService.running = true;
 		
-		Log.i(getString(R.string.log_tag_server_service), "starting service");
-		
 		this.server_parameters.addObserver(new Observer() {
 
 			@Override
 			public void update(Observable arg0, Object arg1) {
-				for(Messenger m : ServerService.this.messengers)
-					try {
-						Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
-						message.setData(ServerService.this.getStatus());
+				Message message = Message.obtain(null, MSG_GET_SERVER_STATUS);
+				message.setData(ServerService.this.getStatus());
 						
-						m.send(message);
-					}
-					catch (RemoteException e) {
-						Log.e(getString(R.string.log_tag_server_service), "failed to send updated server status");
-					}
+				ServerService.this.sendToAllMessengers(message);
 			}
 			
 		});
@@ -247,18 +172,6 @@ public class ServerService extends Service implements Logger {
 	@Override
 	public void onDestroy() {
 		ServerService.running = false;
-		
-		Log.i(getString(R.string.log_tag_server_service), "stopping service");
-	}
-	
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		return START_REDELIVER_INTENT;
-	}
-	
-	@Override
-	public void setOnLogMessageListener(OnLogMessageListener listener) {
-		throw new RuntimeException();
 	}
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {

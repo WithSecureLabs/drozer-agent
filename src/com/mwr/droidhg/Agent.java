@@ -10,6 +10,7 @@ import java.security.SecureRandom;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.agent.ClientService;
+import com.mwr.droidhg.agent.ConnectorService;
 import com.mwr.droidhg.agent.EndpointManager;
 import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.agent.ServerService;
@@ -99,12 +100,12 @@ public class Agent {
 				getServerParameters().setStatus(ServerParameters.Status.values()[data.getInt("server")]);
 				break;
 				
-			case ClientService.MSG_LOG_MESSAGE:
-				getEndpointManager().get(data.getInt("endpoint:id")).log(LogMessage.fromBundle(data.getBundle("message")));
+			case ConnectorService.MSG_LOG_MESSAGE:
+				if(data.containsKey("endpoint:id"))
+					getEndpointManager().get(data.getInt("endpoint:id")).log(LogMessage.fromBundle(data.getBundle("message")));
+				else
+					getServerParameters().log(LogMessage.fromBundle(data.getBundle("message")));
 				break;
-				
-			case ServerService.MSG_LOG_MESSAGE:
-				getServerParameters().log(LogMessage.fromBundle(data.getBundle("message")));
 				
 			default:
 				super.handleMessage(msg);

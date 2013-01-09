@@ -1,19 +1,12 @@
 package com.mwr.droidhg.agent;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
-import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 import android.util.SparseArray;
@@ -21,113 +14,20 @@ import android.widget.Toast;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
-import com.mwr.common.logging.OnLogMessageListener;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.connector.Client;
 
-public class ClientService extends Service implements Logger {
+public class ClientService extends ConnectorService {
 	
 	public static final int MSG_GET_ENDPOINTS_STATUS = 1;
 	public static final int MSG_START_ENDPOINT = 2;
 	public static final int MSG_STOP_ENDPOINT = 3;
 	public static final int MSG_GET_ENDPOINT_DETAILED_STATUS = 4;
-	public static final int MSG_LOG_MESSAGE = 5;
 	public static final int MSG_GET_SSL_FINGERPRINT = 6;
 	
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
-	private final Messenger messenger = new Messenger(new IncomingHandler(this));
-	private static boolean running = false;
-	public ArrayList<Messenger> messengers = new ArrayList<Messenger>();
-	
-	static class IncomingHandler extends Handler {
-		
-		private final WeakReference<ClientService> service;
-		
-		public IncomingHandler(ClientService service) {
-			this.service = new WeakReference<ClientService>(service);
-		}
-		
-		@Override
-		public void handleMessage(Message msg) {
-			Bundle data = msg.getData();
-			ClientService service = this.service.get();
-			
-			if(!service.messengers.contains(msg.replyTo) && (data == null || !data.getBoolean("ctrl:no_cache_messenger")))
-				service.messengers.add(msg.replyTo);
-			
-			switch(msg.what) {
-			case MSG_GET_ENDPOINT_DETAILED_STATUS:
-				try {
-					Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
-					message.setData(service.getEndpointDetailedStatus(data.getInt("endpoint_id")));
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_GET_ENDPOINTS_STATUS:
-				try {
-					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
-					message.setData(service.getEndpointsStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_GET_SSL_FINGERPRINT:
-				try {
-					Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
-					message.setData(service.getEndpointFingerprint(data.getInt("endpoint:id")));
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_START_ENDPOINT:
-				try {
-					service.startEndpoint(data.getInt("endpoint_id"));
-					
-					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
-					message.setData(service.getEndpointsStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			case MSG_STOP_ENDPOINT:
-				try {
-					service.stopEndpoint(data.getInt("endpoint_id"));
-					
-					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
-					message.setData(service.getEndpointsStatus());
-					
-					msg.replyTo.send(message);
-				}
-				catch(RemoteException e) {
-					Log.e(service.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
-				}
-				break;
-				
-			default:
-				super.handleMessage(msg);
-			}
-		}
-		
-	}
 	
 	public Bundle getEndpointDetailedStatus(int endpoint_id) {
 		Bundle data = new Bundle();
@@ -186,12 +86,74 @@ public class ClientService extends Service implements Logger {
 	}
 	
 	@Override
-	public List<LogMessage> getLogMessages() {
-		return null;
-	}
-	
-	@Override
-	public void log(LogMessage msg) {
+	public void handleMessage(Message msg) {
+		Bundle data = msg.getData();
+		
+		switch(msg.what) {
+		case MSG_GET_ENDPOINT_DETAILED_STATUS:
+			try {
+				Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
+				message.setData(this.getEndpointDetailedStatus(data.getInt("endpoint_id")));
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_GET_ENDPOINTS_STATUS:
+			try {
+				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+				message.setData(this.getEndpointsStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_GET_SSL_FINGERPRINT:
+			try {
+				Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
+				message.setData(this.getEndpointFingerprint(data.getInt("endpoint:id")));
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_START_ENDPOINT:
+			try {
+				this.startEndpoint(data.getInt("endpoint_id"));
+				
+				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+				message.setData(this.getEndpointsStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+			
+		case MSG_STOP_ENDPOINT:
+			try {
+				this.stopEndpoint(data.getInt("endpoint_id"));
+				
+				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+				message.setData(this.getEndpointsStatus());
+				
+				msg.replyTo.send(message);
+			}
+			catch(RemoteException e) {
+				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+			}
+			break;
+		}
 	}
 	
 	@Override
@@ -200,24 +162,7 @@ public class ClientService extends Service implements Logger {
 		data.putInt("endpoint:id", ((Endpoint)logger).getId());
 		data.putBundle("message", msg.toBundle());
 		
-		for(Messenger m : this.messengers) {
-			try {
-				Message message = Message.obtain(null, MSG_LOG_MESSAGE);
-				message.setData(data);
-				
-				m.send(message);
-			}
-			catch(RemoteException e) {
-				Log.e(getString(R.string.log_tag_client_service), "failed to send log message");
-			}
-		}
-	}
-	
-	@Override
-	public IBinder onBind(Intent intent) {
-		Log.i(getString(R.string.log_tag_client_service), "received bind request");
-		
-		return this.messenger.getBinder();
+		this.broadcastLogMessageBundle(data);
 	}
 	
 	@Override
@@ -226,8 +171,6 @@ public class ClientService extends Service implements Logger {
 		
 		Agent.setContext(this);
 		ClientService.running = true;
-		
-		Log.i(getString(R.string.log_tag_client_service), "starting service");
 		
 		this.endpoint_manager.setOnEndpointStatusChangeListener(new EndpointManager.OnEndpointStatusChangeListener() {
 			
@@ -239,16 +182,10 @@ public class ClientService extends Service implements Logger {
 			
 			@Override
 			public void onEndpointStatusChanged(Endpoint endpoint) {
-				for(Messenger m : ClientService.this.messengers)
-					try {
-						Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
-						message.setData(ClientService.this.getEndpointsStatus());
-						
-						m.send(message);
-					}
-					catch(RemoteException e) {
-						Log.e(getString(R.string.log_tag_client_service), "failed to send updated endpoint status");
-					}
+				Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
+				message.setData(ClientService.this.getEndpointsStatus());
+				
+				ClientService.this.sendToAllMessengers(message);
 			}
 			
 		});
@@ -260,18 +197,6 @@ public class ClientService extends Service implements Logger {
 	@Override
 	public void onDestroy() {
 		ClientService.running = false;
-		
-		Log.i(getString(R.string.log_tag_client_service), "stopping service");
-	}
-	
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		return START_REDELIVER_INTENT;
-	}
-	
-	@Override
-	public void setOnLogMessageListener(OnLogMessageListener listener) {
-		throw new RuntimeException();
 	}
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {
