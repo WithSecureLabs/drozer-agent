@@ -18,6 +18,18 @@ import android.util.Log;
 
 public class EndpointManager extends SQLiteOpenHelper {
 	
+	private static final String DB_FILE_NAME = "droidhg.db";
+	private static final String TABLE_NAME = "endpoints";
+	
+	public static final String HOST_COLUMN = "host";
+	public static final String ID_COLUMN = "id";
+	public static final String NAME_COLUMN = "name";
+	public static final String PASSWORD_COLUMN = "password";
+	public static final String PORT_COLUMN = "port";
+	public static final String SSL_ENABLED_COLUMN = "ssl";
+	public static final String SSL_TRUSTSTORE_PASSWORD_COLUMN = "ssl_truststore_password";
+	public static final String SSL_TRUSTSTORE_PATH_COLUMN = "ssl_truststore_path";
+	
 	// 1 -> 2 add ssl field to endpoints
 	// 2 -> 3 add password field to endpoints
 	private static final int DATABASE_VERSION = 3;
@@ -49,21 +61,18 @@ public class EndpointManager extends SQLiteOpenHelper {
 		public Object serialize(Endpoint endpoint) {
 			ContentValues cv = new ContentValues(3);
 			
-			cv.put("name", endpoint.getName());
-			cv.put("host", endpoint.getHost());
-			cv.put("port", endpoint.getPort());
-			cv.put("ssl", endpoint.isSSL() ? 1 : 0);
-			cv.put("ssl_truststore_path", endpoint.getSSLTrustStorePath());
-			cv.put("ssl_truststore_password", endpoint.getSSLTrustStorePassword());
-			cv.put("password", endpoint.getPassword());
+			cv.put(NAME_COLUMN, endpoint.getName());
+			cv.put(HOST_COLUMN, endpoint.getHost());
+			cv.put(PORT_COLUMN, endpoint.getPort());
+			cv.put(SSL_ENABLED_COLUMN, endpoint.isSSL() ? 1 : 0);
+			cv.put(SSL_TRUSTSTORE_PATH_COLUMN, endpoint.getSSLTrustStorePath());
+			cv.put(SSL_TRUSTSTORE_PASSWORD_COLUMN, endpoint.getSSLTrustStorePassword());
+			cv.put(PASSWORD_COLUMN, endpoint.getPassword());
 			
 			return cv;
 		}
 		
 	}
-	
-	private static final String DB_FILE_NAME = "droidhg.db";
-	private static final String TABLE_NAME = "endpoints";
 	
 	private ArrayList<Endpoint> endpoints = null;
 	private OnDatasetChangeListener on_dataset_change_listener = null;
@@ -228,14 +237,14 @@ public class EndpointManager extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-				"id integer PRIMARY KEY AUTOINCREMENT, " +
-				"name varchar(255) NOT NULL, " +
-				"host varchar(255) NOT NULL, "+
-				"port integer NOT NULL, " +
-				"ssl integer DEFAULT 0 NOT NULL, " +
-				"ssl_truststore_path varchar(255) DEFAULT '' NOT NULL, " +
-				"ssl_truststore_password varchar(255) DEFAULT '' NOT NULL, " +
-				"password varchar(255) DEFAULT '' NOT NULL)");
+				ID_COLUMN + " integer PRIMARY KEY AUTOINCREMENT, " +
+				NAME_COLUMN + " varchar(255) NOT NULL, " +
+				HOST_COLUMN + " varchar(255) NOT NULL, "+
+				PORT_COLUMN + " integer NOT NULL, " +
+				SSL_ENABLED_COLUMN + " integer DEFAULT 0 NOT NULL, " +
+				SSL_TRUSTSTORE_PATH_COLUMN + " varchar(255) DEFAULT '' NOT NULL, " +
+				SSL_TRUSTSTORE_PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL, " +
+				PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL)");
 	}
 
 	@Override
@@ -243,18 +252,18 @@ public class EndpointManager extends SQLiteOpenHelper {
 		Log.w("EndpointManager", "Upgrading database from version " + oldVersion + " to " + newVersion);
 		
 		if(oldVersion <= 1) {
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl integer DEFAULT 0 NOT NULL");
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_path varchar(255) DEFAULT '' NOT NULL");
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD ssl_truststore_password varchar(255) DEFAULT '' NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_ENABLED_COLUMN + " integer DEFAULT 0 NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_TRUSTSTORE_PATH_COLUMN + " ssl_truststore_path varchar(255) DEFAULT '' NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_TRUSTSTORE_PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL");
 		}
 		
 		if(oldVersion <= 2)
-			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD password varchar(255) DEFAULT '' NOT NULL");
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL");
 	}
 	
 	public boolean remove(Endpoint endpoint) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		int rows = db.delete(TABLE_NAME, "id=?", new String[] { Integer.valueOf(endpoint.getId()).toString() });
+		int rows = db.delete(TABLE_NAME, ID_COLUMN + "=?", new String[] { Integer.valueOf(endpoint.getId()).toString() });
 		db.close();
 		
 		if(rows == 1) {
@@ -284,7 +293,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 	
 	public boolean update(Endpoint endpoint) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		int rows = db.update(TABLE_NAME, (ContentValues)endpoint.serialize(this.serializer), "id=?", new String[] { Integer.valueOf(endpoint.getId()).toString() });
+		int rows = db.update(TABLE_NAME, (ContentValues)endpoint.serialize(this.serializer), ID_COLUMN + "=?", new String[] { Integer.valueOf(endpoint.getId()).toString() });
 		db.close();
 		
 		if(rows == 1) {
