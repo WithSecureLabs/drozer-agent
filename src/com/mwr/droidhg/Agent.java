@@ -14,16 +14,15 @@ import com.mwr.droidhg.agent.ConnectorService;
 import com.mwr.droidhg.agent.EndpointManager;
 import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.agent.ServerService;
+import com.mwr.droidhg.agent.service_connectors.ClientServiceConnection;
+import com.mwr.droidhg.agent.service_connectors.ServerServiceConnection;
 import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -31,42 +30,6 @@ import android.provider.Settings;
 import android.util.Log;
 
 public class Agent {
-	
-	public static class ClientServiceConnection implements ServiceConnection {
-    	
-    	private Messenger service = null;
-    	private boolean bound = false;
-    	
-    	public boolean isBound() {
-    		return this.bound;
-    	}
-    	
-    	@Override
-    	public void onServiceConnected(ComponentName className, IBinder service) {
-    		this.service = new Messenger(service);
-    		this.bound = true;
-
-        	Agent.updateEndpointStatuses();
-    	}
-    	
-    	@Override
-    	public void onServiceDisconnected(ComponentName className) {
-    		this.service = null;
-    		this.bound = false;
-    	}
-    	
-    	public void send(Message msg) throws RemoteException {
-    		this.service.send(msg);
-    	}
-    	
-    	public void unbind(Context context) {
-    		if(this.bound) {
-    			context.unbindService(this);
-    			this.bound = false;
-    		}
-    	}
-    	
-    }
 	
 	public static class IncomingHandler extends Handler {
 		
@@ -113,42 +76,6 @@ public class Agent {
 		}
 		
 	}
-	
-	public static class ServerServiceConnection implements ServiceConnection {
-    	
-    	private Messenger service = null;
-    	private boolean bound = false;
-    	
-    	public boolean isBound() {
-    		return this.bound;
-    	}
-    	
-    	@Override
-    	public void onServiceConnected(ComponentName className, IBinder service) {
-    		this.service = new Messenger(service);
-    		this.bound = true;
-
-        	Agent.updateServerStatus();
-    	}
-    	
-    	@Override
-    	public void onServiceDisconnected(ComponentName className) {
-    		this.service = null;
-    		this.bound = false;
-    	}
-    	
-    	public void send(Message msg) throws RemoteException {
-    		this.service.send(msg);
-    	}
-    	
-    	public void unbind(Context context) {
-    		if(this.bound) {
-    			context.unbindService(this);
-    			this.bound = false;
-    		}
-    	}
-    	
-    }
 	
 	private static Context context = null;
 	
@@ -205,14 +132,8 @@ public class Agent {
 	}
 	
 	public static void getEndpointDetailedStatus(Endpoint endpoint) {
-		Bundle data = new Bundle();
-		data.putInt("endpoint_id", endpoint.getId());
-		
 		try {
-			Message message = Message.obtain(null, ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS);
-			message.setData(data);
-			
-			Agent.sendToClientService(message);
+			client_service_connection.getDetailedEndpointStatus(endpoint.getId(), Agent.getMessenger());
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to get endpoint detailed status " + endpoint.getId());
@@ -225,9 +146,7 @@ public class Agent {
 	
 	public static void getServerDetailedStatus() {
 		try {
-			Message message = Message.obtain(null, ServerService.MSG_GET_SERVER_DETAILED_STATUS);
-			
-			Agent.sendToServerService(message);
+			server_service_connection.getDetailedServerStatus(Agent.getMessenger());
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to get server detailed status");
@@ -258,18 +177,6 @@ public class Agent {
 		return uid;
 	}
 	
-	public static void sendToClientService(Message msg) throws RemoteException {
-		msg.replyTo = Agent.getMessenger();
-		
-		client_service_connection.send(msg);
-	}
-	
-	public static void sendToServerService(Message msg) throws RemoteException {
-		msg.replyTo = Agent.getMessenger();
-		
-		server_service_connection.send(msg);
-	}
-	
 	public static void setContext(Context context) {
 		Agent.context = context.getApplicationContext();
 		
@@ -288,18 +195,11 @@ public class Agent {
 	}
 	
 	public static void startEndpoint(Endpoint endpoint) {
-		Bundle data = new Bundle();
-		
-		data.putInt("endpoint_id", endpoint.getId());
-		
 		try {
 			endpoint.enabled = true;
 			endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Message message = Message.obtain(null, ClientService.MSG_START_ENDPOINT);
-			message.setData(data);
-			
-			Agent.sendToClientService(message);
+			client_service_connection.startEndpoint(endpoint.getId(), Agent.getMessenger());
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to start endpoint " + endpoint.getId());
@@ -313,7 +213,7 @@ public class Agent {
 			server_parameters.enabled = true;
 			server_parameters.setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.sendToServerService(Message.obtain(null, ServerService.MSG_START_SERVER));
+			server_service_connection.startServer(Agent.getMessenger());
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to start adb server");
@@ -323,18 +223,11 @@ public class Agent {
 	}
 	
 	public static void stopEndpoint(Endpoint endpoint) {
-		Bundle data = new Bundle();
-		
-		data.putInt("endpoint_id", endpoint.getId());
-		
 		try {
 			endpoint.enabled = false;
 			endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Message message = Message.obtain(null, ClientService.MSG_STOP_ENDPOINT);
-			message.setData(data);
-			
-			Agent.sendToClientService(message);
+			client_service_connection.stopEndpoint(endpoint.getId(), Agent.getMessenger());
 		}
 		catch (RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to stop endpoint " + endpoint.getId());
@@ -348,7 +241,7 @@ public class Agent {
 			server_parameters.enabled = false;
 			server_parameters.setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.sendToServerService(Message.obtain(null, ServerService.MSG_STOP_SERVER));
+			server_service_connection.stopServer(Agent.getMessenger());
 		}
 		catch(RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to stop adb server");
@@ -367,7 +260,7 @@ public class Agent {
 			for(Endpoint e : getEndpointManager().all())
 				e.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.sendToClientService(Message.obtain(null, ClientService.MSG_GET_ENDPOINTS_STATUS));
+			client_service_connection.getEndpointStatuses(Agent.getMessenger());
 		}
 		catch (RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to update endpoint statuses");
@@ -378,7 +271,7 @@ public class Agent {
 		try {
 			server_parameters.setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.sendToServerService(Message.obtain(null, ServerService.MSG_GET_SERVER_STATUS));
+			server_service_connection.getServerStatus(Agent.getMessenger());
 		}
 		catch (RemoteException e) {
 			Log.e(context.getString(R.string.log_tag_agent), "failed to update server status");

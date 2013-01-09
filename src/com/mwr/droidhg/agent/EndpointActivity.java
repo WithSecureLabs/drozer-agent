@@ -6,7 +6,6 @@ import java.util.Observer;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.widget.CompoundButton;
@@ -120,16 +119,8 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 		else {
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
-			Bundle data = new Bundle();
-			data.putBoolean("ctrl:no_cache_messenger", true);
-			data.putInt("endpoint:id", endpoint.getId());
-			
-			Message msg = Message.obtain(null, ClientService.MSG_GET_SSL_FINGERPRINT);
-			msg.setData(data);
-			msg.replyTo = new Messenger(new IncomingFingerprintHandler(this));;
-			
 			try {
-				Agent.getClientService().send(msg);
+				Agent.getClientService().getPeerFingerprint(this.endpoint.getId(), new Messenger(new IncomingFingerprintHandler(this)));
 			}
 			catch(RemoteException e) {
 				spinner.dismiss();

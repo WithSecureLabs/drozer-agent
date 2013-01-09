@@ -10,7 +10,6 @@ import com.mwr.droidhg.api.Endpoint;
 import com.mwr.droidhg.api.ServerParameters;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.app.Dialog;
@@ -111,15 +110,8 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 		else {
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
-			Bundle data = new Bundle();
-			data.putBoolean("ctrl:no_cache_messenger", true);
-			
-			Message msg = Message.obtain(null, ServerService.MSG_GET_SSL_FINGERPRINT);
-			msg.replyTo = new Messenger(new IncomingFingerprintHandler(this));;
-			msg.setData(data);
-			
 			try {
-				Agent.getServerService().send(msg);
+				Agent.getServerService().getHostFingerprint(new Messenger(new IncomingFingerprintHandler(this)));
 			}
 			catch(RemoteException e) {
 				spinner.dismiss();
