@@ -121,6 +121,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
 			Bundle data = new Bundle();
+			data.putBoolean("ctrl:no_cache_messenger", true);
 			data.putInt("endpoint:id", endpoint.getId());
 			
 			Message msg = Message.obtain(null, ClientService.MSG_GET_SSL_FINGERPRINT);

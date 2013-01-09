@@ -51,16 +51,17 @@ public class ClientService extends Service implements Logger {
 		
 		@Override
 		public void handleMessage(Message msg) {
+			Bundle data = msg.getData();
 			ClientService service = this.service.get();
 			
-			if(!service.messengers.contains(msg.replyTo))
+			if(!service.messengers.contains(msg.replyTo) && (data == null || !data.getBoolean("ctrl:no_cache_messenger")))
 				service.messengers.add(msg.replyTo);
 			
 			switch(msg.what) {
 			case MSG_GET_ENDPOINT_DETAILED_STATUS:
 				try {
 					Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
-					message.setData(service.getEndpointDetailedStatus(msg.getData().getInt("endpoint_id")));
+					message.setData(service.getEndpointDetailedStatus(data.getInt("endpoint_id")));
 					
 					msg.replyTo.send(message);
 				}
@@ -84,7 +85,7 @@ public class ClientService extends Service implements Logger {
 			case MSG_GET_SSL_FINGERPRINT:
 				try {
 					Message message = Message.obtain(null, MSG_GET_SSL_FINGERPRINT);
-					message.setData(service.getEndpointFingerprint(msg.getData().getInt("endpoint:id")));
+					message.setData(service.getEndpointFingerprint(data.getInt("endpoint:id")));
 					
 					msg.replyTo.send(message);
 				}
@@ -95,7 +96,7 @@ public class ClientService extends Service implements Logger {
 				
 			case MSG_START_ENDPOINT:
 				try {
-					service.startEndpoint(msg.getData().getInt("endpoint_id"));
+					service.startEndpoint(data.getInt("endpoint_id"));
 					
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 					message.setData(service.getEndpointsStatus());
@@ -109,7 +110,7 @@ public class ClientService extends Service implements Logger {
 				
 			case MSG_STOP_ENDPOINT:
 				try {
-					service.stopEndpoint(msg.getData().getInt("endpoint_id"));
+					service.stopEndpoint(data.getInt("endpoint_id"));
 					
 					Message message = Message.obtain(null, MSG_GET_ENDPOINTS_STATUS);
 					message.setData(service.getEndpointsStatus());

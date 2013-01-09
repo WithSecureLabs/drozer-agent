@@ -52,9 +52,10 @@ public class ServerService extends Service implements Logger {
 		
 		@Override
 		public void handleMessage(Message msg) {
+			Bundle data = msg.getData();
 			ServerService service = this.service.get();
 			
-			if(!service.messengers.contains(msg.replyTo))
+			if(!service.messengers.contains(msg.replyTo) && (data == null || !data.getBoolean("ctrl:no_cache_messenger")))
 				service.messengers.add(msg.replyTo);
 			
 			switch(msg.what) {

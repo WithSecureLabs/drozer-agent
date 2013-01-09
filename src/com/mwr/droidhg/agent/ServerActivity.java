@@ -111,8 +111,12 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 		else {
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
+			Bundle data = new Bundle();
+			data.putBoolean("ctrl:no_cache_messenger", true);
+			
 			Message msg = Message.obtain(null, ServerService.MSG_GET_SSL_FINGERPRINT);
 			msg.replyTo = new Messenger(new IncomingFingerprintHandler(this));;
+			msg.setData(data);
 			
 			try {
 				Agent.getServerService().send(msg);
