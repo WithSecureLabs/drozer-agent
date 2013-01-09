@@ -4,13 +4,16 @@ import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.EndpointListView;
 import com.mwr.droidhg.agent.views.ServerListRowView;
 import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.api.ServerParameters;
 
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
@@ -63,8 +66,8 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch(item.getItemId()) {
     	case R.id.menu_refresh:
-    		Agent.updateEndpointStatuses();
-    		Agent.updateServerStatus();
+    		this.updateEndpointStatuses();
+    		this.updateServerStatus();
     		return true;
     	
     	case R.id.menu_settings:
@@ -96,5 +99,32 @@ public class MainActivity extends Activity {
     	Agent.bindServices();
     }
     
+    protected void updateEndpointStatuses() {
+    	try {
+			for(Endpoint e : Agent.getEndpointManager().all())
+				e.setStatus(Endpoint.Status.UPDATING);
+			
+			Agent.getClientService().getEndpointStatuses(Agent.getMessenger());
+		}
+		catch(RemoteException e) {
+			for(Endpoint e2 : Agent.getEndpointManager().all())
+				e2.setStatus(Endpoint.Status.UNKNOWN);
+			
+			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+		}
+    }
+    
+    protected void updateServerStatus() {
+		try {
+			Agent.getServerParameters().setStatus(ServerParameters.Status.UPDATING);
+			
+			Agent.getServerService().getServerStatus(Agent.getMessenger());
+		}
+		catch (RemoteException e) {
+			Agent.getServerParameters().setStatus(Endpoint.Status.UNKNOWN);
+			
+			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+		}
+    }
+    
 }
- 

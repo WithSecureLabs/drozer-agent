@@ -10,6 +10,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
@@ -23,11 +24,22 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 	private ListView endpoint_messages = null;
 	private ConnectorStatusIndicator endpoint_status_indicator = null;
 	
+    protected Dialog spinner;
+	
 	private CheckListItemView status_connected = null;
 	private CheckListItemView status_enabled = null;
 	private CheckListItemView status_password = null;
 	private CheckListItemView status_sessions = null;
 	private CheckListItemView status_ssl = null;
+	
+	protected void getDetailedEndpointStatus() {
+		try {
+			Agent.getClientService().getDetailedEndpointStatus(this.endpoint.getId(), Agent.getMessenger());
+		}
+		catch(RemoteException e) {
+			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+		}
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +57,9 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked)
-					Agent.startEndpoint(endpoint);
+					EndpointActivity.this.startEndpoint();
 				else
-					Agent.stopEndpoint(endpoint);
+					EndpointActivity.this.stopEndpoint();
 			}
         	
         });
@@ -80,7 +92,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
     protected void refreshStatus() {
-    	Agent.getEndpointDetailedStatus(this.endpoint);
+		this.getDetailedEndpointStatus();
     }
     
     /**
@@ -105,8 +117,6 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
     }
-
-    protected Dialog spinner;
     
 	@Override
 	protected void showFingerprintDialog() {
@@ -136,6 +146,34 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.spinner.dismiss();
 		
 		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+	}
+	
+	protected void startEndpoint() {
+		try {
+			this.endpoint.enabled = true;
+			this.endpoint.setStatus(Endpoint.Status.UPDATING);
+			
+			Agent.getClientService().startEndpoint(this.endpoint.getId(), Agent.getMessenger());
+		}
+		catch(RemoteException e) {
+			this.endpoint.setStatus(Endpoint.Status.OFFLINE);
+			
+			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	protected void stopEndpoint() {
+		try {
+			this.endpoint.enabled = false;
+			this.endpoint.setStatus(Endpoint.Status.UPDATING);
+			
+			Agent.getClientService().stopEndpoint(this.endpoint.getId(), Agent.getMessenger());
+		}
+		catch(RemoteException e) {
+			this.endpoint.setStatus(Endpoint.Status.OFFLINE);
+			
+			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override

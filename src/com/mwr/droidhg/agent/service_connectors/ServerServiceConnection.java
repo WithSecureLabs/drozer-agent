@@ -9,7 +9,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.ServerService;
 
 public class ServerServiceConnection implements ServiceConnection {
@@ -50,8 +49,6 @@ public class ServerServiceConnection implements ServiceConnection {
 	public void onServiceConnected(ComponentName className, IBinder service) {
 		this.service = new Messenger(service);
 		this.bound = true;
-
-    	Agent.updateServerStatus();
 	}
 	
 	@Override

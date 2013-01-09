@@ -115,7 +115,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 				
 				@Override
 				public void onClick(View v) {
-					Agent.stopEndpoint(EndpointSettingsActivity.this.endpoint);
+					// TODO: Agent.stopEndpoint(EndpointSettingsActivity.this.endpoint);
 					
 					if(Agent.getEndpointManager().remove(EndpointSettingsActivity.this.endpoint)) {
 						Bundle bundle = new Bundle();

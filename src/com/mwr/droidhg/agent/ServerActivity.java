@@ -16,6 +16,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ServerActivity extends ConnectorActivity implements Observer, ServerParameters.OnDetailedStatusListener {
 
@@ -30,6 +31,15 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 	private CheckListItemView status_password = null;
 	private CheckListItemView status_sessions = null;
 	private CheckListItemView status_ssl = null;
+	
+	protected void getDetailedServerStatus() {
+		try {
+			Agent.getServerService().getDetailedServerStatus(Agent.getMessenger());
+		}
+		catch(RemoteException e) {
+			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+		}
+	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +55,9 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(isChecked)
-					Agent.startServer();
+					ServerActivity.this.startServer();
 				else
-					Agent.stopServer();
+					ServerActivity.this.stopServer();
 			}
         	
         });
@@ -80,7 +90,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
     protected void refreshStatus() {
-    	Agent.getServerDetailedStatus();
+    	this.getDetailedServerStatus();
     }
     
     private void setServerParameters(ServerParameters parameters) {
@@ -127,6 +137,34 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.spinner.dismiss();
 		
 		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+    }
+    
+    protected void startServer() {
+		try {
+			this.parameters.enabled = true;
+			this.parameters.setStatus(ServerParameters.Status.UPDATING);
+			
+			Agent.getServerService().startServer(Agent.getMessenger());
+		}
+		catch(RemoteException e) {			
+			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
+			
+			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+		}
+    }
+    
+    protected void stopServer() {
+		try {
+			this.parameters.enabled = true;
+			this.parameters.setStatus(ServerParameters.Status.UPDATING);
+			
+			Agent.getServerService().stopServer(Agent.getMessenger());
+		}
+		catch(RemoteException e) {			
+			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
+			
+			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+		}
     }
 
 	@Override

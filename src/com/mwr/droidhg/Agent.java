@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteException;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -131,26 +130,8 @@ public class Agent {
 		return endpoint_manager;
 	}
 	
-	public static void getEndpointDetailedStatus(Endpoint endpoint) {
-		try {
-			client_service_connection.getDetailedEndpointStatus(endpoint.getId(), Agent.getMessenger());
-		}
-		catch(RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to get endpoint detailed status " + endpoint.getId());
-		}
-	}
-	
 	public static Messenger getMessenger() {
 		return messenger;
-	}
-	
-	public static void getServerDetailedStatus() {
-		try {
-			server_service_connection.getDetailedServerStatus(Agent.getMessenger());
-		}
-		catch(RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to get server detailed status");
-		}
 	}
 	
 	public static ServerParameters getServerParameters() {
@@ -179,103 +160,24 @@ public class Agent {
 	
 	public static void setContext(Context context) {
 		Agent.context = context.getApplicationContext();
-		
+
+		if(messenger == null && context != null)
+			messenger = new Messenger(new IncomingHandler(context));
 		if(client_service_connection == null)
 			client_service_connection = new ClientServiceConnection();
 		if(endpoint_manager == null)
 			endpoint_manager = new EndpointManager(context);
-		if(messenger == null)
-			messenger = new Messenger(new IncomingHandler(context));
-		if(server_parameters == null)
-			server_parameters = new ServerParameters();
 		if(server_service_connection == null)
 			server_service_connection = new ServerServiceConnection();
+		if(server_parameters == null)
+			server_parameters = new ServerParameters();
 		
 		createDefaultKeyMaterial();
-	}
-	
-	public static void startEndpoint(Endpoint endpoint) {
-		try {
-			endpoint.enabled = true;
-			endpoint.setStatus(Endpoint.Status.UPDATING);
-			
-			client_service_connection.startEndpoint(endpoint.getId(), Agent.getMessenger());
-		}
-		catch(RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to start endpoint " + endpoint.getId());
-			
-			endpoint.setStatus(Endpoint.Status.OFFLINE);
-		}
-	}
-	
-	public static void startServer() {
-		try {
-			server_parameters.enabled = true;
-			server_parameters.setStatus(ServerParameters.Status.UPDATING);
-			
-			server_service_connection.startServer(Agent.getMessenger());
-		}
-		catch(RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to start adb server");
-			
-			server_parameters.setStatus(ServerParameters.Status.OFFLINE);
-		}
-	}
-	
-	public static void stopEndpoint(Endpoint endpoint) {
-		try {
-			endpoint.enabled = false;
-			endpoint.setStatus(Endpoint.Status.UPDATING);
-			
-			client_service_connection.stopEndpoint(endpoint.getId(), Agent.getMessenger());
-		}
-		catch (RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to stop endpoint " + endpoint.getId());
-			
-			endpoint.setStatus(Endpoint.Status.OFFLINE);
-		}
-	}
-	
-	public static void stopServer() {
-		try {
-			server_parameters.enabled = false;
-			server_parameters.setStatus(ServerParameters.Status.UPDATING);
-			
-			server_service_connection.stopServer(Agent.getMessenger());
-		}
-		catch(RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to stop adb server");
-			
-			server_parameters.setStatus(ServerParameters.Status.OFFLINE);
-		}
 	}
 	
 	public static void unbindServices() {
 		client_service_connection.unbind(context);
 		server_service_connection.unbind(context);
-	}
-	
-	public static void updateEndpointStatuses() {
-		try {
-			for(Endpoint e : getEndpointManager().all())
-				e.setStatus(Endpoint.Status.UPDATING);
-			
-			client_service_connection.getEndpointStatuses(Agent.getMessenger());
-		}
-		catch (RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to update endpoint statuses");
-		}
-	}
-	
-	public static void updateServerStatus() {
-		try {
-			server_parameters.setStatus(ServerParameters.Status.UPDATING);
-			
-			server_service_connection.getServerStatus(Agent.getMessenger());
-		}
-		catch (RemoteException e) {
-			Log.e(context.getString(R.string.log_tag_agent), "failed to update server status");
-		}
 	}
 
 }

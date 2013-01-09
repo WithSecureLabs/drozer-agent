@@ -3,8 +3,6 @@ package com.mwr.droidhg.api;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import android.util.Log;
-
 import com.mwr.droidhg.api.Protobuf.Message;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.ReflectionResponseFactory;

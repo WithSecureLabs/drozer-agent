@@ -56,8 +56,6 @@ public class ClientServiceConnection implements ServiceConnection {
 	public void onServiceConnected(ComponentName className, IBinder service) {
 		this.service = new Messenger(service);
 		this.bound = true;
-
-    	Agent.updateEndpointStatuses();
 	}
 	
 	@Override
