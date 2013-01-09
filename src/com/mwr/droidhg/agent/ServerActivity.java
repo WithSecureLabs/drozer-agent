@@ -1,16 +1,30 @@
 package com.mwr.droidhg.agent;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.mwr.common.tls.X509Fingerprint;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.ServerParameters;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 
@@ -65,7 +79,8 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
+        getMenuInflater().inflate(R.menu.activity_server, menu);
+        return true;
     }
 
 	@Override
@@ -75,6 +90,22 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
     	this.status_password.setStatus(status.getBoolean("server:password_enabled"));
     	this.status_sessions.setStatus(status.getBoolean("server:sessions"));
     	this.status_ssl.setStatus(status.getBoolean("server:ssl_enabled"));
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+		case R.id.server_show_fingerprint:
+			this.showFingerprintDialog();
+			return true;
+			
+		case R.id.server_refresh_status:
+			this.refreshStatus();
+			return true;
+			
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
     
     @Override
@@ -110,6 +141,73 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
     	
     	this.parameters.addObserver(this);
     	this.parameters.setOnDetailedStatusListener(this);
+    }
+    
+    class FingerprintCalculation extends AsyncTask<String, String, String> {
+    	
+    	private Dialog spinner;
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				return ServerActivity.this.parameters.getCertificateFingerprint();
+			}
+			catch(UnrecoverableKeyException e) {}
+			catch(CertificateException e) {}
+			catch(FileNotFoundException e) {}
+			catch(KeyStoreException e) {}
+			catch(NoSuchAlgorithmException e) {}
+			catch(IOException e) {}
+			
+			return "Unable to calculate.";
+		}
+		
+		@Override
+		protected void onPostExecute(String fingerprint) {
+			if(this.spinner != null)
+				this.spinner.dismiss();
+			
+			ServerActivity.this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			this.spinner = ProgressDialog.show(ServerActivity.this, "", getString(R.string.calculating), true);
+		}
+    	
+    }
+    
+    private void showFingerprintDialog() {
+		if(this.parameters.isSSL()) {
+			new FingerprintCalculation().execute();
+		}
+		else {
+			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
+		}
+    }
+    
+    private Dialog createInformationDialog(int titleId, int messageId) {
+    	return new AlertDialog.Builder(this)
+    		.setTitle(titleId)
+    		.setMessage(messageId)
+    		.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+    		
+    			public void onClick(DialogInterface dialog, int id) {}
+            
+    		})
+    		.create();
+    }
+    
+    private Dialog createInformationDialog(int titleId, String message) {
+    	return new AlertDialog.Builder(this)
+    		.setTitle(titleId)
+    		.setMessage(message)
+    		.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
+    		
+    			public void onClick(DialogInterface dialog, int id) {}
+            
+    		})
+    		.create();
     }
 
 	@Override
