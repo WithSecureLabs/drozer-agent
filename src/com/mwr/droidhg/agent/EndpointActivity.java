@@ -4,8 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 
@@ -14,7 +12,7 @@ import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
 import com.mwr.droidhg.api.Endpoint;
 
-public class EndpointActivity extends Activity implements Observer, Endpoint.OnDetailedStatusListener {
+public class EndpointActivity extends ConnectorActivity implements Observer, Endpoint.OnDetailedStatusListener {
 	
 	private Endpoint endpoint = null;
 	private CompoundButton endpoint_enabled = null;
@@ -64,11 +62,6 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
         this.refreshStatus();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
-    }
-
 	@Override
 	public void onDetailedStatus(Bundle status) {
 		this.status_connected.setStatus(status.getBoolean("endpoint:connected"));
@@ -78,24 +71,11 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	this.status_ssl.setStatus(status.getBoolean("endpoint:ssl_enabled"));
 	}
     
-    @Override
-    protected void onPause() {
-    	super.onPause();
-    	
-    	Agent.unbindServices();
-    }
-    
-    @Override
-    protected void onResume() {
-    	super.onResume();
-    	
-    	Agent.bindServices();
-    }
-    
+	@Override
     /**
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
-    private void refreshStatus() {
+    protected void refreshStatus() {
     	Agent.getEndpointDetailedStatus(this.endpoint);
     }
     
@@ -121,6 +101,12 @@ public class EndpointActivity extends Activity implements Observer, Endpoint.OnD
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
     }
+
+	@Override
+	protected void showFingerprintDialog() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	/**

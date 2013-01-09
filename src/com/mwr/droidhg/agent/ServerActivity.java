@@ -9,7 +9,6 @@ import java.security.cert.CertificateException;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.mwr.common.tls.X509Fingerprint;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
@@ -17,18 +16,12 @@ import com.mwr.droidhg.api.ServerParameters;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 
-public class ServerActivity extends Activity implements Observer, ServerParameters.OnDetailedStatusListener {
+public class ServerActivity extends ConnectorActivity implements Observer, ServerParameters.OnDetailedStatusListener {
 
 	private ServerParameters parameters = null;
 	
@@ -77,12 +70,6 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
         this.refreshStatus();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_server, menu);
-        return true;
-    }
-
 	@Override
 	public void onDetailedStatus(Bundle status) {
     	this.status_enabled.setStatus(status.getBoolean("server:enabled"));
@@ -91,41 +78,12 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
     	this.status_sessions.setStatus(status.getBoolean("server:sessions"));
     	this.status_ssl.setStatus(status.getBoolean("server:ssl_enabled"));
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-		case R.id.server_show_fingerprint:
-			this.showFingerprintDialog();
-			return true;
-			
-		case R.id.server_refresh_status:
-			this.refreshStatus();
-			return true;
-			
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
     
     @Override
-    protected void onPause() {
-    	super.onPause();
-    	
-    	Agent.unbindServices();
-    }
-    
-    @Override
-    protected void onResume() {
-    	super.onResume();
-    	
-    	Agent.bindServices();
-    }
-    
     /**
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
-    private void refreshStatus() {
+    protected void refreshStatus() {
     	Agent.getServerDetailedStatus();
     }
     
@@ -177,37 +135,14 @@ public class ServerActivity extends Activity implements Observer, ServerParamete
     	
     }
     
-    private void showFingerprintDialog() {
+    @Override
+    protected void showFingerprintDialog() {
 		if(this.parameters.isSSL()) {
 			new FingerprintCalculation().execute();
 		}
 		else {
 			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
 		}
-    }
-    
-    private Dialog createInformationDialog(int titleId, int messageId) {
-    	return new AlertDialog.Builder(this)
-    		.setTitle(titleId)
-    		.setMessage(messageId)
-    		.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-    		
-    			public void onClick(DialogInterface dialog, int id) {}
-            
-    		})
-    		.create();
-    }
-    
-    private Dialog createInformationDialog(int titleId, String message) {
-    	return new AlertDialog.Builder(this)
-    		.setTitle(titleId)
-    		.setMessage(message)
-    		.setNeutralButton(R.string.ok, new DialogInterface.OnClickListener() {
-    		
-    			public void onClick(DialogInterface dialog, int id) {}
-            
-    		})
-    		.create();
     }
 
 	@Override

@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/server_show_fingerprint"
+        android:id="@+id/show_fingerprint"
         android:title="@string/ssl_show_fingerprint" />
     <item
-        android:id="@+id/server_refresh_status"
+        android:id="@+id/refresh_status"
         android:title="@string/refresh"
         android:icon="@drawable/ic_action_refresh" />
     
