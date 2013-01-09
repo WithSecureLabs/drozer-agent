@@ -59,7 +59,7 @@ public class SessionCollection {
 		this.connector = connector;
 		this.session_service_connection = new SessionServiceConnection();
 		
-		SessionService.startAndBindToService(Agent.getContext(), this.session_service_connection);
+		SessionService.startAndBindToService(Agent.getInstance().getContext(), this.session_service_connection);
 	}
 	
 	public Collection<Session> all() {

@@ -38,7 +38,7 @@ public class SettingsActivity extends PreferenceActivity {
 						bundle.getString("endpoint:ssl_truststore_password"),
 						bundle.getString("endpoint:password"));
 				
-				if(Agent.getEndpointManager().add(endpoint)) {
+				if(Agent.getInstance().getEndpointManager().add(endpoint)) {
 					this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
 					
 					Toast.makeText(this.getApplicationContext(), this.getString(R.string.endpoint_created), Toast.LENGTH_SHORT).show();
@@ -66,7 +66,7 @@ public class SettingsActivity extends PreferenceActivity {
 							bundle.getString("endpoint:ssl_truststore_password"),
 							bundle.getString("endpoint:password"));
 					
-					if(Agent.getEndpointManager().update(endpoint)) {
+					if(Agent.getInstance().getEndpointManager().update(endpoint)) {
 						Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());
 						preference.setTitle(endpoint.getName());
 						preference.setSummary(endpoint.toConnectionString());
@@ -105,11 +105,8 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		this.endpoint_preferences.addPreference(this.createNewEndpointPreference());
 		
-		for(Endpoint endpoint : Agent.getEndpointManager().all()) {
-			
-			
+		for(Endpoint endpoint : Agent.getInstance().getEndpointManager().all())
 			this.endpoint_preferences.addPreference(this.createPreferenceFrom(endpoint));
-		}
 	}
 	
 	private Preference createNewEndpointPreference() {

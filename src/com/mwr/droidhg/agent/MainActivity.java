@@ -37,10 +37,10 @@ public class MainActivity extends Activity {
         
         setContentView(R.layout.activity_main);
         
-        Agent.setContext(this.getApplicationContext());
+        Agent.getInstance().setContext(this.getApplicationContext());
         
         this.endpoint_list_view = (EndpointListView)this.findViewById(R.id.endpoint_list_view);
-        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getEndpointManager()));
+        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager()));
         this.endpoint_list_view.setOnEndpointSelectListener(new EndpointListView.OnEndpointSelectListener() {
 			
 			@Override
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
 		});
         
         this.server_list_row_view = (ServerListRowView)this.findViewById(R.id.server_list_row_view);
-        this.server_list_row_view.setServerParameters(Agent.getServerParameters());
+        this.server_list_row_view.setServerParameters(Agent.getInstance().getServerParameters());
         this.server_list_row_view.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -89,25 +89,25 @@ public class MainActivity extends Activity {
     protected void onPause() {
     	super.onPause();
     	
-    	Agent.unbindServices();
+    	Agent.getInstance().unbindServices();
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
     	
-    	Agent.bindServices();
+    	Agent.getInstance().bindServices();
     }
     
     protected void updateEndpointStatuses() {
     	try {
-			for(Endpoint e : Agent.getEndpointManager().all())
+			for(Endpoint e : Agent.getInstance().getEndpointManager().all())
 				e.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.getClientService().getEndpointStatuses(Agent.getMessenger());
+			Agent.getInstance().getClientService().getEndpointStatuses(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
-			for(Endpoint e2 : Agent.getEndpointManager().all())
+			for(Endpoint e2 : Agent.getInstance().getEndpointManager().all())
 				e2.setStatus(Endpoint.Status.UNKNOWN);
 			
 			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
@@ -116,12 +116,12 @@ public class MainActivity extends Activity {
     
     protected void updateServerStatus() {
 		try {
-			Agent.getServerParameters().setStatus(ServerParameters.Status.UPDATING);
+			Agent.getInstance().getServerParameters().setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.getServerService().getServerStatus(Agent.getMessenger());
+			Agent.getInstance().getServerService().getServerStatus(Agent.getInstance().getMessenger());
 		}
 		catch (RemoteException e) {
-			Agent.getServerParameters().setStatus(Endpoint.Status.UNKNOWN);
+			Agent.getInstance().getServerParameters().setStatus(Endpoint.Status.UNKNOWN);
 			
 			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
 		}

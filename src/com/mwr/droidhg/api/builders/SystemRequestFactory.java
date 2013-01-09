@@ -26,7 +26,7 @@ public class SystemRequestFactory {
 	
 	public SystemRequestFactory setDevice() {
 		this.builder.setDevice(Message.Device.newBuilder()
-				.setId(Agent.getUID())
+				.setId(Agent.getInstance().getUID())
 				.setManufacturer(android.os.Build.MANUFACTURER)
 				.setModel(android.os.Build.MODEL)
 				.setSoftware(android.os.Build.VERSION.RELEASE));

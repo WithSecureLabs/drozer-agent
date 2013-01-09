@@ -34,7 +34,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 	
 	protected void getDetailedServerStatus() {
 		try {
-			Agent.getServerService().getDetailedServerStatus(Agent.getMessenger());
+			Agent.getInstance().getServerService().getDetailedServerStatus(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
 			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
         this.status_sessions = (CheckListItemView)this.findViewById(R.id.server_status_sessions);
         this.status_ssl = (CheckListItemView)this.findViewById(R.id.server_status_ssl);
         
-        this.setServerParameters(Agent.getServerParameters());
+        this.setServerParameters(Agent.getInstance().getServerParameters());
         this.refreshStatus();
     }
 
@@ -121,7 +121,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
 			try {
-				Agent.getServerService().getHostFingerprint(new Messenger(new IncomingFingerprintHandler(this)));
+				Agent.getInstance().getServerService().getHostFingerprint(new Messenger(new IncomingFingerprintHandler(this)));
 			}
 			catch(RemoteException e) {
 				spinner.dismiss();
@@ -144,7 +144,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.parameters.enabled = true;
 			this.parameters.setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.getServerService().startServer(Agent.getMessenger());
+			Agent.getInstance().getServerService().startServer(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
 			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
@@ -158,7 +158,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.parameters.enabled = true;
 			this.parameters.setStatus(ServerParameters.Status.UPDATING);
 			
-			Agent.getServerService().stopServer(Agent.getMessenger());
+			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
 			this.parameters.setStatus(ServerParameters.Status.OFFLINE);

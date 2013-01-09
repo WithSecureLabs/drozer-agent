@@ -169,7 +169,7 @@ public class ClientService extends ConnectorService {
 	public void onCreate() {
 		super.onCreate();
 		
-		Agent.setContext(this);
+		Agent.getInstance().setContext(this);
 		ClientService.running = true;
 		
 		this.endpoint_manager.setOnEndpointStatusChangeListener(new EndpointManager.OnEndpointStatusChangeListener() {

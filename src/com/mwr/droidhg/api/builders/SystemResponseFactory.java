@@ -14,7 +14,7 @@ public class SystemResponseFactory {
 	public SystemResponseFactory addSession(Session session) {
 		this.builder.addSessions(Message.Session.newBuilder()
 				.setId(session.getSessionId())
-				.setDeviceId(Settings.Secure.getString(Agent.getContext().getContentResolver(), Settings.Secure.ANDROID_ID)));
+				.setDeviceId(Settings.Secure.getString(Agent.getInstance().getContext().getContentResolver(), Settings.Secure.ANDROID_ID)));
 		
 		return this;
 	}
@@ -37,7 +37,7 @@ public class SystemResponseFactory {
 	
 	public SystemResponseFactory addDevice() {
 		this.builder.addDevices(Message.Device.newBuilder()
-				.setId(Agent.getUID())
+				.setId(Agent.getInstance().getUID())
 				.setManufacturer(android.os.Build.MANUFACTURER)
 				.setModel(android.os.Build.MODEL)
 				.setSoftware(android.os.Build.VERSION.RELEASE));

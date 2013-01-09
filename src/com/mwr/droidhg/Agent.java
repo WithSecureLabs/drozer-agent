@@ -8,95 +8,50 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
-import com.mwr.common.logging.LogMessage;
-import com.mwr.droidhg.agent.ClientService;
-import com.mwr.droidhg.agent.ConnectorService;
-import com.mwr.droidhg.agent.EndpointManager;
-import com.mwr.droidhg.agent.R;
-import com.mwr.droidhg.agent.ServerService;
-import com.mwr.droidhg.agent.service_connectors.ClientServiceConnection;
-import com.mwr.droidhg.agent.service_connectors.ServerServiceConnection;
-import com.mwr.droidhg.api.Endpoint;
-import com.mwr.droidhg.api.ServerParameters;
-
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Messenger;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.mwr.droidhg.agent.ClientService;
+import com.mwr.droidhg.agent.EndpointManager;
+import com.mwr.droidhg.agent.R;
+import com.mwr.droidhg.agent.ServerService;
+import com.mwr.droidhg.agent.service_connectors.ClientServiceConnection;
+import com.mwr.droidhg.agent.service_connectors.IncomingReplyHandler;
+import com.mwr.droidhg.agent.service_connectors.ServerServiceConnection;
+import com.mwr.droidhg.api.ServerParameters;
+
 public class Agent {
+	
+	private static final Agent INSTANCE = new Agent();
 
-	public static class IncomingHandler extends Handler {
-
-		// private final WeakReference<Context> context;
-
-		public IncomingHandler(Context context) {
-			// this.context = new WeakReference<Context>(context);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			// Context context = this.context.get();
-			Bundle data = msg.getData();
-
-			switch(msg.what) {
-			case ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS:
-				getEndpointManager().get(data.getInt("endpoint:id"))
-						.setDetailedStatus(data);
-				break;
-
-			case ClientService.MSG_GET_ENDPOINTS_STATUS:
-				for (Endpoint e : getEndpointManager().all())
-					if (data.containsKey("endpoint-" + e.getId()))
-						e.setStatus(Endpoint.Status.values()[data.getInt("endpoint-" + e.getId())]);
-				break;
-
-			case ServerService.MSG_GET_SERVER_DETAILED_STATUS:
-				getServerParameters().setDetailedStatus(data);
-				break;
-
-			case ServerService.MSG_GET_SERVER_STATUS:
-				getServerParameters().setStatus(ServerParameters.Status.values()[data.getInt("server")]);
-				break;
-
-			case ConnectorService.MSG_LOG_MESSAGE:
-				if (data.containsKey("endpoint:id"))
-					getEndpointManager().get(data.getInt("endpoint:id")).log(LogMessage.fromBundle(data.getBundle("message")));
-				else
-					getServerParameters().log(LogMessage.fromBundle(data.getBundle("message")));
-				break;
-
-			default:
-				super.handleMessage(msg);
-			}
-		}
-
+	private ClientServiceConnection client_service_connection = null;
+	private Context context = null;
+	private EndpointManager endpoint_manager = null;
+	private Messenger messenger = null;
+	private ServerParameters server_parameters = null;
+	private ServerServiceConnection server_service_connection = null;
+	private String uid = null;
+	
+	private Agent() {}
+	
+	public static Agent getInstance() {
+		return INSTANCE;
 	}
 
-	private static Context context = null;
-
-	private static ClientServiceConnection client_service_connection = null;
-	private static EndpointManager endpoint_manager = null;
-	private static Messenger messenger = null;
-	private static ServerParameters server_parameters = null;
-	private static ServerServiceConnection server_service_connection = null;
-	private static String uid = null;
-
-	public static void bindServices() {
-		ClientService.startAndBindToService(context, Agent.getClientService());
-		ServerService.startAndBindToService(context, Agent.getServerService());
+	public void bindServices() {
+		ClientService.startAndBindToService(this.context, this.getClientService());
+		ServerService.startAndBindToService(this.context, this.getServerService());
 	}
 
-	public static void createDefaultKeyMaterial() {
+	public void createDefaultKeyMaterial() {
 		try {
-			if(!new File(context.getFilesDir().toString(), "agent.bks").exists())
-				copyResourceToFile(R.raw.agent, context.openFileOutput("agent.bks", Context.MODE_PRIVATE));
-			if(!new File(context.getFilesDir().toString(), "ca.bks").exists())
-				copyResourceToFile(R.raw.ca, context.openFileOutput("ca.bks", Context.MODE_PRIVATE));
+			if(!new File(this.context.getFilesDir().toString(), "agent.bks").exists())
+				copyResourceToFile(R.raw.agent, this.context.openFileOutput("agent.bks", Context.MODE_PRIVATE));
+			if(!new File(this.context.getFilesDir().toString(), "ca.bks").exists())
+				copyResourceToFile(R.raw.ca, this.context.openFileOutput("ca.bks", Context.MODE_PRIVATE));
 		}
 		catch(FileNotFoundException e) {
 			Log.e("Agent", "Failed to write default key material.");
@@ -106,8 +61,8 @@ public class Agent {
 		}
 	}
 
-	private static void copyResourceToFile(int resId, FileOutputStream file) throws IOException {
-		InputStream in = context.getResources().openRawResource(resId);
+	private void copyResourceToFile(int resId, FileOutputStream file) throws IOException {
+		InputStream in = this.context.getResources().openRawResource(resId);
 
 		byte[] buf = new byte[1024];
 
@@ -119,72 +74,70 @@ public class Agent {
 		}
 	}
 
-	public static ClientServiceConnection getClientService() {
-		if(client_service_connection == null)
-			client_service_connection = new ClientServiceConnection();
+	public ClientServiceConnection getClientService() {
+		if(this.client_service_connection == null)
+			this.client_service_connection = new ClientServiceConnection();
 
-		return client_service_connection;
+		return this.client_service_connection;
 	}
 
-	public static Context getContext() {
-		return context;
+	public Context getContext() {
+		return this.context;
 	}
 
-	public static EndpointManager getEndpointManager() {
-		if(endpoint_manager == null && context != null)
-			endpoint_manager = new EndpointManager(context);
+	public EndpointManager getEndpointManager() {
+		if(this.endpoint_manager == null && this.context != null)
+			this.endpoint_manager = new EndpointManager(this.context);
 		
-		return endpoint_manager;
+		return this.endpoint_manager;
 	}
 
-	public static Messenger getMessenger() {
-		if(messenger == null && context != null)
-			messenger = new Messenger(new IncomingHandler(context));
+	public Messenger getMessenger() {
+		if(this.messenger == null)
+			this.messenger = new Messenger(new IncomingReplyHandler(Agent.getInstance()));
 		
-		return messenger;
+		return this.messenger;
 	}
 
-	public static ServerParameters getServerParameters() {
-		if(server_parameters == null)
-			server_parameters = new ServerParameters();
+	public ServerParameters getServerParameters() {
+		if(this.server_parameters == null)
+			this.server_parameters = new ServerParameters();
 		
-		return server_parameters;
+		return this.server_parameters;
 	}
 
-	public static ServerServiceConnection getServerService() {
-		if(server_service_connection == null)
-			server_service_connection = new ServerServiceConnection();
+	public ServerServiceConnection getServerService() {
+		if(this.server_service_connection == null)
+			this.server_service_connection = new ServerServiceConnection();
 
-		return server_service_connection;
+		return this.server_service_connection;
 	}
 
-	public static SharedPreferences getSettings() {
-		return context.getSharedPreferences(context.getPackageName()
-				+ "_preferences", Context.MODE_MULTI_PROCESS);
+	public SharedPreferences getSettings() {
+		return this.context.getSharedPreferences(this.context.getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS);
 	}
 
-	public static String getUID() {
-		if (uid == null)
-			uid = Settings.Secure.getString(Agent.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+	public String getUID() {
+		if(this.uid == null)
+			this.uid = Settings.Secure.getString(this.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		// sometimes, a device will not have an ANDROID_ID, particularly if we
-		// are
-		// in lower API versions; in that case we generate one at random
-		if (uid == null)
-			uid = new BigInteger(64, new SecureRandom()).toString(32);
+		// are in lower API versions; in that case we generate one at random
+		if(this.uid == null)
+			this.uid = new BigInteger(64, new SecureRandom()).toString(32);
 
-		return uid;
+		return this.uid;
 	}
 
-	public static void setContext(Context context) {
-		Agent.context = context.getApplicationContext();
+	public void setContext(Context context) {
+		this.context = context.getApplicationContext();
 		
-		createDefaultKeyMaterial();
+		this.createDefaultKeyMaterial();
 	}
 
-	public static void unbindServices() {
-		Agent.getClientService().unbind(context);
-		Agent.getServerService().unbind(context);
+	public void unbindServices() {
+		this.getClientService().unbind(this.context);
+		this.getServerService().unbind(this.context);
 	}
 
 }

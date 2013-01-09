@@ -42,7 +42,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 		else {
 			int endpoint_id = bundle.getInt("endpoint:id");
 			if(endpoint_id > 0) {
-				this.endpoint = Agent.getEndpointManager().get(endpoint_id);
+				this.endpoint = Agent.getInstance().getEndpointManager().get(endpoint_id);
 				this.setTitle(this.endpoint.getName());
 			}
 			else
@@ -117,7 +117,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 				public void onClick(View v) {
 					// TODO: Agent.stopEndpoint(EndpointSettingsActivity.this.endpoint);
 					
-					if(Agent.getEndpointManager().remove(EndpointSettingsActivity.this.endpoint)) {
+					if(Agent.getInstance().getEndpointManager().remove(EndpointSettingsActivity.this.endpoint)) {
 						Bundle bundle = new Bundle();
 			    		bundle.putBoolean("endpoint:deleted", true);
 			    		bundle.putInt("endpoint:id", EndpointSettingsActivity.this.endpoint.getId());

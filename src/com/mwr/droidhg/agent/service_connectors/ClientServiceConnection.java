@@ -27,7 +27,7 @@ public class ClientServiceConnection implements ServiceConnection {
 		data.putInt("endpoint_id", id);
 		
 		Message msg = Message.obtain(null, ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS);
-		msg.replyTo = Agent.getMessenger();
+		msg.replyTo = Agent.getInstance().getMessenger();
 		msg.setData(data);
 		
 		this.send(msg);

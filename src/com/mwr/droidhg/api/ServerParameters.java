@@ -118,19 +118,19 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	}
 
 	public void setFromPreferences() {
-		this.setPort(Integer.parseInt(Agent.getSettings().getString("server_port", "31415")));
-		this.setPassword(Agent.getSettings().getString("server_password", ""));
-		this.setSSL(Agent.getSettings().getBoolean("server_ssl", false));
+		this.setPort(Integer.parseInt(Agent.getInstance().getSettings().getString("server_port", "31415")));
+		this.setPassword(Agent.getInstance().getSettings().getString("server_password", ""));
+		this.setSSL(Agent.getInstance().getSettings().getBoolean("server_ssl", false));
 
 		if(this.isSSL()) {
-			this.keystore_path = Agent.getSettings().getString("ssl_keystore_path", "/data/data/com.mwr.droidhg.agent/files/mercury.bks");
-			this.keystore_password = Agent.getSettings().getString("ssl_keystore_password", "mercury").toCharArray();
-			this.key_password = Agent.getSettings().getString("ssl_key_password", "mercury").toCharArray();
+			this.keystore_path = Agent.getInstance().getSettings().getString("ssl_keystore_path", "/data/data/com.mwr.droidhg.agent/files/mercury.bks");
+			this.keystore_password = Agent.getInstance().getSettings().getString("ssl_keystore_password", "mercury").toCharArray();
+			this.key_password = Agent.getInstance().getSettings().getString("ssl_key_password", "mercury").toCharArray();
 		}
 
 		this.clearKeyManagerFactory();
 
-		Agent.getSettings().registerOnSharedPreferenceChangeListener(this);
+		Agent.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	public void setPassword(String password) {
@@ -155,7 +155,7 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	}
 
 	public boolean update(ServerParameters parameters) {
-		Editor editor = Agent.getSettings().edit();
+		Editor editor = Agent.getInstance().getSettings().edit();
 
 		editor.remove("server_port");
 		editor.putString("server_port", Integer.valueOf(parameters.getPort()).toString());

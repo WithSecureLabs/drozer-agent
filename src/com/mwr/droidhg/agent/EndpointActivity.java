@@ -34,7 +34,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 	
 	protected void getDetailedEndpointStatus() {
 		try {
-			Agent.getClientService().getDetailedEndpointStatus(this.endpoint.getId(), Agent.getMessenger());
+			Agent.getInstance().getClientService().getDetailedEndpointStatus(this.endpoint.getId(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
 			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
@@ -74,7 +74,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
         this.status_sessions = (CheckListItemView)this.findViewById(R.id.endpoint_status_sessions);
         this.status_ssl = (CheckListItemView)this.findViewById(R.id.endpoint_status_ssl);
         
-        this.setEndpoint(Agent.getEndpointManager().get(extras.getInt("endpoint_id")));
+        this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt("endpoint_id")));
         this.refreshStatus();
     }
 
@@ -130,7 +130,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
 			
 			try {
-				Agent.getClientService().getPeerFingerprint(this.endpoint.getId(), new Messenger(new IncomingFingerprintHandler(this)));
+				Agent.getInstance().getClientService().getPeerFingerprint(this.endpoint.getId(), new Messenger(new IncomingFingerprintHandler(this)));
 			}
 			catch(RemoteException e) {
 				spinner.dismiss();
@@ -153,7 +153,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.endpoint.enabled = true;
 			this.endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.getClientService().startEndpoint(this.endpoint.getId(), Agent.getMessenger());
+			Agent.getInstance().getClientService().startEndpoint(this.endpoint.getId(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
 			this.endpoint.setStatus(Endpoint.Status.OFFLINE);
@@ -167,7 +167,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.endpoint.enabled = false;
 			this.endpoint.setStatus(Endpoint.Status.UPDATING);
 			
-			Agent.getClientService().stopEndpoint(this.endpoint.getId(), Agent.getMessenger());
+			Agent.getInstance().getClientService().stopEndpoint(this.endpoint.getId(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
 			this.endpoint.setStatus(Endpoint.Status.OFFLINE);

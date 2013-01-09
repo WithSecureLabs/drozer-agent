@@ -88,14 +88,14 @@ public abstract class ConnectorActivity extends Activity {
     protected void onPause() {
     	super.onPause();
     	
-    	Agent.unbindServices();
+    	Agent.getInstance().unbindServices();
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
     	
-    	Agent.bindServices();
+    	Agent.getInstance().bindServices();
     }
 	
     public abstract void receiveFingerprint(String fingerprint); 
