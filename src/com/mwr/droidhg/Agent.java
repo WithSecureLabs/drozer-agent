@@ -42,6 +42,10 @@ public class Agent {
 	
 	private Agent() {}
 	
+	public static Context getContext() {
+		return Agent.getInstance().getMercuryContext();
+	}
+	
 	public static Agent getInstance() {
 		return INSTANCE;
 	}
@@ -83,7 +87,7 @@ public class Agent {
 		return this.client_service_connection;
 	}
 
-	public Context getContext() {
+	public Context getMercuryContext() {
 		return this.context;
 	}
 
@@ -121,7 +125,7 @@ public class Agent {
 
 	public String getUID() {
 		if(this.uid == null)
-			this.uid = Settings.Secure.getString(this.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+			this.uid = Settings.Secure.getString(this.getMercuryContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		// sometimes, a device will not have an ANDROID_ID, particularly if we
 		// are in lower API versions; in that case we generate one at random
