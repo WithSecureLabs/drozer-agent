@@ -5,7 +5,6 @@ import java.lang.ref.WeakReference;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.Agent;

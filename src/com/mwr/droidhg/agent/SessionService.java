@@ -64,8 +64,6 @@ public class SessionService extends NotifyingService {
 
 	@Override
 	public IBinder onBind(Intent arg0) {
-		Log.i(getString(R.string.log_tag_session_service), "received bind request");
-		
 		return this.messenger.getBinder();
 	}
 	
@@ -74,15 +72,11 @@ public class SessionService extends NotifyingService {
 		super.onCreate();
 		
 		SessionService.running = true;
-		
-		Log.i(getString(R.string.log_tag_session_service), "starting service");
 	}
 	
 	@Override
 	public void onDestroy() {
 		SessionService.running = false;
-		
-		Log.i(getString(R.string.log_tag_session_service), "stopping service");
 	}
 
 	@Override

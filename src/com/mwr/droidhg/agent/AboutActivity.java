@@ -15,7 +15,7 @@ public class AboutActivity extends Activity {
 			return this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
 		}
 		catch(NameNotFoundException e) {
-			return "ERR";
+			throw new RuntimeException();
 		}
 	}
 

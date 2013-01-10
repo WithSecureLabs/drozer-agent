@@ -176,7 +176,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		
 		if(endpoint != null && reload) {
 			SQLiteDatabase db = this.getReadableDatabase();
-			Cursor cur = db.query(TABLE_NAME, null, "id=?", new String[] { Integer.valueOf(endpoint.getId()).toString() }, null, null, null);
+			Cursor cur = db.query(TABLE_NAME, null, ID_COLUMN + "=?", new String[] { Integer.valueOf(endpoint.getId()).toString() }, null, null, null);
 			
 			Endpoint fresh = null;
 			
@@ -198,7 +198,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		Endpoint endpoint = null;
 		
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cur = db.query(TABLE_NAME, null, "id=?", new String[] { Integer.valueOf(id).toString() }, null, null, null, null);
+		Cursor cur = db.query(TABLE_NAME, null, ID_COLUMN + "=?", new String[] { Integer.valueOf(id).toString() }, null, null, null, null);
 		
 		for(boolean has_item = cur.moveToFirst(); has_item; has_item = cur.moveToNext()) {
 			endpoint = Endpoint.deserialize(this.serializer, cur);
@@ -249,7 +249,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Log.w("EndpointManager", "Upgrading database from version " + oldVersion + " to " + newVersion);
+		Log.i("EndpointManager", "Upgrading database from version " + oldVersion + " to " + newVersion);
 		
 		if(oldVersion <= 1) {
 			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_ENABLED_COLUMN + " integer DEFAULT 0 NOT NULL");

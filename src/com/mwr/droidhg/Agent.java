@@ -26,6 +26,11 @@ import com.mwr.droidhg.api.ServerParameters;
 public class Agent {
 	
 	private static final Agent INSTANCE = new Agent();
+	
+	public static final String DEFAULT_KEYSTORE = "agent.bks";
+	public static final String DEFAULT_TRUSTSTORE = "ca.bks";
+	
+	public static final String TAG = "agent";
 
 	private ClientServiceConnection client_service_connection = null;
 	private Context context = null;
@@ -48,16 +53,13 @@ public class Agent {
 
 	public void createDefaultKeyMaterial() {
 		try {
-			if(!new File(this.context.getFilesDir().toString(), "agent.bks").exists())
-				copyResourceToFile(R.raw.agent, this.context.openFileOutput("agent.bks", Context.MODE_PRIVATE));
-			if(!new File(this.context.getFilesDir().toString(), "ca.bks").exists())
-				copyResourceToFile(R.raw.ca, this.context.openFileOutput("ca.bks", Context.MODE_PRIVATE));
-		}
-		catch(FileNotFoundException e) {
-			Log.e("Agent", "Failed to write default key material.");
+			if(!new File(this.context.getFilesDir().toString(), DEFAULT_KEYSTORE).exists())
+				copyResourceToFile(R.raw.agent, this.context.openFileOutput(DEFAULT_KEYSTORE, Context.MODE_PRIVATE));
+			if(!new File(this.context.getFilesDir().toString(), DEFAULT_TRUSTSTORE).exists())
+				copyResourceToFile(R.raw.ca, this.context.openFileOutput(DEFAULT_TRUSTSTORE, Context.MODE_PRIVATE));
 		}
 		catch(IOException e) {
-			Log.e("Agent", "Failed to write default key material.");
+			Log.e(TAG, "Failed to write default key material.");
 		}
 	}
 

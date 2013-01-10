@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
 			for(Endpoint e2 : Agent.getInstance().getEndpointManager().all())
 				e2.setStatus(Endpoint.Status.UNKNOWN);
 			
-			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
     }
     
@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
 		catch (RemoteException e) {
 			Agent.getInstance().getServerParameters().setStatus(Endpoint.Status.UNKNOWN);
 			
-			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
     }
     

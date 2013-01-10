@@ -3,6 +3,7 @@ package com.mwr.droidhg.agent;
 import java.lang.ref.WeakReference;
 
 import com.mwr.droidhg.Agent;
+import com.mwr.droidhg.api.ConnectorParameters;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,10 +31,10 @@ public abstract class ConnectorActivity extends Activity {
 			ConnectorActivity context = (ConnectorActivity)this.context.get();
 			Bundle data = msg.getData();
 			
-			if(data.getString("certificate:fingerprint") != null)
-				context.receiveFingerprint(data.getString("certificate:fingerprint"));
+			if(data.getString(ConnectorParameters.CONNECTOR_SSL_FINGERPRINT) != null)
+				context.receiveFingerprint(data.getString(ConnectorParameters.CONNECTOR_SSL_FINGERPRINT));
 			else
-				context.receiveFingerprint("Error. Fingerprint was null.");
+				context.receiveFingerprint(context.getString(R.string.ssl_no_fingerprint));
 		}
 		
 	}

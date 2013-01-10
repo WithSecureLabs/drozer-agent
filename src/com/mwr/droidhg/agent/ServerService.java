@@ -66,7 +66,7 @@ public class ServerService extends ConnectorService {
 		if(this.server != null)
 			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, this.server.getHostCertificateFingerprint());
 		else
-			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, "error");
+			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, "No running server.");
 		
 		return data;
 	}
@@ -90,7 +90,7 @@ public class ServerService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
 			
@@ -102,7 +102,7 @@ public class ServerService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
 			
@@ -114,7 +114,7 @@ public class ServerService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
 			
@@ -128,7 +128,7 @@ public class ServerService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
 			
@@ -142,7 +142,7 @@ public class ServerService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_server_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
 		}

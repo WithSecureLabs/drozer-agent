@@ -30,41 +30,41 @@ public class LogMessageRowView extends LinearLayout {
 	private void setLevel(int level) {
 		switch(level) {
 		case LogMessage.ASSERT:
-			this.message_label.setText("F");
+			this.message_label.setText(R.string.log_level_tag_assert);
 			this.message_label.setBackgroundColor(0xffff0000);
 			this.message_label.setTextColor(0xffffffff);
 			break;
 			
 		case LogMessage.DEBUG:
-			this.message_label.setText("D");
+			this.message_label.setText(R.string.log_level_tag_debug);
 			this.message_label.setBackgroundColor(0xff00ff00);
 			this.message_label.setTextColor(0xff000000);
 			break;
 		
 		case LogMessage.ERROR:
-			this.message_label.setText("E");
+			this.message_label.setText(R.string.log_level_tag_error);
 			this.message_label.setBackgroundColor(0xffff0000);
 			this.message_label.setTextColor(0xffffffff);
 			break;
 			
 		case LogMessage.INFO:
-			this.message_label.setText("");
+			this.message_label.setText(R.string.log_level_tag_info);
 			break;
 			
 		case LogMessage.VERBOSE:
-			this.message_label.setText("V");
+			this.message_label.setText(R.string.log_level_tag_verbose);
 			this.message_label.setBackgroundColor(0xff00ff00);
 			this.message_label.setTextColor(0xff000000);
 			break;
 			
 		case LogMessage.WARN:
-			this.message_label.setText("W");
-			this.message_label.setBackgroundColor(0xffa500);
+			this.message_label.setText(R.string.log_level_tag_warn);
+			this.message_label.setBackgroundColor(0xffffa500);
 			this.message_label.setTextColor(0xff000000);
 			break;
 			
 		default:
-			this.message_label.setText("?");
+			this.message_label.setText(R.string.log_level_tag_unknown);
 			break;
 		}
 	}

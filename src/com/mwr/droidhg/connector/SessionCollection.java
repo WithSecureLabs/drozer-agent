@@ -30,6 +30,14 @@ public class SessionCollection {
     		return this.bound;
     	}
     	
+    	public void notifySessionStarted(String sessionId) throws RemoteException {
+    		this.send(android.os.Message.obtain(null, SessionService.MSG_START_SESSION, sessionId));
+    	}
+    	
+    	public void notifySessionStopped(String sessionId) throws RemoteException {
+    		this.send(android.os.Message.obtain(null, SessionService.MSG_STOP_SESSION, sessionId));
+    	}
+    	
     	@Override
     	public void onServiceConnected(ComponentName className, IBinder service) {
     		this.service = new Messenger(service);
@@ -77,7 +85,11 @@ public class SessionCollection {
 		session.start();
 		
 		this.connector.setStatus(Status.ACTIVE);
-		this.notifySessionStarted(session);
+		
+		try {
+			this.getSessionService().notifySessionStarted(session.getSessionId());
+		}
+		catch(RemoteException e) {}
 		
 		return session;
 	}
@@ -86,22 +98,8 @@ public class SessionCollection {
 		return this.sessions.get(session_id);
 	}
 	
-	private void notifySessionStarted(Session session) {
-		try {
-			this.session_service_connection.send(android.os.Message.obtain(null, SessionService.MSG_START_SESSION, session.getSessionId()));
-		} 
-		catch (RemoteException e) {
-			Log.e("connector", "failed to send session started notification");
-		}
-	}
-	
-	private void notifySessionStopped(Session session) {
-		try {
-			this.session_service_connection.send(android.os.Message.obtain(null, SessionService.MSG_STOP_SESSION, session.getSessionId()));
-		}
-		catch (RemoteException e) {
-			Log.e("connector", "failed to send session stopped notification");
-		}
+	public SessionServiceConnection getSessionService() {
+		return this.session_service_connection;
 	}
 	
 	public Session stop(String session_id) {
@@ -118,7 +116,11 @@ public class SessionCollection {
 			this.sessions.remove(session_id);
 			
 			this.connector.setStatus(Status.ONLINE);
-			this.notifySessionStopped(session);
+			
+			try {
+				this.getSessionService().notifySessionStopped(session.getSessionId());
+			}
+			catch(RemoteException e) {}
 		}
 		
 		if(!this.any())

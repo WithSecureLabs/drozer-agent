@@ -72,7 +72,7 @@ public class ClientService extends ConnectorService {
 		if(client != null)
 			data.putString(Endpoint.CONNECTOR_SSL_FINGERPRINT, client.getPeerCertificateFingerprint());
 		else
-			data.putString(Endpoint.CONNECTOR_SSL_FINGERPRINT, "error");
+			data.putString(Endpoint.CONNECTOR_SSL_FINGERPRINT, "No running client.");
 		
 		return data;
 	}
@@ -99,7 +99,7 @@ public class ClientService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_client_service), e.getMessage());
 			}
 			break;
 			
@@ -111,7 +111,7 @@ public class ClientService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_client_service), e.getMessage());
 			}
 			break;
 			
@@ -123,7 +123,7 @@ public class ClientService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_client_service), e.getMessage());
 			}
 			break;
 			
@@ -137,7 +137,7 @@ public class ClientService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_client_service), e.getMessage());
 			}
 			break;
 			
@@ -151,7 +151,7 @@ public class ClientService extends ConnectorService {
 				msg.replyTo.send(message);
 			}
 			catch(RemoteException e) {
-				Log.e(this.getString(R.string.log_tag_client_service), "exception replying to a Message: " + e.getMessage());
+				Log.e(this.getString(R.string.log_tag_client_service), e.getMessage());
 			}
 			break;
 		}

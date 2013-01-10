@@ -37,7 +37,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			Agent.getInstance().getClientService().getDetailedEndpointStatus(this.endpoint.getId(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
-			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -124,10 +124,10 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
 		}
 		else if(this.endpoint.getStatus() != Endpoint.Status.ACTIVE && this.endpoint.getStatus() != Endpoint.Status.ONLINE) {
-			this.createInformationDialog(R.string.ssl_fingerprint, "offline").show();
+			this.createInformationDialog(R.string.ssl_fingerprint, R.string.endpoint_offline_no_fingerprint).show();
 		}
 		else {
-			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
+			this.spinner = ProgressDialog.show(this, getString(R.string.ssl_fingerprint), getString(R.string.calculating), true);
 			
 			try {
 				Agent.getInstance().getClientService().getPeerFingerprint(this.endpoint.getId(), new Messenger(new IncomingFingerprintHandler(this)));
@@ -135,7 +135,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 			catch(RemoteException e) {
 				spinner.dismiss();
 				
-				this.createInformationDialog(R.string.ssl_fingerprint, "error");
+				this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_fingerprint_error);
 			}
 		}
 	}
@@ -145,7 +145,10 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 		if(this.spinner != null)
 			this.spinner.dismiss();
 		
-		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+		if(fingerprint != null)
+			this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+		else
+			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_fingerprint_error).show();
 	}
 	
 	protected void startEndpoint() {
@@ -158,7 +161,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 		catch(RemoteException e) {
 			this.endpoint.setStatus(Endpoint.Status.OFFLINE);
 			
-			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
 	}
 	
@@ -172,7 +175,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 		catch(RemoteException e) {
 			this.endpoint.setStatus(Endpoint.Status.OFFLINE);
 			
-			Toast.makeText(this, "problem, service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
 	}
 

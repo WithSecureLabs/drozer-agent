@@ -37,7 +37,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			Agent.getInstance().getServerService().getDetailedServerStatus(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {
-			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -115,10 +115,10 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_disabled).show();
 		}
 		else if(this.parameters.getStatus() != Endpoint.Status.ACTIVE && this.parameters.getStatus() != Endpoint.Status.ONLINE) {
-			this.createInformationDialog(R.string.ssl_fingerprint, "offline").show();
+			this.createInformationDialog(R.string.ssl_fingerprint, R.string.endpoint_offline_no_fingerprint).show();
 		}
 		else {
-			this.spinner = ProgressDialog.show(this, "", getString(R.string.calculating), true);
+			this.spinner = ProgressDialog.show(this, getString(R.string.ssl_fingerprint), getString(R.string.calculating), true);
 			
 			try {
 				Agent.getInstance().getServerService().getHostFingerprint(new Messenger(new IncomingFingerprintHandler(this)));
@@ -126,7 +126,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			catch(RemoteException e) {
 				spinner.dismiss();
 				
-				this.createInformationDialog(R.string.ssl_fingerprint, "error");
+				this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_fingerprint_error);
 			}
 		}
     }
@@ -136,7 +136,10 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	if(this.spinner != null)
 			this.spinner.dismiss();
 		
-		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+    	if(fingerprint != null)
+    		this.createInformationDialog(R.string.ssl_fingerprint, fingerprint).show();
+    	else
+    		this.createInformationDialog(R.string.ssl_fingerprint, R.string.ssl_fingerprint_error);
     }
     
     protected void startServer() {
@@ -149,7 +152,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 		catch(RemoteException e) {			
 			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
 			
-			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
     }
     
@@ -163,7 +166,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 		catch(RemoteException e) {			
 			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
 			
-			Toast.makeText(this, "problem, server service not running", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
     }
 

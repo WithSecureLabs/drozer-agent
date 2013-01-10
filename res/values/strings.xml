@@ -18,6 +18,7 @@
     <string name="off">Off</string>
     <string name="refresh">Refresh</string>
     <string name="save">Save</string>
+    <string name="service_offline">The required service seems to be offline.</string>
     <string name="system_settings">System</string>
     <string name="yes">Yes</string>
     
@@ -44,6 +45,7 @@
     <string name="endpoint_messages">Messages</string>
     <string name="endpoint_name">Endpoint</string>
     <string name="endpoint_new">New Endpoint</string>
+    <string name="endpoint_offline_no_fingerprint">This endpoint is not connected, so not SSL fingerprint can be determined.</string>
     <string name="endpoint_password">Password</string>
     <string name="endpoint_password_description">Set a password, required to establish a session with this agent.</string>
     <string name="endpoint_password_protected">Password Protected</string>
@@ -60,6 +62,13 @@
     <string name="endpoint_updated">Successfully updated the Endpoint.</string>
     
     <!-- Logging -->
+    <string name="log_level_tag_assert">A</string>
+    <string name="log_level_tag_debug">D</string>
+    <string name="log_level_tag_error">E</string>
+    <string name="log_level_tag_info">I</string>
+    <string name="log_level_tag_unknown">U</string>
+    <string name="log_level_tag_verbose">V</string>
+    <string name="log_level_tag_warn">W</string>
     <string name="log_tag_agent">Agent</string>
     <string name="log_tag_client_service">ClientService</string>
     <string name="log_tag_main_activity">Main</string>
@@ -77,12 +86,14 @@
     <string name="ssl_enabled">SSL Enabled</string>
     <string name="ssl_disabled">SSL Disabled</string>
     <string name="ssl_fingerprint">SSL Fingerprint</string>
+    <string name="ssl_fingerprint_error">There was an error determining the SSL fingerprint.</string>
     <string name="ssl_key_password">Key Password</string>
     <string name="ssl_key_password_description">Specify the password for the SSL key.</string>
     <string name="ssl_keystore_password">Keystore Password</string>
     <string name="ssl_keystore_password_description">Specify the password for the Keystore containing the SSL keys.</string>
     <string name="ssl_keystore_path">Keystore Path</string>
     <string name="ssl_keystore_path_description">Specify the path to the Keystore containing the SSL keys.</string>
+    <string name="ssl_no_fingerprint">No fingerprint was calculated.</string>
     <string name="ssl_show_fingerprint">Show Fingerprint</string>
     <string name="ssl_status_placeholder">SSL Status</string>
 

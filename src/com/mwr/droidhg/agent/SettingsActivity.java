@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 	
+	public static final String ABOUT_MERCURY_PREFERENCE = "about_mercury";
+	public static final String ENDPOINT_SETTINGS_PREFERENCE = "endpoint_settings";
+	
 	public static final int NEW_ENDPOINT = 1;
 	public static final int EDIT_ENDPOINT = 2;
 	
@@ -89,7 +92,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		this.addPreferencesFromResource(R.xml.preferences);
 		
-		this.about_preference = (Preference)this.findPreference("about_mercury");
+		this.about_preference = (Preference)this.findPreference(ABOUT_MERCURY_PREFERENCE);
 		this.about_preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
 			@Override
@@ -101,7 +104,7 @@ public class SettingsActivity extends PreferenceActivity {
 			
 		});
 		
-		this.endpoint_preferences = (PreferenceCategory)this.getPreferenceManager().findPreference("endpoint_settings");
+		this.endpoint_preferences = (PreferenceCategory)this.getPreferenceManager().findPreference(ENDPOINT_SETTINGS_PREFERENCE);
 		
 		this.endpoint_preferences.addPreference(this.createNewEndpointPreference());
 		
@@ -113,7 +116,6 @@ public class SettingsActivity extends PreferenceActivity {
 		Preference preference = new Preference(this);
 		preference.setKey("endpoint_new");
 		preference.setTitle(R.string.endpoint_new);
-		preference.setSummary("");
 		preference.setOrder(1000);
 		
 		preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
