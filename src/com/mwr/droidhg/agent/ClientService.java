@@ -21,11 +21,11 @@ import com.mwr.droidhg.connector.Client;
 
 public class ClientService extends ConnectorService {
 	
-	public static final int MSG_GET_ENDPOINTS_STATUS = 1;
-	public static final int MSG_START_ENDPOINT = 2;
-	public static final int MSG_STOP_ENDPOINT = 3;
-	public static final int MSG_GET_ENDPOINT_DETAILED_STATUS = 4;
-	public static final int MSG_GET_SSL_FINGERPRINT = 6;
+	public static final int MSG_GET_DETAILED_ENDPOINT_STATUS = 11;
+	public static final int MSG_GET_ENDPOINTS_STATUS = 12;
+	public static final int MSG_GET_SSL_FINGERPRINT = 13;
+	public static final int MSG_START_ENDPOINT = 14;
+	public static final int MSG_STOP_ENDPOINT = 15;
 	
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
@@ -91,9 +91,9 @@ public class ClientService extends ConnectorService {
 		Bundle data = msg.getData();
 		
 		switch(msg.what) {
-		case MSG_GET_ENDPOINT_DETAILED_STATUS:
+		case MSG_GET_DETAILED_ENDPOINT_STATUS:
 			try {
-				Message message = Message.obtain(null, MSG_GET_ENDPOINT_DETAILED_STATUS);
+				Message message = Message.obtain(null, MSG_GET_DETAILED_ENDPOINT_STATUS);
 				message.setData(this.getEndpointDetailedStatus(data.getInt(Endpoint.ENDPOINT_ID)));
 				
 				msg.replyTo.send(message);

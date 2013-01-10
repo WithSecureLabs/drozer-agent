@@ -29,7 +29,7 @@ public class IncomingReplyHandler extends Handler {
 		Bundle data = msg.getData();
 
 		switch(msg.what) {
-		case ClientService.MSG_GET_ENDPOINT_DETAILED_STATUS:
+		case ClientService.MSG_GET_DETAILED_ENDPOINT_STATUS:
 			agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).setDetailedStatus(data);
 			break;
 
@@ -39,7 +39,7 @@ public class IncomingReplyHandler extends Handler {
 					e.setStatus(Endpoint.Status.values()[data.getInt("endpoint-" + e.getId())]);
 			break;
 
-		case ServerService.MSG_GET_SERVER_DETAILED_STATUS:
+		case ServerService.MSG_GET_DETAILED_SERVER_STATUS:
 			agent.getServerParameters().setDetailedStatus(data);
 			break;
 

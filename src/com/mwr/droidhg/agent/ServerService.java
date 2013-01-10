@@ -18,12 +18,11 @@ import com.mwr.droidhg.connector.Server;
 
 public class ServerService extends ConnectorService {
 	
-	public static final int MSG_GET_SERVER_STATUS = 10;
-	public static final int MSG_START_SERVER = 11;
-	public static final int MSG_STOP_SERVER = 12;
-	public static final int MSG_GET_DETAILED_STATUS = 13;
-	public static final int MSG_GET_SERVER_DETAILED_STATUS = 15;
-	public static final int MSG_GET_SSL_FINGERPRINT = 16;
+	public static final int MSG_GET_DETAILED_SERVER_STATUS = 21;
+	public static final int MSG_GET_SERVER_STATUS = 22;
+	public static final int MSG_GET_SSL_FINGERPRINT = 23;
+	public static final int MSG_START_SERVER = 24;
+	public static final int MSG_STOP_SERVER = 25;
 	
 	private Server server = null;
 	private ServerParameters server_parameters = new ServerParameters();
@@ -82,9 +81,9 @@ public class ServerService extends ConnectorService {
 	@Override
 	public void handleMessage(Message msg) {
 		switch(msg.what) {
-		case MSG_GET_SERVER_DETAILED_STATUS:
+		case MSG_GET_DETAILED_SERVER_STATUS:
 			try {
-				Message message = Message.obtain(null, MSG_GET_SERVER_DETAILED_STATUS);
+				Message message = Message.obtain(null, MSG_GET_DETAILED_SERVER_STATUS);
 				message.setData(this.getDetailedStatus());
 				
 				msg.replyTo.send(message);
@@ -145,7 +144,7 @@ public class ServerService extends ConnectorService {
 				Log.e(this.getString(R.string.log_tag_server_service), e.getMessage());
 			}
 			break;
-		}
+		}	
 	}
 	
 	@Override

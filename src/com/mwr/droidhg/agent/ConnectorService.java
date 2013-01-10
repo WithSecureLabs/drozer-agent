@@ -20,7 +20,7 @@ import android.os.RemoteException;
 
 public abstract class ConnectorService extends Service implements Logger {
 
-	public static final int MSG_LOG_MESSAGE = 5;
+	public static final int MSG_LOG_MESSAGE = 1;
 	
 	/**
 	 * IncomingHandler is used to process all messages received by the

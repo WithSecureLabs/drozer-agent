@@ -17,7 +17,7 @@ public class ServerServiceConnection implements ServiceConnection {
 	private boolean bound = false;
 	
 	public void getDetailedServerStatus(Messenger replyTo) throws RemoteException {
-		Message msg = Message.obtain(null, ServerService.MSG_GET_SERVER_DETAILED_STATUS);
+		Message msg = Message.obtain(null, ServerService.MSG_GET_DETAILED_SERVER_STATUS);
 		msg.replyTo = replyTo;
 		
 		this.send(msg);
