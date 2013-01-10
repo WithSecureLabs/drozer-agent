@@ -13,7 +13,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.util.Log;
 
 public class SessionCollection {
 	

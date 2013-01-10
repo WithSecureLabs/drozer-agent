@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.mwr.common.NotifyingService;
