@@ -40,7 +40,7 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 		
 	}
 
-	private KeyManagerFactory key_manager_factory = null;
+	private KeyManager[] key_managers = null;
 	private char[] key_password = null;
 	private String keystore_path = null;
 	private char[] keystore_password = null;
@@ -60,28 +60,21 @@ public class ServerParameters extends ConnectorParameters implements OnSharedPre
 	}
 
 	private void clearKeyManagerFactory() {
-		this.key_manager_factory = null;
-	}
-	/**
-	 * Create a KeyManagerFactory based on the key material provided through the
-	 * configuration.
-	 * 
-	 * This factory is cached, so if the key material is updated
-	 * clearKeyManagerFactory() must be called to cause it to take effect.
-	 */
-	private KeyManagerFactory getKeyManagerFactory() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		if (this.key_manager_factory == null) {
-			KeyStore key_store = KeyStore.getInstance("BKS");
-			key_store.load(new FileInputStream(this.keystore_path), this.keystore_password);
-			this.key_manager_factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-			this.key_manager_factory.init(key_store, this.key_password);
-		}
-
-		return this.key_manager_factory;
+		this.key_managers = null;
 	}
 	
 	public KeyManager[] getKeyManagers() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		return this.getKeyManagerFactory().getKeyManagers();
+		if (this.key_managers == null) {
+			KeyStore key_store = KeyStore.getInstance("BKS");
+			key_store.load(new FileInputStream(this.keystore_path), this.keystore_password);
+			
+			KeyManagerFactory key_manager_factory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+			key_manager_factory.init(key_store, this.key_password);
+			
+			this.key_managers = key_manager_factory.getKeyManagers();
+		}
+
+		return this.key_managers;
 	}
 	
 	public String getPassword() {
