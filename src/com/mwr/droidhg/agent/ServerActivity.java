@@ -158,7 +158,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     
     protected void stopServer() {
 		try {
-			this.parameters.enabled = true;
+			this.parameters.enabled = false;
 			this.parameters.setStatus(ServerParameters.Status.UPDATING);
 			
 			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
