@@ -54,8 +54,8 @@ public class SystemMessageHandler implements Handler {
 	private Message handleListSessions(Message message) throws InvalidMessageException {
 		SystemResponseFactory response = SystemResponseFactory.sessionList(message);
 		
-		for(Session session : this.connection.getSessions())
-			response.addSession(session);
+		//for(Session session : this.connection.getSessions())
+		//	response.addSession(session);
 		
 		MessageFactory factory = new MessageFactory(response);
 		
