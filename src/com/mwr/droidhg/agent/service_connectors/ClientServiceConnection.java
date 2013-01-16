@@ -10,8 +10,8 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.agent.ClientService;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.agent.services.ClientService;
+import com.mwr.droidhg.connector.Endpoint;
 
 public class ClientServiceConnection implements ServiceConnection {
 	

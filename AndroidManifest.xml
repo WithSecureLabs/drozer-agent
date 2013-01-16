@@ -71,13 +71,13 @@
         </activity>
 
         <service
-            android:name="com.mwr.droidhg.agent.ClientService"
+            android:name="com.mwr.droidhg.agent.services.ClientService"
             android:process=":remote" />
         <service
-            android:name="com.mwr.droidhg.agent.ServerService"
+            android:name="com.mwr.droidhg.agent.services.ServerService"
             android:process=":remote" />
         <service
-            android:name="com.mwr.droidhg.agent.SessionService"
+            android:name="com.mwr.droidhg.agent.services.SessionService"
             android:process=":remote" />
     </application>
 

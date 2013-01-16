@@ -10,8 +10,7 @@ import com.mwr.cinnibar.connection.SecureConnection;
 
 import com.mwr.common.logging.LogMessage;
 
-import com.mwr.droidhg.api.ConnectorParameters.Status;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.ConnectorParameters.Status;
 
 public class Client extends Connector {
 	

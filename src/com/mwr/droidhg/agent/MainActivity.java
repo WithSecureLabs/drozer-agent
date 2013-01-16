@@ -3,8 +3,8 @@ package com.mwr.droidhg.agent;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.EndpointListView;
 import com.mwr.droidhg.agent.views.ServerListRowView;
-import com.mwr.droidhg.api.Endpoint;
-import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.connector.Endpoint;
+import com.mwr.droidhg.connector.ServerParameters;
 
 import android.os.Bundle;
 import android.os.RemoteException;

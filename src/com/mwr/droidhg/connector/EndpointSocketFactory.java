@@ -13,7 +13,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import com.mwr.droidhg.api.Endpoint;
 
 /**
  * The EndpointSocketFactory builds Socket objects from a given Endpoint.

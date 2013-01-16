@@ -13,14 +13,14 @@ import android.os.Messenger;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.mwr.droidhg.agent.ClientService;
 import com.mwr.droidhg.agent.EndpointManager;
 import com.mwr.droidhg.agent.R;
-import com.mwr.droidhg.agent.ServerService;
 import com.mwr.droidhg.agent.service_connectors.ClientServiceConnection;
 import com.mwr.droidhg.agent.service_connectors.IncomingReplyHandler;
 import com.mwr.droidhg.agent.service_connectors.ServerServiceConnection;
-import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.agent.services.ClientService;
+import com.mwr.droidhg.agent.services.ServerService;
+import com.mwr.droidhg.connector.ServerParameters;
 
 public class Agent {
 	

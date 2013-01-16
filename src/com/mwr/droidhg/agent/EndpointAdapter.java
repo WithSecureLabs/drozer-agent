@@ -1,7 +1,7 @@
 package com.mwr.droidhg.agent;
 
 import com.mwr.droidhg.agent.views.EndpointListRowView;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.Endpoint;
 
 import android.content.Context;
 import android.view.View;

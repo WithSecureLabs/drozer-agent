@@ -11,7 +11,6 @@ import java.security.cert.CertificateException;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 
-import com.mwr.droidhg.api.ServerParameters;
 
 public class ServerSocketFactory {
 

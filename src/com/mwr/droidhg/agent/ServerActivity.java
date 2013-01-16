@@ -7,8 +7,8 @@ import com.mwr.android.widget.LogMessageAdapter;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
-import com.mwr.droidhg.api.Endpoint;
-import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.connector.Endpoint;
+import com.mwr.droidhg.connector.ServerParameters;
 
 import android.os.Bundle;
 import android.os.Messenger;

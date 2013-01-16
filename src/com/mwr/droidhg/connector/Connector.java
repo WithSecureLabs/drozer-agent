@@ -6,7 +6,6 @@ import com.mwr.cinnibar.connection.AbstractConnector;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 
-import com.mwr.droidhg.api.ConnectorParameters;
 
 public abstract class Connector extends AbstractConnector {
 	

@@ -3,7 +3,7 @@ package com.mwr.droidhg.agent;
 import java.lang.ref.WeakReference;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.ConnectorParameters;
+import com.mwr.droidhg.connector.ConnectorParameters;
 
 import android.app.Activity;
 import android.app.AlertDialog;

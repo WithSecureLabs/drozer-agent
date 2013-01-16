@@ -3,9 +3,9 @@ package com.mwr.droidhg.connector;
 import com.mwr.cinnibar.connection.AbstractSession;
 import com.mwr.cinnibar.connection.AbstractSessionCollection;
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.agent.SessionService;
 import com.mwr.droidhg.agent.service_connectors.SessionServiceConnection;
-import com.mwr.droidhg.api.ConnectorParameters.Status;
+import com.mwr.droidhg.agent.services.SessionService;
+import com.mwr.droidhg.connector.ConnectorParameters.Status;
 
 public class SessionCollection extends AbstractSessionCollection {
 	

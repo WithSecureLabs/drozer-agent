@@ -1,6 +1,6 @@
 package com.mwr.droidhg.agent.views;
 
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.Endpoint;
 
 import android.content.Context;
 import android.util.AttributeSet;

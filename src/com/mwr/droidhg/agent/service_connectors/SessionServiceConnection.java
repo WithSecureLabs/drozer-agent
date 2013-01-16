@@ -7,7 +7,7 @@ import android.os.IBinder;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.mwr.droidhg.agent.SessionService;
+import com.mwr.droidhg.agent.services.SessionService;
 
 public class SessionServiceConnection implements ServiceConnection {
 	

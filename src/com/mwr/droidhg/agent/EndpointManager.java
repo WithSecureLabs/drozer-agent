@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.mwr.droidhg.api.ConnectorParameters.Status;
-import com.mwr.droidhg.api.Endpoint;
-import com.mwr.droidhg.api.Endpoint.EndpointSerializer;
+import com.mwr.droidhg.connector.Endpoint;
+import com.mwr.droidhg.connector.ConnectorParameters.Status;
+import com.mwr.droidhg.connector.Endpoint.EndpointSerializer;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -188,7 +188,8 @@ public class EndpointManager extends SQLiteOpenHelper {
 			
 			if(fresh != null)
 				endpoint.setAttributes(fresh);
-			// TODO: raise an exception if fresh does not exist
+			else
+				throw new RuntimeException("could not load Endpoint " + endpoint.getId() + " from the database");
 		}
 		
 		return endpoint;

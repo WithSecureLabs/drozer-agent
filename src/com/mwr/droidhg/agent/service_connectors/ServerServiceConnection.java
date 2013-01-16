@@ -9,7 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.mwr.droidhg.agent.ServerService;
+import com.mwr.droidhg.agent.services.ServerService;
 
 public class ServerServiceConnection implements ServiceConnection {
 	

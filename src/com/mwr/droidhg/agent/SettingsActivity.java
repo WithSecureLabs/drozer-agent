@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.Endpoint;
 
 import android.content.Intent;
 import android.os.Bundle;

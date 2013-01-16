@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.droidhg.agent.R;
-import com.mwr.droidhg.api.ConnectorParameters;
+import com.mwr.droidhg.connector.ConnectorParameters;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

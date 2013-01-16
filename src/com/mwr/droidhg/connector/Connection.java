@@ -13,8 +13,8 @@ import com.mwr.cinnibar.connection.SecureConnection;
 import com.mwr.common.logging.LogMessage;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.ConnectorParameters.Status;
-import com.mwr.droidhg.api.SystemMessageHandler;
+import com.mwr.droidhg.api.handlers.SystemMessageHandler;
+import com.mwr.droidhg.connector.ConnectorParameters.Status;
 
 /**
  * A Connection is created by a Connector when a live transport connection is available.

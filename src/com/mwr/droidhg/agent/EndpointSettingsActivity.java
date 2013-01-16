@@ -1,10 +1,11 @@
 package com.mwr.droidhg.agent;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.Endpoint;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.PreferenceActivity;
@@ -121,7 +122,13 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO: Agent.stopEndpoint(EndpointSettingsActivity.this.endpoint);
+					EndpointSettingsActivity.this.endpoint.enabled = false;
+					EndpointSettingsActivity.this.endpoint.setStatus(Endpoint.Status.UPDATING);
+					
+					try {
+						Agent.getInstance().getClientService().stopEndpoint(EndpointSettingsActivity.this.endpoint.getId(), Agent.getInstance().getMessenger());
+					}
+					catch(RemoteException e) {}
 					
 					if(Agent.getInstance().getEndpointManager().remove(EndpointSettingsActivity.this.endpoint)) {
 						Bundle bundle = new Bundle();

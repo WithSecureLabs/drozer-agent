@@ -16,7 +16,7 @@ import com.mwr.android.widget.LogMessageAdapter;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.connector.Endpoint;
 
 public class EndpointActivity extends ConnectorActivity implements Observer, Endpoint.OnDetailedStatusListener {
 	

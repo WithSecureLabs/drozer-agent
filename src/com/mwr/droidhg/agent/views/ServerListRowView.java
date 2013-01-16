@@ -7,8 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mwr.droidhg.agent.R;
-import com.mwr.droidhg.api.ServerParameters;
-import com.mwr.droidhg.api.ServerParameters.OnChangeListener;
+import com.mwr.droidhg.connector.ServerParameters;
+import com.mwr.droidhg.connector.ServerParameters.OnChangeListener;
 
 public class ServerListRowView extends LinearLayout {
 	

@@ -6,7 +6,7 @@ import com.mwr.cinnibar.api.handlers.MessageHandler;
 import com.mwr.cinnibar.connection.AbstractSession;
 import com.mwr.cinnibar.reflection.ObjectStore;
 
-import com.mwr.droidhg.api.ReflectionMessageHandler;
+import com.mwr.droidhg.api.handlers.ReflectionMessageHandler;
 
 public class Session extends AbstractSession {
 	

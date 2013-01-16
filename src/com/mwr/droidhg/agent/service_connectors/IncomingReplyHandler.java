@@ -8,12 +8,12 @@ import android.os.Message;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.agent.ClientService;
-import com.mwr.droidhg.agent.ConnectorService;
-import com.mwr.droidhg.agent.ServerService;
-import com.mwr.droidhg.api.ConnectorParameters;
-import com.mwr.droidhg.api.Endpoint;
-import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.agent.services.ClientService;
+import com.mwr.droidhg.agent.services.ConnectorService;
+import com.mwr.droidhg.agent.services.ServerService;
+import com.mwr.droidhg.connector.ConnectorParameters;
+import com.mwr.droidhg.connector.Endpoint;
+import com.mwr.droidhg.connector.ServerParameters;
 
 public class IncomingReplyHandler extends Handler {
 	
