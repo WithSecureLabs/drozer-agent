@@ -62,13 +62,6 @@
     <string name="endpoint_updated">Successfully updated the Endpoint.</string>
     
     <!-- Logging -->
-    <string name="log_level_tag_assert">A</string>
-    <string name="log_level_tag_debug">D</string>
-    <string name="log_level_tag_error">E</string>
-    <string name="log_level_tag_info">I</string>
-    <string name="log_level_tag_unknown">U</string>
-    <string name="log_level_tag_verbose">V</string>
-    <string name="log_level_tag_warn">W</string>
     <string name="log_tag_agent">Agent</string>
     <string name="log_tag_client_service">ClientService</string>
     <string name="log_tag_main_activity">Main</string>

@@ -3,6 +3,7 @@ package com.mwr.droidhg.agent;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.mwr.android.widget.LogMessageAdapter;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.views.CheckListItemView;
 import com.mwr.droidhg.agent.views.ConnectorStatusIndicator;
