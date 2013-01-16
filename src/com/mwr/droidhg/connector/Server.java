@@ -9,7 +9,10 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
 import com.mwr.cinnibar.api.transport.SocketTransport;
+import com.mwr.cinnibar.connection.SecureConnection;
+
 import com.mwr.common.logging.LogMessage;
+
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.ServerParameters;
 
@@ -28,11 +31,11 @@ public class Server extends Connector {
 	public boolean dieWithLastSession() { return true; }
 
 	public String getHostCertificateFingerprint() {
-		return this.connection.getHostCertificateFingerprint();
+		return ((SecureConnection)this.connection).getHostCertificateFingerprint();
 	}
 	
 	public String getPeerCertificateFingerprint() {
-		return this.connection.getPeerCertificateFingerprint();
+		return ((SecureConnection)this.connection).getPeerCertificateFingerprint();
 	}
 	
 	@Override

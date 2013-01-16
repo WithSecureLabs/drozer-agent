@@ -51,7 +51,7 @@ public class SystemMessageHandler extends AbstractSystemMessageHandler {
 	}
 	
 	protected Message startSession(Message message) throws InvalidMessageException {
-		Session session = this.connection.startSession(message.getSystemRequest().getPassword());
+		Session session = (Session)this.connection.startSession(message.getSystemRequest().getPassword());
 		
 		if(session != null) {
 			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session.getSessionId()));
@@ -70,7 +70,7 @@ public class SystemMessageHandler extends AbstractSystemMessageHandler {
 	}
 	
 	protected Message stopSession(Message message) throws InvalidMessageException {
-		Session session = this.connection.stopSession(message.getSystemRequest().getSessionId());
+		Session session = (Session)this.connection.stopSession(message.getSystemRequest().getSessionId());
 		
 		if(session != null) {
 			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session.getSessionId()));

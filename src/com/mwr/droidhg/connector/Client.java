@@ -6,7 +6,10 @@ import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 
 import com.mwr.cinnibar.api.transport.SocketTransport;
+import com.mwr.cinnibar.connection.SecureConnection;
+
 import com.mwr.common.logging.LogMessage;
+
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Endpoint;
 
@@ -19,11 +22,11 @@ public class Client extends Connector {
 	}
 
 	public String getHostCertificateFingerprint() {
-		return this.connection.getHostCertificateFingerprint();
+		return ((SecureConnection)this.connection).getHostCertificateFingerprint();
 	}
 	
 	public String getPeerCertificateFingerprint() {
-		return this.connection.getPeerCertificateFingerprint();
+		return ((SecureConnection)this.connection).getPeerCertificateFingerprint();
 	}
 	
 	@Override
