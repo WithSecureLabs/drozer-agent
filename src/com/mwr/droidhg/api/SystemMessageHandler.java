@@ -2,9 +2,10 @@ package com.mwr.droidhg.api;
 
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.builders.MessageFactory;
+import com.mwr.cinnibar.api.builders.SystemResponseFactory;
 import com.mwr.cinnibar.api.handlers.AbstractSystemMessageHandler;
-import com.mwr.droidhg.api.builders.MessageFactory;
-import com.mwr.droidhg.api.builders.SystemResponseFactory;
+import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.connector.Connection;
 import com.mwr.droidhg.connector.Session;
 
@@ -17,7 +18,11 @@ public class SystemMessageHandler extends AbstractSystemMessageHandler {
 	}
 	
 	protected Message handleListDevices(Message message) throws InvalidMessageException {
-		MessageFactory factory = new MessageFactory(SystemResponseFactory.deviceList(message));
+		MessageFactory factory = new MessageFactory(SystemResponseFactory.deviceList(message).addDevice(
+				Agent.getInstance().getUID(),
+				android.os.Build.MANUFACTURER,
+				android.os.Build.MODEL,
+				android.os.Build.VERSION.RELEASE));
 		
 		factory.inReplyTo(message);
 		
@@ -49,14 +54,14 @@ public class SystemMessageHandler extends AbstractSystemMessageHandler {
 		Session session = this.connection.startSession(message.getSystemRequest().getPassword());
 		
 		if(session != null) {
-			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session));
+			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session.getSessionId()));
 			
 			factory.inReplyTo(message);
 			
 			return factory.build();
 		}
 		else {
-			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(Session.nullSession()).isError());
+			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(Session.nullSession().getSessionId()).isError());
 			
 			factory.inReplyTo(message);
 			
@@ -68,14 +73,14 @@ public class SystemMessageHandler extends AbstractSystemMessageHandler {
 		Session session = this.connection.stopSession(message.getSystemRequest().getSessionId());
 		
 		if(session != null) {
-			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session));
+			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(session.getSessionId()));
 			
 			factory.inReplyTo(message);
 			
 			return factory.build();
 		}
 		else {
-			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(Session.nullSession()).isError());
+			MessageFactory factory = new MessageFactory(SystemResponseFactory.session(Session.nullSession().getSessionId()).isError());
 			
 			factory.inReplyTo(message);
 			

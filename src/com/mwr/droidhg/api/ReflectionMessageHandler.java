@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.builders.MessageFactory;
+import com.mwr.cinnibar.api.builders.ReflectionResponseFactory;
 import com.mwr.cinnibar.api.handlers.AbstractReflectionMessageHandler;
 import com.mwr.cinnibar.reflection.Reflector;
 import com.mwr.cinnibar.reflection.types.ReflectedType;
 
-import com.mwr.droidhg.api.builders.MessageFactory;
-import com.mwr.droidhg.api.builders.ReflectionResponseFactory;
 import com.mwr.droidhg.connector.Session;
 
 public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
@@ -21,7 +21,7 @@ public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 	}
 	
 	private Message createResponse(Message request, ReflectionResponseFactory response_factory) {
-		return new MessageFactory(response_factory.setSession(this.session)).inReplyTo(request).build();
+		return new MessageFactory(response_factory.setSessionId(this.session.getSessionId())).inReplyTo(request).build();
 	}
 	
 	@Override

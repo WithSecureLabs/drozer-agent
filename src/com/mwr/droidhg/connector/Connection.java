@@ -7,17 +7,18 @@ import java.util.Collection;
 import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
+import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.cinnibar.api.APIVersionException;
 import com.mwr.cinnibar.api.Frame;
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.builders.MessageFactory;
+import com.mwr.cinnibar.api.builders.SystemRequestFactory;
 import com.mwr.cinnibar.api.handlers.MessageHandler;
 import com.mwr.cinnibar.api.transport.SecureTransport;
 import com.mwr.cinnibar.api.transport.Transport;
 import com.mwr.cinnibar.api.transport.TransportDisconnectedException;
-import com.mwr.droidhg.api.builders.MessageFactory;
-import com.mwr.droidhg.api.builders.SystemRequestFactory;
 import com.mwr.droidhg.api.SystemMessageHandler;
 
 /**
@@ -52,7 +53,11 @@ public class Connection extends Thread {
 		if(this.mustBind()) {
 			this.log(LogMessage.DEBUG, "Sending BIND_DEVICE to Mercury server...");
 			
-			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice()).setId(1).build());
+			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice(
+					Agent.getInstance().getUID(),
+					android.os.Build.MANUFACTURER,
+					android.os.Build.MODEL,
+					android.os.Build.VERSION.RELEASE)).setId(1).build());
 			
 	//		while(true) {
 				Message message = this.receive();
@@ -366,7 +371,11 @@ public class Connection extends Thread {
 		if(this.mustBind()) {
 			this.log(LogMessage.DEBUG, "Sending UNBIND_DEVICE to Mercury server...");
 			
-			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice()).setId(1).build());
+			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice(
+					Agent.getInstance().getUID(),
+					android.os.Build.MANUFACTURER,
+					android.os.Build.MODEL,
+					android.os.Build.VERSION.RELEASE)).setId(1).build());
 			
 	//		while(true) {
 				Message message = this.receive();
