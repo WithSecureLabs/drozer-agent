@@ -1,4 +1,4 @@
-package com.mwr.droidhg.api;
+package com.mwr.droidhg.api.handlers;
 
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
