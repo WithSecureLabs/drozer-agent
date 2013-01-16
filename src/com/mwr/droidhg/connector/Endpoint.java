@@ -1,4 +1,4 @@
-package com.mwr.droidhg.api;
+package com.mwr.droidhg.connector;
 
 import java.io.FileInputStream;
 import java.net.InetAddress;
