@@ -2,7 +2,6 @@ package com.mwr.droidhg.connector;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.Collection;
 
 import android.util.Log;
 
@@ -107,13 +106,6 @@ public class Connection extends Thread {
 	 */
 	public String getPeerCertificateFingerprint() {
 		return ((SecureTransport)this.transport).getPeerCertificateFingerprint();
-	}
-	
-	/**
-	 * Gets all Sessions associated with this Connection.
-	 */
-	public Collection<Session> getSessions() {
-		return this.connector.getSessions();
 	}
 	
 	/**

@@ -1,5 +1,6 @@
 package com.mwr.droidhg.connector;
 
+import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.cinnibar.api.handlers.MessageHandler;
 import com.mwr.cinnibar.connection.AbstractSession;
@@ -28,7 +29,7 @@ public class Session extends AbstractSession {
 	}
 	
 	@Override
-	protected Message handleMessage(Message message) {
+	protected Message handleMessage(Message message) throws InvalidMessageException {
 		return this.reflection_message_handler.handle(message);
 	}
 	

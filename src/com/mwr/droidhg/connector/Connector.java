@@ -1,7 +1,5 @@
 package com.mwr.droidhg.connector;
 
-import java.util.Collection;
-
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.droidhg.api.ConnectorParameters;
@@ -36,11 +34,7 @@ public abstract class Connector extends Thread {
 	}
 	
 	public Session getSession(String session_id) {
-		return this.sessions.get(session_id);
-	}
-	
-	public Collection<Session> getSessions() {
-		return this.sessions.all();
+		return (Session)this.sessions.get(session_id);
 	}
 	
 	public boolean hasSessions() {
@@ -102,7 +96,7 @@ public abstract class Connector extends Thread {
 	}
 	
 	public Session stopSession(String session_id) {
-		return this.sessions.stop(session_id);
+		return (Session)this.sessions.stop(session_id);
 	}
 	
 	public void stopSessions() {

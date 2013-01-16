@@ -1,66 +1,16 @@
 package com.mwr.droidhg.connector;
 
-import java.util.Collection;
-import java.util.HashMap;
-
+import com.mwr.cinnibar.connection.AbstractSession;
+import com.mwr.cinnibar.connection.AbstractSessionCollection;
 import com.mwr.droidhg.Agent;
 import com.mwr.droidhg.agent.SessionService;
+import com.mwr.droidhg.agent.service_connectors.SessionServiceConnection;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.os.Messenger;
-import android.os.RemoteException;
-
-public class SessionCollection {
+public class SessionCollection extends AbstractSessionCollection {
 	
 	private Connector connector = null;
-	private HashMap<String,Session> sessions = new HashMap<String,Session>();
 	private SessionServiceConnection session_service_connection = null;
-	
-	public static class SessionServiceConnection implements ServiceConnection {
-    	
-    	private Messenger service = null;
-    	private boolean bound = false;
-    	
-    	public boolean isBound() {
-    		return this.bound;
-    	}
-    	
-    	public void notifySessionStarted(String sessionId) throws RemoteException {
-    		this.send(android.os.Message.obtain(null, SessionService.MSG_START_SESSION, sessionId));
-    	}
-    	
-    	public void notifySessionStopped(String sessionId) throws RemoteException {
-    		this.send(android.os.Message.obtain(null, SessionService.MSG_STOP_SESSION, sessionId));
-    	}
-    	
-    	@Override
-    	public void onServiceConnected(ComponentName className, IBinder service) {
-    		this.service = new Messenger(service);
-    		this.bound = true;
-    	}
-    	
-    	@Override
-    	public void onServiceDisconnected(ComponentName className) {
-    		this.service = null;
-    		this.bound = false;
-    	}
-    	
-    	public void send(android.os.Message msg) throws RemoteException {
-    		this.service.send(msg);
-    	}
-    	
-    	public void unbind(Context context) {
-    		if(this.bound) {
-    			context.unbindService(this);
-    			this.bound = false;
-    		}
-    	}
-    	
-    }
 	
 	public SessionCollection(Connector connector) {
 		this.connector = connector;
@@ -69,70 +19,30 @@ public class SessionCollection {
 		SessionService.startAndBindToService(Agent.getInstance().getMercuryContext(), this.session_service_connection);
 	}
 	
-	public Collection<Session> all() {
-		return this.sessions.values();
-	}
-	
-	public boolean any() {
-		return !this.sessions.isEmpty();
-	}
-	
+	@Override
 	public Session create() {
-		Session session = new Session(this.connector);
-		
-		this.sessions.put(session.getSessionId(), session);
-		session.start();
-		
-		this.connector.setStatus(Status.ACTIVE);
-		
-		try {
-			this.getSessionService().notifySessionStarted(session.getSessionId());
-		}
-		catch(RemoteException e) {}
-		
-		return session;
-	}
-	
-	public Session get(String session_id) {
-		return this.sessions.get(session_id);
+		return (Session)this.storeSession(new Session(this.connector));
 	}
 	
 	public SessionServiceConnection getSessionService() {
 		return this.session_service_connection;
 	}
 	
-	public Session stop(String session_id) {
-		Session session = this.sessions.get(session_id);
+	@Override
+	protected void onSessionStarted(AbstractSession session) {
+		this.connector.setStatus(Status.ACTIVE);
 		
-		if(session != null) {
-			try {
-				session.stopSession();
-				session.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		this.getSessionService().notifySessionStarted(session.getSessionId());
+	}
 	
-			this.sessions.remove(session_id);
-			
-			this.connector.setStatus(Status.ONLINE);
-			
-			try {
-				this.getSessionService().notifySessionStopped(session.getSessionId());
-			}
-			catch(RemoteException e) {}
-		}
+	@Override
+	protected void onSessionStopped(AbstractSession session) {
+		this.connector.setStatus(Status.ONLINE);
+		
+		this.getSessionService().notifySessionStopped(session.getSessionId());
 		
 		if(!this.any())
 			this.connector.lastSessionStopped();
-		
-		return session;
 	}
 	
-	public void stopAll() {
-		String[] keys = this.sessions.keySet().toArray(new String[] {});
-		
-		for(String session_id : keys)
-			this.stop(session_id);
-	}
-
 }
