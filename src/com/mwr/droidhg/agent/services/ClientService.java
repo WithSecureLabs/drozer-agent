@@ -1,4 +1,4 @@
-package com.mwr.droidhg.agent;
+package com.mwr.droidhg.agent.services;
 
 import java.util.Locale;
 
@@ -15,9 +15,11 @@ import android.widget.Toast;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.ConnectorParameters;
-import com.mwr.droidhg.api.Endpoint;
+import com.mwr.droidhg.agent.EndpointManager;
+import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.connector.Client;
+import com.mwr.droidhg.connector.ConnectorParameters;
+import com.mwr.droidhg.connector.Endpoint;
 
 public class ClientService extends ConnectorService {
 	

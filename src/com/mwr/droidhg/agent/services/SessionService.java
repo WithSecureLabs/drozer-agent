@@ -1,4 +1,4 @@
-package com.mwr.droidhg.agent;
+package com.mwr.droidhg.agent.services;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -14,6 +14,8 @@ import android.os.Messenger;
 import android.widget.RemoteViews;
 
 import com.mwr.common.android.app.NotifyingService;
+import com.mwr.droidhg.agent.MainActivity;
+import com.mwr.droidhg.agent.R;
 
 public class SessionService extends NotifyingService {
 	

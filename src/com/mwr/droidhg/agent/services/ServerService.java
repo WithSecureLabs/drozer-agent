@@ -1,4 +1,4 @@
-package com.mwr.droidhg.agent;
+package com.mwr.droidhg.agent.services;
 
 import java.util.Locale;
 import java.util.Observable;
@@ -13,8 +13,9 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mwr.droidhg.api.ServerParameters;
+import com.mwr.droidhg.agent.R;
 import com.mwr.droidhg.connector.Server;
+import com.mwr.droidhg.connector.ServerParameters;
 
 public class ServerService extends ConnectorService {
 	

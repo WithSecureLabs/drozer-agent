@@ -1,4 +1,4 @@
-package com.mwr.droidhg.agent;
+package com.mwr.droidhg.agent.services;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.common.logging.OnLogMessageListener;
-import com.mwr.droidhg.api.ConnectorParameters;
+import com.mwr.droidhg.connector.ConnectorParameters;
 
 import android.app.Service;
 import android.content.Intent;
