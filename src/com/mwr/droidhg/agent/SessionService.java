@@ -1,6 +1,7 @@
 package com.mwr.droidhg.agent;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import android.app.PendingIntent;
@@ -13,7 +14,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.widget.RemoteViews;
 
-import com.mwr.common.NotifyingService;
+import com.mwr.common.android.app.NotifyingService;
 
 public class SessionService extends NotifyingService {
 	
@@ -97,12 +98,10 @@ public class SessionService extends NotifyingService {
 	}
 	
 	private void updateNotification() {
-		if(!this.sessions.isEmpty()) {
-			this.showNotification(R.layout.notification_session, PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0));
-		}
-		else {
-			this.hideNotification(R.layout.notification_session);
-		}
+		if(!this.sessions.isEmpty())
+			this.showNotification(this.getString(R.string.app_name), R.layout.notification_session, R.drawable.ic_notification, PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0));
+		else
+			this.hideNotification(this.getString(R.string.app_name), R.layout.notification_session);
 	}
 
 }
