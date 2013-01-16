@@ -1,10 +1,10 @@
 package com.mwr.droidhg.api.builders;
 
-import com.mwr.droidhg.api.Protobuf.Message;
-import com.mwr.droidhg.api.Protobuf.Message.SystemRequest;
-import com.mwr.droidhg.api.Protobuf.Message.SystemResponse;
-import com.mwr.droidhg.api.Protobuf.Message.ReflectionRequest;
-import com.mwr.droidhg.api.Protobuf.Message.ReflectionResponse;
+import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message.SystemRequest;
+import com.mwr.cinnibar.api.Protobuf.Message.SystemResponse;
+import com.mwr.cinnibar.api.Protobuf.Message.ReflectionRequest;
+import com.mwr.cinnibar.api.Protobuf.Message.ReflectionResponse;
 
 public class MessageFactory {
 	

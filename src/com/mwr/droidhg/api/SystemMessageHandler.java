@@ -1,6 +1,6 @@
 package com.mwr.droidhg.api;
 
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.SystemResponseFactory;
 import com.mwr.droidhg.connector.Connection;

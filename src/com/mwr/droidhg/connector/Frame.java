@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message;
 
 public class Frame {
 

@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.SystemRequestFactory;
 import com.mwr.droidhg.api.Handler;

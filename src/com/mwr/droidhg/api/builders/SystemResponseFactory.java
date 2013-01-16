@@ -3,8 +3,8 @@ package com.mwr.droidhg.api.builders;
 import android.provider.Settings;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.Protobuf.Message;
-import com.mwr.droidhg.api.Protobuf.Message.SystemResponse;
+import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message.SystemResponse;
 import com.mwr.droidhg.connector.Session;
 
 public class SystemResponseFactory {

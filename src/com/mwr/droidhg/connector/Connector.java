@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.droidhg.api.ConnectorParameters;
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message;
 
 public abstract class Connector extends Thread {
 

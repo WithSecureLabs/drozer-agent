@@ -1,8 +1,8 @@
 package com.mwr.droidhg.api.builders;
 
 import com.mwr.droidhg.Agent;
-import com.mwr.droidhg.api.Protobuf.Message;
-import com.mwr.droidhg.api.Protobuf.Message.SystemRequest;
+import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message.SystemRequest;
 
 public class SystemRequestFactory {
 	

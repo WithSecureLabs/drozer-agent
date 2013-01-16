@@ -1,6 +1,6 @@
 package com.mwr.droidhg.connector;
 
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message;
 
 public class InvalidMessageException extends Exception {
 	

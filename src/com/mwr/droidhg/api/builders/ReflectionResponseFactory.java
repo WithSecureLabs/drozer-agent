@@ -1,10 +1,10 @@
 package com.mwr.droidhg.api.builders;
 
 import com.google.protobuf.MessageOrBuilder;
-import com.mwr.droidhg.api.Protobuf.Message;
-import com.mwr.droidhg.api.Protobuf.Message.ReflectionResponse;
+import com.mwr.cinnibar.reflection.types.ReflectedType;
+import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.Protobuf.Message.ReflectionResponse;
 import com.mwr.droidhg.connector.Session;
-import com.mwr.droidhg.reflection.ReflectedType;
 
 public class ReflectionResponseFactory {
 	

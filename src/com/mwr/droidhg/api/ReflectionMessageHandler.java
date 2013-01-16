@@ -3,13 +3,13 @@ package com.mwr.droidhg.api;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import com.mwr.droidhg.api.Protobuf.Message;
+import com.mwr.cinnibar.reflection.Reflector;
+import com.mwr.cinnibar.reflection.types.ReflectedType;
+import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.ReflectionResponseFactory;
 import com.mwr.droidhg.connector.InvalidMessageException;
 import com.mwr.droidhg.connector.Session;
-import com.mwr.droidhg.reflection.ReflectedType;
-import com.mwr.droidhg.reflection.Reflector;
 
 public class ReflectionMessageHandler implements Handler {
 	

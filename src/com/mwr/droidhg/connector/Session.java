@@ -7,10 +7,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import android.util.Log;
 
+import com.mwr.cinnibar.reflection.ObjectStore;
 import com.mwr.droidhg.api.Handler;
 import com.mwr.droidhg.api.ReflectionMessageHandler;
-import com.mwr.droidhg.api.Protobuf.Message;
-import com.mwr.droidhg.reflection.ObjectStore;
+import com.mwr.cinnibar.api.Protobuf.Message;
 
 public class Session extends Thread {
 	
