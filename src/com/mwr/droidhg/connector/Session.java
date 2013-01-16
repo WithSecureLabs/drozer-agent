@@ -1,43 +1,26 @@
 package com.mwr.droidhg.connector;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
-import android.util.Log;
-
-import com.mwr.cinnibar.reflection.ObjectStore;
-import com.mwr.droidhg.api.ReflectionMessageHandler;
-import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.cinnibar.api.handlers.MessageHandler;
+import com.mwr.cinnibar.connection.AbstractSession;
+import com.mwr.cinnibar.reflection.ObjectStore;
 
-public class Session extends Thread {
+import com.mwr.droidhg.api.ReflectionMessageHandler;
+
+public class Session extends AbstractSession {
 	
 	private Connector connector = null;
-	private BlockingQueue<Message> messages = new LinkedBlockingQueue<Message>();
 	public ObjectStore object_store = new ObjectStore();
-	private String session_id = null;
-	private static SecureRandom random = new SecureRandom();
 	private MessageHandler reflection_message_handler = new ReflectionMessageHandler(this);
-	public volatile boolean running = false;
 	
 	public Session(Connector connector) {
+		super();
+		
 		this.connector = connector;
-		this.session_id = new BigInteger(130, Session.random).toString(32);
 	}
 	
-	private Session(String session_id) {
-		this.session_id = session_id;
-	}
-	
-	public void deliverMessage(Message message) {
-		this.messages.offer(message);
-	}
-	
-	public String getSessionId() {
-		return this.session_id;
+	protected Session(String session_id) {
+		super(session_id);
 	}
 	
 	public static Session nullSession() {
@@ -45,40 +28,13 @@ public class Session extends Thread {
 	}
 	
 	@Override
-	public void run() {
-		this.running = true;
-		
-		while(this.running) {
-			Message message = null;
-			
-			try {
-				message = this.messages.take();
-			}
-			catch (InterruptedException e) {}
-			
-			if(message != null) {
-				try {
-					Message response = this.reflection_message_handler.handle(message);
-					
-					if(response != null) {
-						this.send(response);
-					}
-				}
-				catch(InvalidMessageException e) {
-					Log.e("session - " + this.session_id, "dropped invalid request: " + e.getMessage());
-				}
-			}
-		}
+	protected Message handleMessage(Message message) {
+		return this.reflection_message_handler.handle(message);
 	}
 	
+	@Override
 	public void send(Message message) {
 		this.connector.send(message);
-	}
-	
-	public void stopSession() {
-		this.running = false;
-		
-		this.interrupt();
 	}
 
 }
