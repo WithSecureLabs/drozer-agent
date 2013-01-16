@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 
+import com.mwr.cinnibar.api.transport.SocketTransport;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
 import com.mwr.droidhg.api.Endpoint;

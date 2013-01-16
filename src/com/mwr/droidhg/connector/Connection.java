@@ -8,9 +8,14 @@ import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
+import com.mwr.cinnibar.api.APIVersionException;
+import com.mwr.cinnibar.api.Frame;
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.cinnibar.api.handlers.MessageHandler;
+import com.mwr.cinnibar.api.transport.SecureTransport;
+import com.mwr.cinnibar.api.transport.Transport;
+import com.mwr.cinnibar.api.transport.TransportDisconnectedException;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.SystemRequestFactory;
 import com.mwr.droidhg.api.SystemMessageHandler;
@@ -89,14 +94,14 @@ public class Connection extends Thread {
 	 * Calculates the fingerprint of the host's SSL Certificate.
 	 */
 	public String getHostCertificateFingerprint() {
-		return this.transport.getHostCertificateFingerprint();
+		return ((SecureTransport)this.transport).getHostCertificateFingerprint();
 	}
 
 	/**
 	 * Calculates the fingerprint of the peer's SSL Certificate.
 	 */
 	public String getPeerCertificateFingerprint() {
-		return this.transport.getPeerCertificateFingerprint();
+		return ((SecureTransport)this.transport).getPeerCertificateFingerprint();
 	}
 	
 	/**

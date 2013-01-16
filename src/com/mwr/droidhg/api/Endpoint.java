@@ -10,7 +10,7 @@ import javax.net.ssl.TrustManager;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.mwr.common.KeyStoreTrustManager;
+import com.mwr.common.tls.trust_managers.KeyStoreTrustManager;
 
 public class Endpoint extends ConnectorParameters {
 	
