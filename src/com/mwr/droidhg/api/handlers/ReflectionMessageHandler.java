@@ -1,4 +1,4 @@
-package com.mwr.droidhg.api;
+package com.mwr.droidhg.api.handlers;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 				return this.createResponse(message, ReflectionResponseFactory.object(ref));
 			}
 			catch(Exception e) {
-				return this.handleError(message, e.getMessage());
+				return this.handleError(message, e);
 			}
 		}
 		else {
@@ -85,12 +85,19 @@ public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 				}
 			}
 			catch(Exception e) {
-				return this.handleError(message, e.getMessage());
+				return this.handleError(message, e);
 			}
 		}
 		else {
 			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getGetProperty().getObject().getReference()); 
 		}
+	}
+	
+	protected Message handleError(Message request, Throwable tr) {
+		if(tr.getCause() != null)
+			return this.handleError(request, tr.getCause().getMessage());
+		else
+			return this.handleError(request, tr.getMessage());
 	}
 	
 	@Override
@@ -119,7 +126,7 @@ public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 				}
 			}
 			catch(Exception e) {
-				return this.handleError(message, e.getMessage());
+				return this.handleError(message, e);
 			}
 		}
 		else {
@@ -152,7 +159,7 @@ public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 				return this.createResponse(message, ReflectionResponseFactory.success());
 			}
 			catch(Exception e) {
-				return this.handleError(message, e.getMessage());
+				return this.handleError(message, e);
 			}
 		}
 		else {
