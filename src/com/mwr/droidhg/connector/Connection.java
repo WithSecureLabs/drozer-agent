@@ -8,10 +8,11 @@ import android.util.Log;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.droidhg.api.ConnectorParameters.Status;
+import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.handlers.MessageHandler;
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.SystemRequestFactory;
-import com.mwr.droidhg.api.Handler;
 import com.mwr.droidhg.api.SystemMessageHandler;
 
 /**
@@ -28,7 +29,7 @@ public class Connection extends Thread {
 	private long last_message_at = 0;
 	public volatile boolean running = false;
 	public volatile boolean started = false;
-	private Handler system_message_handler = new SystemMessageHandler(this);
+	private MessageHandler system_message_handler = new SystemMessageHandler(this);
 	private Transport transport = null;
 	
 	public Connection(Connector connector, Transport transport) {

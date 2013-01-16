@@ -1,224 +1,162 @@
 package com.mwr.droidhg.api;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import com.mwr.cinnibar.api.InvalidMessageException;
+import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.handlers.AbstractReflectionMessageHandler;
 import com.mwr.cinnibar.reflection.Reflector;
 import com.mwr.cinnibar.reflection.types.ReflectedType;
-import com.mwr.cinnibar.api.Protobuf.Message;
+
 import com.mwr.droidhg.api.builders.MessageFactory;
 import com.mwr.droidhg.api.builders.ReflectionResponseFactory;
-import com.mwr.droidhg.connector.InvalidMessageException;
 import com.mwr.droidhg.connector.Session;
 
-public class ReflectionMessageHandler implements Handler {
+public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 	
 	private Session session = null;
 	
 	public ReflectionMessageHandler(Session session) {
 		this.session = session;
 	}
-
-	@Override
-	public Message handle(Message message) throws InvalidMessageException {
-		if(message.getType() != Message.MessageType.REFLECTION_REQUEST)
-			throw new InvalidMessageException("is not a REFLECTION_REQUEST", message);
-		if(!message.hasReflectionRequest())
-			throw new InvalidMessageException("does not contain a REFLECTION_REQUEST", message);
 	
-		ReflectionResponseFactory response = null;
-		
-		try {
-			switch(message.getReflectionRequest().getType()) {
-			case CONSTRUCT:
-				if(!message.getReflectionRequest().hasConstruct())
-					throw new InvalidMessageException("expected a CONSTRUCT message to contain a target to construct", message);
-				
-				response = this.construct(message.getReflectionRequest());
-				break;
-				
-			case DELETE:
-				if(!message.getReflectionRequest().hasDelete())
-					throw new InvalidMessageException("expected a DELETE message to contain a target to delete", message);
-				
-				response = this.delete(message.getReflectionRequest());
-				break;
-				
-			case DELETE_ALL:
-				response = this.deleteAll(message.getReflectionRequest());
-				break;
-				
-			case GET_PROPERTY:
-				if(!message.getReflectionRequest().hasGetProperty())
-					throw new InvalidMessageException("expected a GET_PROPERTY message to contain a target to get", message);
-				
-				response = this.getProperty(message.getReflectionRequest());
-				break;
-				
-			case INVOKE:
-				if(!message.getReflectionRequest().hasInvoke())
-					throw new InvalidMessageException("expected an INVOKE message to contain a target to invoke", message);
-				
-				response = this.invoke(message.getReflectionRequest());
-				break;
-				
-			case RESOLVE:
-				if(!message.getReflectionRequest().hasResolve())
-					throw new InvalidMessageException("expected a RESOLVE message to contain a target to resolve", message);
-				
-				response = this.resolve(message.getReflectionRequest());
-				break;
-						
-			case SET_PROPERTY:
-				if(!message.getReflectionRequest().hasSetProperty())
-					throw new InvalidMessageException("expected a SET_PROPERTY message to contain a target to set", message);
-				
-				response = this.setProperty(message.getReflectionRequest());
-				break;
-			
-			default:
-				throw new InvalidMessageException("unhandled REFLECTION_REQUEST type: " + message.getReflectionRequest().getType().toString(), message);
-			}
-		}
-		catch(Exception e) {
-			if(e.getMessage() != null) {
-				response = ReflectionResponseFactory.error(e.getMessage());
-			}
-			else if(e.getCause() != null && e.getCause().getMessage() != null) {
-				response = ReflectionResponseFactory.error(e.getCause().getMessage());
-			}
-			else {
-				response = ReflectionResponseFactory.error("Unknown Exception");
-			}
-		}
-			
-		if(response != null) {
-			return new MessageFactory(response.setSession(this.session)).inReplyTo(message).build();
-		}
-		else {
-			return null;
-		}
+	private Message createResponse(Message request, ReflectionResponseFactory response_factory) {
+		return new MessageFactory(response_factory.setSession(this.session)).inReplyTo(request).build();
 	}
 	
-	public ReflectionResponseFactory construct(Message.ReflectionRequest request) throws InvalidMessageException {
-		Object klass = this.session.object_store.get(request.getConstruct().getObject().getReference());
+	@Override
+	protected Message handleConstruct(Message message) throws InvalidMessageException {
+		Object klass = this.session.object_store.get(message.getReflectionRequest().getConstruct().getObject().getReference());
 		
 		if(klass != null) {
-			ReflectedType[] arguments = this.parseArguments(request.getConstruct().getArgumentList());
+			ReflectedType[] arguments = this.parseArguments(message.getReflectionRequest().getConstruct().getArgumentList());
 			
 			try {
 				Object object = Reflector.construct((Class<?>)klass, arguments);
 				int ref = this.session.object_store.put(object);
 				
-				return ReflectionResponseFactory.object(ref);
+				return this.createResponse(message, ReflectionResponseFactory.object(ref));
 			}
-			catch(IllegalAccessException e) {
-				return this.handleException(e);
-			}
-			catch(InstantiationException e) {
-				return this.handleException(e);
-			}
-			catch(InvocationTargetException e) {
-				return this.handleException(e.getCause());
-			}
-			catch(NoSuchMethodException e) {
-				return this.handleException(e); 
+			catch(Exception e) {
+				return this.handleError(message, e.getMessage());
 			}
 		}
 		else {
-			return ReflectionResponseFactory.error("cannot find object " + request.getConstruct().getObject().getReference()); 
+			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getConstruct().getObject().getReference()); 
 		}
 	}
 	
-	public ReflectionResponseFactory delete(Message.ReflectionRequest request) throws InvalidMessageException {
-		Object object = this.session.object_store.get(request.getDelete().getObject().getReference());
+	@Override
+	protected Message handleDelete(Message message) throws InvalidMessageException {
+		Object object = this.session.object_store.get(message.getReflectionRequest().getDelete().getObject().getReference());
 		
 		if(object != null) {
 			this.session.object_store.remove(object.hashCode());
 				
-			return ReflectionResponseFactory.success();
+			return this.createResponse(message, ReflectionResponseFactory.success());
 		}
 		else {
-			return ReflectionResponseFactory.error("cannot find object " + request.getDelete().getObject().getReference()); 
+			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getDelete().getObject().getReference()); 
 		}
 	}
 	
-	public ReflectionResponseFactory deleteAll(Message.ReflectionRequest request) throws InvalidMessageException {
+	@Override
+	protected Message handleDeleteAll(Message message) throws InvalidMessageException {
 		this.session.object_store.clear();
 		
-		return ReflectionResponseFactory.success();
+		return this.createResponse(message, ReflectionResponseFactory.success());
 	}
 	
-	public ReflectionResponseFactory getProperty(Message.ReflectionRequest request) throws InvalidMessageException {
-		Object object = this.session.object_store.get(request.getGetProperty().getObject().getReference());
+	@Override
+	protected Message handleGetProperty(Message message) throws InvalidMessageException {
+		Object object = this.session.object_store.get(message.getReflectionRequest().getGetProperty().getObject().getReference());
 		
 		if(object != null) {
 			try {
-				Object value = Reflector.getProperty(object, request.getGetProperty().getProperty());
+				Object value = Reflector.getProperty(object, message.getReflectionRequest().getGetProperty().getProperty());
 				
-				if(Reflector.isPropertyPrimitive(object, request.getGetProperty().getProperty()))
-					return ReflectionResponseFactory.primitive(value);
+				if(Reflector.isPropertyPrimitive(object, message.getReflectionRequest().getGetProperty().getProperty()))
+					return this.createResponse(message, ReflectionResponseFactory.primitive(value));
 				else {
 					if(value != null && this.shouldPutInStore(value))
 						this.session.object_store.put(value);
 					
-					return ReflectionResponseFactory.send(value);
+					return this.createResponse(message, ReflectionResponseFactory.send(value));
 				}
 			}
-			catch(IllegalAccessException e) {
-				return this.handleException(e);
-			}
-			catch(NoSuchFieldException e) {
-				return this.handleExceptionSilently(e);
+			catch(Exception e) {
+				return this.handleError(message, e.getMessage());
 			}
 		}
 		else {
-			return ReflectionResponseFactory.error("cannot find object " + request.getGetProperty().getObject().getReference()); 
+			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getGetProperty().getObject().getReference()); 
 		}
 	}
 	
-	private ReflectionResponseFactory handleException(Throwable tr) {
-		return ReflectionResponseFactory.error(tr.toString());
+	@Override
+	protected Message handleError(Message request, String error_message) {
+		return this.createResponse(request, ReflectionResponseFactory.error(error_message));
 	}
 	
-	private ReflectionResponseFactory handleExceptionSilently(Throwable tr) {
-		return ReflectionResponseFactory.error(tr.toString());
-	}
-	
-	public ReflectionResponseFactory invoke(Message.ReflectionRequest request) throws InvalidMessageException {
-		Object object = this.session.object_store.get(request.getInvoke().getObject().getReference());
+	@Override
+	protected Message handleInvoke(Message message) throws InvalidMessageException {
+		Object object = this.session.object_store.get(message.getReflectionRequest().getInvoke().getObject().getReference());
 		
 		if(object != null) {
-			String method_name = request.getInvoke().getMethod();
-			ReflectedType[] arguments = this.parseArguments(request.getInvoke().getArgumentList());
+			String method_name = message.getReflectionRequest().getInvoke().getMethod();
+			ReflectedType[] arguments = this.parseArguments(message.getReflectionRequest().getInvoke().getArgumentList());
 			
 			try {
 				if(Reflector.isMethodReturnPrimitive(object, method_name, arguments))
-					return ReflectionResponseFactory.primitive(Reflector.invoke(object, method_name, arguments));
+					return this.createResponse(message, ReflectionResponseFactory.primitive(Reflector.invoke(object, method_name, arguments)));
 				else {
 					Object result = Reflector.invoke(object, method_name, arguments);
 					
 					if(result != null && this.shouldPutInStore(result))
 						this.session.object_store.put(result);
 					
-					return ReflectionResponseFactory.send(result);
+					return this.createResponse(message, ReflectionResponseFactory.send(result));
 				}
 			}
-			catch (IllegalAccessException e) {
-				return this.handleException(e);
-			}
-			catch (IllegalArgumentException e) {
-				return this.handleException(e);
-			}
-			catch (NoSuchMethodException e) {
-				return this.handleException(e);
-			}
-			catch (InvocationTargetException e) {
-				return this.handleException(e.getCause());
+			catch(Exception e) {
+				return this.handleError(message, e.getMessage());
 			}
 		}
 		else {
-			return ReflectionResponseFactory.error("cannot find object " + request.getInvoke().getObject().getReference());
+			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getInvoke().getObject().getReference());
+		}
+	}
+	
+	@Override
+	protected Message handleResolve(Message message) throws InvalidMessageException {
+		Class<?> klass = Reflector.resolve(message.getReflectionRequest().getResolve().getClassname());
+		
+		if(klass != null) {
+			int ref = this.session.object_store.put(klass);
+		
+			return this.createResponse(message,	ReflectionResponseFactory.object(ref));
+		}
+		else {
+			return this.handleError(message, "cannot resolve " + message.getReflectionRequest().getResolve().getClassname());
+		}
+	}
+	
+	@Override
+	protected Message handleSetProperty(Message message) throws InvalidMessageException {
+		Object object = this.session.object_store.get(message.getReflectionRequest().getSetProperty().getObject().getReference());
+		
+		if(object != null) {
+			try {
+				Reflector.setProperty(object, message.getReflectionRequest().getSetProperty().getProperty(), ReflectedType.fromArgument(message.getReflectionRequest().getSetProperty().getValue(), this.session.object_store));
+				
+				return this.createResponse(message, ReflectionResponseFactory.success());
+			}
+			catch(Exception e) {
+				return this.handleError(message, e.getMessage());
+			}
+		}
+		else {
+			return this.handleError(message, "cannot find object " + message.getReflectionRequest().getSetProperty().getObject().getReference()); 
 		}
 	}
 	
@@ -229,43 +167,6 @@ public class ReflectionMessageHandler implements Handler {
 			resolved[i] = ReflectedType.fromArgument(arguments.get(i), this.session.object_store);
 		
 		return resolved;
-	}
-	
-	public ReflectionResponseFactory resolve(Message.ReflectionRequest request) throws InvalidMessageException {
-		Class<?> klass = Reflector.resolve(request.getResolve().getClassname());
-		
-		if(klass != null) {
-			int ref = this.session.object_store.put(klass);
-		
-			return ReflectionResponseFactory.object(ref);
-		}
-		else {
-			return ReflectionResponseFactory.error("cannot resolve " + request.getResolve().getClassname());
-		}
-	}
-	
-	public ReflectionResponseFactory setProperty(Message.ReflectionRequest request) throws InvalidMessageException {
-		Object object = this.session.object_store.get(request.getSetProperty().getObject().getReference());
-		
-		if(object != null) {
-			try {
-				Reflector.setProperty(object, request.getSetProperty().getProperty(), ReflectedType.fromArgument(request.getSetProperty().getValue(), this.session.object_store));
-				
-				return ReflectionResponseFactory.success();
-			}
-			catch(IllegalArgumentException e) {
-				return this.handleException(e);
-			}
-			catch(IllegalAccessException e) {
-				return this.handleException(e);
-			}
-			catch(NoSuchFieldException e) {
-				return this.handleException(e);
-			}
-		}
-		else {
-			return ReflectionResponseFactory.error("cannot find object " + request.getSetProperty().getObject().getReference()); 
-		}
 	}
 
 	private boolean shouldPutInStore(Object obj) {

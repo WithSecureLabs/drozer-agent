@@ -8,9 +8,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import android.util.Log;
 
 import com.mwr.cinnibar.reflection.ObjectStore;
-import com.mwr.droidhg.api.Handler;
 import com.mwr.droidhg.api.ReflectionMessageHandler;
+import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
+import com.mwr.cinnibar.api.handlers.MessageHandler;
 
 public class Session extends Thread {
 	
@@ -19,7 +20,7 @@ public class Session extends Thread {
 	public ObjectStore object_store = new ObjectStore();
 	private String session_id = null;
 	private static SecureRandom random = new SecureRandom();
-	private Handler reflection_message_handler = new ReflectionMessageHandler(this);
+	private MessageHandler reflection_message_handler = new ReflectionMessageHandler(this);
 	public volatile boolean running = false;
 	
 	public Session(Connector connector) {
