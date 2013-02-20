@@ -29,17 +29,16 @@ public class SessionCollection extends AbstractSessionCollection {
 	}
 	
 	@Override
-	protected void onSessionStarted(AbstractSession session) {
+	public void onSessionStarted(AbstractSession session) {
 		this.connector.setStatus(Status.ACTIVE);
 		
 		this.getSessionService().notifySessionStarted(session.getSessionId());
 	}
 	
 	@Override
-	protected void onSessionStopped(AbstractSession session) {
-		this.connector.setStatus(Status.ONLINE);
-		
+	public void onSessionStopped(AbstractSession session) {
 		this.getSessionService().notifySessionStopped(session.getSessionId());
+		this.connector.setStatus(Status.ONLINE);
 		
 		if(!this.any())
 			this.connector.lastSessionStopped();
