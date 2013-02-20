@@ -1,5 +1,7 @@
 package com.mwr.droidhg.connector;
 
+import android.os.Looper;
+
 import com.mwr.cinnibar.api.InvalidMessageException;
 import com.mwr.cinnibar.api.Protobuf.Message;
 import com.mwr.cinnibar.api.handlers.MessageHandler;
@@ -31,6 +33,13 @@ public class Session extends AbstractSession {
 	@Override
 	protected Message handleMessage(Message message) throws InvalidMessageException {
 		return this.reflection_message_handler.handle(message);
+	}
+	
+	@Override
+	public void run(){
+		Looper.prepare();
+		
+		super.run();
 	}
 	
 	@Override
