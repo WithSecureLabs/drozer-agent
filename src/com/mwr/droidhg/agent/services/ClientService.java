@@ -32,6 +32,39 @@ public class ClientService extends ConnectorService {
 	private SparseArray<Client> clients = new SparseArray<Client>();
 	private final EndpointManager endpoint_manager = new EndpointManager(this);
 	
+	private void createAndEnableEndpoint(Bundle bundle) {
+		Log.i("ClientService", "reading attributes...");
+		int id = -1;
+		String name = "auto-endpoint-" + bundle.hashCode();
+		String host = bundle.getString("host");
+		int port = bundle.getInt("port");
+		boolean ssl = bundle.getBoolean("ssl");
+		String ssl_truststore_path = bundle.getString("ssl-truststore-path");
+		String ssl_truststore_password = bundle.getString("ssl-truststore-password");
+		String password = bundle.getString("password");
+		
+		Endpoint endpoint = new Endpoint(name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, password);
+		
+		Log.i("ClientService", "created endpoint, saving...");
+		if(this.endpoint_manager.add(endpoint)) {
+			for(Endpoint e : this.endpoint_manager.all()) {
+				if(e.getName().equals(name)) {
+					id = e.getId();
+					
+					break;
+				}
+			}
+			
+			if(id > -1)
+				this.startEndpoint(id);
+			else
+				Log.e("ClientService", "could not find endpoint");
+		}
+		else {
+			Log.e("ClientService", "error creating endpoint");
+		}
+	}
+	
 	public Bundle getEndpointDetailedStatus(int endpoint_id) {
 		Bundle data = new Bundle();
 		Endpoint endpoint = this.endpoint_manager.get(endpoint_id);
@@ -200,6 +233,16 @@ public class ClientService extends ConnectorService {
 	@Override
 	public void onDestroy() {
 		ClientService.running = false;
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		System.out.println("ClientService: onStartCommand: " + intent);
+		
+		if(intent.hasExtra("host"))
+			this.createAndEnableEndpoint(intent.getExtras());
+		
+		return super.onStartCommand(intent, flags, startId);
 	}
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {
