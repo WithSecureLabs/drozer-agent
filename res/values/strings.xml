@@ -93,7 +93,7 @@
     <!-- .AboutActivity -->
     <string name="about_mercury">About Mercury</string>
     <string name="about_mercury_contributors">Contributors</string>
-    <string name="about_mercury_copyright">Copyright © 2012 MWR InfoSecurity.</string>
+    <string name="about_mercury_copyright">Copyright © 2013 MWR InfoSecurity.</string>
     <string name="about_mercury_description">Mercury Agent v%s</string>
     <string name="about_mercury_license">Mercury Agent is released under the MWR Code License v2.</string>
     <string name="about_mercury_summary"></string>
