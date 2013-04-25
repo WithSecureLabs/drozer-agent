@@ -2,10 +2,12 @@ package com.mwr.droidhg.shell;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Shell {
 	
@@ -35,6 +37,7 @@ public class Shell {
     public static native void hangupProcessGroup(int processId);
     
     public void close() {
+    	Shell.hangupProcessGroup(this.id[0]);
     	Shell.close(this.fd);
     }
 
@@ -52,6 +55,27 @@ public class Shell {
 		}
 		
 		return value.toString();
+	}
+	
+	public boolean valid() {
+		try {
+			Runtime run = Runtime.getRuntime();
+			Process pr = run.exec("ps " + this.id[0]);
+			pr.waitFor();
+			
+			BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+			String line = "";
+			while((line=buf.readLine()) != null) {
+				if(line.contains("" + this.id[0])) {
+					if(line.split("\\s+")[7].equals("Z"))
+						return false;
+				}
+			}
+		}
+		catch(IOException e) {}
+		catch (InterruptedException e) {}
+		
+		return true;
 	}
     
     public void write(String value) throws IOException {
