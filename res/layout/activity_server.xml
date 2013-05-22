@@ -7,7 +7,7 @@
     android:paddingRight="8dp"
     tools:context=".ServerActivity" >
     
-    <com.mwr.droidhg.agent.views.ConnectorStatusIndicator
+    <com.mwr.dz.views.ConnectorStatusIndicator
         android:id="@+id/server_status_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,35 +27,35 @@
         android:paddingTop="24dp"
         android:text="@string/embedded_server_details"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    <com.mwr.droidhg.agent.views.CheckListItemView
+    <com.mwr.dz.views.CheckListItemView
         android:id="@+id/server_status_ssl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/label_server_details"
         app:text="@string/ssl_enabled" />
-    <com.mwr.droidhg.agent.views.CheckListItemView
+    <com.mwr.dz.views.CheckListItemView
         android:id="@+id/server_status_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/server_status_ssl"
         app:text="@string/embedded_server_password_protected" />
-    <com.mwr.droidhg.agent.views.CheckListItemView
+    <com.mwr.dz.views.CheckListItemView
         android:id="@+id/server_status_enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
 		android:layout_below="@id/server_status_password"
 		app:text="@string/enabled" />
-    <com.mwr.droidhg.agent.views.CheckListItemView
+    <com.mwr.dz.views.CheckListItemView
         android:id="@+id/server_status_listening"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
 		android:layout_below="@id/server_status_enabled"
 		app:text="@string/connected" />
-    <com.mwr.droidhg.agent.views.CheckListItemView
+    <com.mwr.dz.views.CheckListItemView
         android:id="@+id/server_status_sessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

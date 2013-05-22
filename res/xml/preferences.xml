@@ -48,8 +48,8 @@
 	    android:key="system_settings">
 	    <Preference
 	        android:key="about_mercury"
-	        android:title="@string/about_mercury"
-	        android:summary="@string/about_mercury_summary" />
+	        android:title="@string/title_about"
+	        android:summary="@string/about_summary" />
 	</PreferenceCategory>
     
 </PreferenceScreen>

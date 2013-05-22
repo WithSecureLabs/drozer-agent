@@ -147,7 +147,7 @@ int strings_file(const char* path) {
  * Method:    strings
  * Signature: (Ljava/lang/String;)[Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_com_mwr_droidhg_util_Strings_get
+JNIEXPORT jstring JNICALL Java_com_mwr_dz_util_Strings_get
   (JNIEnv *env, jclass obj, jstring jpath)
 {
 	const char *path = env->GetStringUTFChars(jpath, 0);

@@ -1,0 +1,106 @@
+package com.mwr.dz.connector;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+
+import com.mwr.cinnibar.api.transport.SocketTransport;
+import com.mwr.cinnibar.connection.SecureConnection;
+
+import com.mwr.common.logging.LogMessage;
+
+import com.mwr.dz.connector.ConnectorParameters.Status;
+
+public class Client extends Connector {
+	
+	public static final int RESET_TIMEOUT = 5000;
+	
+	public Client(Endpoint endpoint) {
+		super(endpoint);
+	}
+
+	public String getHostCertificateFingerprint() {
+		return ((SecureConnection)this.connection).getHostCertificateFingerprint();
+	}
+	
+	public String getPeerCertificateFingerprint() {
+		return ((SecureConnection)this.connection).getPeerCertificateFingerprint();
+	}
+	
+	@Override
+	public void resetConnection() {
+		this.parameters.setStatus(Endpoint.Status.CONNECTING);
+		
+		try {
+			Thread.sleep(RESET_TIMEOUT);
+		}
+		catch(InterruptedException e) {}
+		
+		super.resetConnection();
+	}
+	
+	@Override
+	public void run() {
+		Endpoint endpoint = (Endpoint)this.parameters;
+		
+		this.log("Starting...");
+		this.running = true;
+		
+		while(this.running) {
+			try {
+				if(this.connection == null) {
+					this.parameters.setStatus(Endpoint.Status.CONNECTING);
+					
+					this.log("Attempting connection to " + endpoint.toConnectionString() + "...");
+					Socket socket = new EndpointSocketFactory().createSocket(endpoint);
+					
+					if(socket != null) {
+						this.log("Socket connected.");
+						
+						this.log("Attempting to start Mercury thread...");
+						this.createConnection(new SocketTransport(socket));
+					}
+				}
+				else {
+					synchronized(this.connection) {
+						try {
+							this.connection.wait();
+						}
+						catch(InterruptedException e) {}
+						catch(IllegalMonitorStateException e){}
+					}
+					
+					if(this.connection.started && !this.connection.running) {
+						this.log("Connection was reset.");
+						
+						this.resetConnection();
+					}
+				}
+			}
+			catch(UnknownHostException e) {
+				this.log(LogMessage.ERROR, "Unknown Host: " + endpoint.getHost());
+				
+				this.stopConnector();
+			}
+			catch(IOException e) {
+				this.log(LogMessage.ERROR, "IO Error. Resetting connection.");
+				
+				this.resetConnection();
+			}
+			catch(KeyManagementException e) {
+				this.log(LogMessage.ERROR, "Error loading key material for SSL.");
+				
+				this.stopConnector();
+			}
+		}
+		
+		this.log("Stopped.");
+	}
+
+	@Override
+	public void setStatus(Status status) {
+		this.parameters.setStatus(status);
+	}
+
+}

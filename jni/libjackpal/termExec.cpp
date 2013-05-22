@@ -339,7 +339,7 @@ static int register_FileDescriptor(JNIEnv *env)
 }
 
 
-static const char *classPathName = "com/mwr/droidhg/shell/Shell";
+static const char *classPathName = "com/mwr/dz/shell/Shell";
 
 static JNINativeMethod method_table[] = {
     { "createSubprocess", "(Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/String;[I)Ljava/io/FileDescriptor;",

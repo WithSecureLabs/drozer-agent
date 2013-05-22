@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mwr.droidhg.agent"
-    android:versionCode="2"
-    android:versionName="2.2" >
+    package="com.mwr.dz"
+    android:versionCode="3"
+    android:versionName="2.4" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -16,69 +16,39 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mwr.droidhg.agent.AboutActivity"
-            android:label="@string/about_mercury"
-            android:parentActivityName="com.mwr.droidhg.agent.SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mwr.droidhg.agent.SettingsActivity" />
-        </activity>
+            android:name=".activities.AboutActivity"
+            android:label="@string/title_about"
+            android:parentActivityName="com.mwr.dz.activities.SettingsActivity" />
         <activity
-            android:name="com.mwr.droidhg.agent.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="com.mwr.droidhg.agent"
-                    android:scheme="droidhg" />
-            </intent-filter>
         </activity>
         <activity
-            android:name="com.mwr.droidhg.agent.EndpointActivity"
-            android:label="@string/title_activity_endpoint" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mwr.droidhg.agent.MainActivity" />
-        </activity>
+            android:name=".activities.EndpointActivity"
+            android:label="@string/title_activity_endpoint" />
         <activity
-            android:name="com.mwr.droidhg.agent.EndpointSettingsActivity"
-            android:label="@string/endpoint_new">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mwr.droidhg.agent.SettingsActivity" />
-        </activity>
+            android:name=".activities.EndpointSettingsActivity"
+            android:label="@string/endpoint_new" />
         <activity
-            android:name="com.mwr.droidhg.agent.ServerActivity"
-            android:label="@string/title_activity_server" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mwr.droidhg.agent.MainActivity" />
-        </activity>
+            android:name=".activities.ServerActivity"
+            android:label="@string/title_activity_server" />
         <activity
-            android:name="com.mwr.droidhg.agent.SettingsActivity"
-            android:label="@string/title_activity_settings" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.mwr.droidhg.agent.MainActivity" />
-        </activity>
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings" />
 
         <service
-            android:name="com.mwr.droidhg.agent.services.ClientService"
+            android:name=".services.ClientService"
             android:process=":remote" />
         <service
-            android:name="com.mwr.droidhg.agent.services.ServerService"
+            android:name=".services.ServerService"
             android:process=":remote" />
         <service
-            android:name="com.mwr.droidhg.agent.services.SessionService"
+            android:name=".services.SessionService"
             android:process=":remote" />
     </application>
 

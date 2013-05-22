@@ -25,7 +25,7 @@
         android:text="@string/embedded_server_port"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <com.mwr.droidhg.agent.views.ConnectorStatusIndicator
+    <com.mwr.dz.views.ConnectorStatusIndicator
         android:id="@+id/adb_server_status_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

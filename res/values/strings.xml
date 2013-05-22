@@ -2,7 +2,7 @@
 <resources>
     
     <!-- Mercury -->
-    <string name="app_name">Mercury Agent</string>
+    <string name="app_name">drozer Agent</string>
     
     <!-- General -->
     <string name="calculating">Calculating. Please wait&#8230;</string>
@@ -70,7 +70,7 @@
     
     <!-- Sessions -->
     <string name="session_active">Active Sessions</string>
-    <string name="session_connected">A user is accessing your device using Mercury.</string>
+    <string name="session_connected">A user is accessing your device using drozer.</string>
     <string name="session_status_placeholder">Status Message goes Here</string>
     
     <!-- SSL -->
@@ -91,23 +91,23 @@
     <string name="ssl_status_placeholder">SSL Status</string>
 
     <!-- .AboutActivity -->
-    <string name="about_mercury">About Mercury</string>
-    <string name="about_mercury_contributors">Contributors</string>
-    <string name="about_mercury_copyright">Copyright © 2013 MWR InfoSecurity.</string>
-    <string name="about_mercury_description">Mercury Agent v%s</string>
-    <string name="about_mercury_license">Mercury Agent is released under the MWR Code License v2.</string>
-    <string name="about_mercury_summary"></string>
+    <string name="title_about">About drozer</string>
+    <string name="about_contributors">Contributors</string>
+    <string name="about_copyright">Copyright © 2013 MWR InfoSecurity.</string>
+    <string name="about_description">drozer Agent v%s</string>
+    <string name="about_license">drozer Agent is released under the MWR Code License v2.</string>
+    <string name="about_summary"></string>
     
     <!-- .EndpointActivity -->
-    <string name="title_activity_endpoint">Mercury Endpoint</string>
+    <string name="title_activity_endpoint">drozer Endpoint</string>
     
     <!-- .MainActivity -->
-    <string name="title_activity_main">Mercury Agent</string>
+    <string name="title_activity_main">drozer Agent</string>
     
     <!-- .ServerActivity -->
-    <string name="title_activity_server">Mercury Server</string>
+    <string name="title_activity_server">drozer Server</string>
     
     <!-- .SettingsActivity -->
-    <string name="title_activity_settings">Mercury Settings</string>
+    <string name="title_activity_settings">drozer Settings</string>
     
 </resources>

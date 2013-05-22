@@ -7,45 +7,36 @@
     android:paddingRight="8dp"
     tools:context=".AboutActivity" >
 
-    <ImageView
-        android:id="@+id/mercury_graphic"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/mercury"
-        android:contentDescription="@string/app_name" />
-
     <TextView
-        android:id="@+id/about_mercury_description"
+        android:id="@+id/about_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/mercury_graphic"
+        android:layout_alignParentTop="true"
         android:paddingTop="2dip"
-        android:text="@string/about_mercury"
+        android:text="@string/title_about"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/about_mercury_copyright"
+        android:id="@+id/about_copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/about_mercury_description"
-        android:text="@string/about_mercury_copyright"
+        android:layout_below="@+id/about_description"
+        android:text="@string/about_copyright"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/about_mercury_license"
+        android:id="@+id/about_license"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/about_mercury_copyright"
+        android:layout_below="@+id/about_copyright"
         android:paddingTop="8dp"
-        android:text="@string/about_mercury_license"
+        android:text="@string/about_license"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

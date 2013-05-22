@@ -12,7 +12,7 @@
         android:src="@drawable/mercury"
         android:contentDescription="@string/app_name" />
 
-    <com.mwr.droidhg.agent.views.EndpointListView
+    <com.mwr.dz.views.EndpointListView
         android:id="@+id/endpoint_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_below="@+id/mercury_graphic"
         android:layout_alignParentLeft="true" />
     
-    <com.mwr.droidhg.agent.views.ServerListRowView
+    <com.mwr.dz.views.ServerListRowView
         android:id="@+id/server_list_row_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
