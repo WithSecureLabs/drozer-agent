@@ -1,11 +1,11 @@
 package com.mwr.dz.connector;
 
-import com.mwr.cinnibar.connection.AbstractSession;
-import com.mwr.cinnibar.connection.AbstractSessionCollection;
 import com.mwr.dz.Agent;
 import com.mwr.dz.connector.ConnectorParameters.Status;
 import com.mwr.dz.service_connectors.SessionServiceConnection;
 import com.mwr.dz.services.SessionService;
+import com.mwr.jdiesel.connection.AbstractSession;
+import com.mwr.jdiesel.connection.AbstractSessionCollection;
 
 public class SessionCollection extends AbstractSessionCollection {
 	

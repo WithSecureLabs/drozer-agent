@@ -1,20 +1,20 @@
 package com.mwr.dz.connector;
 
-import com.mwr.cinnibar.api.Protobuf.Message;
-import com.mwr.cinnibar.api.builders.MessageFactory;
-import com.mwr.cinnibar.api.builders.SystemRequestFactory;
-import com.mwr.cinnibar.api.handlers.MessageHandler;
-import com.mwr.cinnibar.api.transport.SecureTransport;
-import com.mwr.cinnibar.api.transport.Transport;
-import com.mwr.cinnibar.connection.AbstractConnection;
-import com.mwr.cinnibar.connection.AbstractConnector;
-import com.mwr.cinnibar.connection.SecureConnection;
 
 import com.mwr.common.logging.LogMessage;
 
 import com.mwr.dz.Agent;
 import com.mwr.dz.api.handlers.SystemMessageHandler;
 import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.jdiesel.api.Protobuf.Message;
+import com.mwr.jdiesel.api.builders.MessageFactory;
+import com.mwr.jdiesel.api.builders.SystemRequestFactory;
+import com.mwr.jdiesel.api.handlers.MessageHandler;
+import com.mwr.jdiesel.api.transport.SecureTransport;
+import com.mwr.jdiesel.api.transport.Transport;
+import com.mwr.jdiesel.connection.AbstractConnection;
+import com.mwr.jdiesel.connection.AbstractConnector;
+import com.mwr.jdiesel.connection.SecureConnection;
 
 /**
  * A Connection is created by a Connector when a live transport connection is available.

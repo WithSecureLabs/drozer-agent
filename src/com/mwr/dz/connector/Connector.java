@@ -1,10 +1,10 @@
 package com.mwr.dz.connector;
 
-import com.mwr.cinnibar.api.transport.Transport;
-import com.mwr.cinnibar.connection.AbstractConnector;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
+import com.mwr.jdiesel.api.transport.Transport;
+import com.mwr.jdiesel.connection.AbstractConnector;
 
 
 public abstract class Connector extends AbstractConnector {

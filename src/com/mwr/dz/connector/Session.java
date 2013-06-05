@@ -2,13 +2,13 @@ package com.mwr.dz.connector;
 
 import android.os.Looper;
 
-import com.mwr.cinnibar.api.InvalidMessageException;
-import com.mwr.cinnibar.api.Protobuf.Message;
-import com.mwr.cinnibar.api.handlers.MessageHandler;
-import com.mwr.cinnibar.connection.AbstractSession;
-import com.mwr.cinnibar.reflection.ObjectStore;
 
 import com.mwr.dz.api.handlers.ReflectionMessageHandler;
+import com.mwr.jdiesel.api.InvalidMessageException;
+import com.mwr.jdiesel.api.Protobuf.Message;
+import com.mwr.jdiesel.api.handlers.MessageHandler;
+import com.mwr.jdiesel.connection.AbstractSession;
+import com.mwr.jdiesel.reflection.ObjectStore;
 
 public class Session extends AbstractSession {
 	

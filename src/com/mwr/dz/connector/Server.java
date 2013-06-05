@@ -8,12 +8,12 @@ import java.security.KeyStoreException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
-import com.mwr.cinnibar.api.transport.SocketTransport;
-import com.mwr.cinnibar.connection.SecureConnection;
 
 import com.mwr.common.logging.LogMessage;
 
 import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.jdiesel.api.transport.SocketTransport;
+import com.mwr.jdiesel.connection.SecureConnection;
 
 public class Server extends Connector {
 	

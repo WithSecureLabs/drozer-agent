@@ -1,13 +1,13 @@
 package com.mwr.dz.api.handlers;
 
-import com.mwr.cinnibar.api.InvalidMessageException;
-import com.mwr.cinnibar.api.Protobuf.Message;
-import com.mwr.cinnibar.api.builders.MessageFactory;
-import com.mwr.cinnibar.api.builders.SystemResponseFactory;
-import com.mwr.cinnibar.api.handlers.AbstractSystemMessageHandler;
 import com.mwr.dz.Agent;
 import com.mwr.dz.connector.Connection;
 import com.mwr.dz.connector.Session;
+import com.mwr.jdiesel.api.InvalidMessageException;
+import com.mwr.jdiesel.api.Protobuf.Message;
+import com.mwr.jdiesel.api.builders.MessageFactory;
+import com.mwr.jdiesel.api.builders.SystemResponseFactory;
+import com.mwr.jdiesel.api.handlers.AbstractSystemMessageHandler;
 
 public class SystemMessageHandler extends AbstractSystemMessageHandler {
 	

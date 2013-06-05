@@ -2,15 +2,15 @@ package com.mwr.dz.api.handlers;
 
 import java.util.List;
 
-import com.mwr.cinnibar.api.InvalidMessageException;
-import com.mwr.cinnibar.api.Protobuf.Message;
-import com.mwr.cinnibar.api.builders.MessageFactory;
-import com.mwr.cinnibar.api.builders.ReflectionResponseFactory;
-import com.mwr.cinnibar.api.handlers.AbstractReflectionMessageHandler;
-import com.mwr.cinnibar.reflection.Reflector;
-import com.mwr.cinnibar.reflection.types.ReflectedType;
 
 import com.mwr.dz.connector.Session;
+import com.mwr.jdiesel.api.InvalidMessageException;
+import com.mwr.jdiesel.api.Protobuf.Message;
+import com.mwr.jdiesel.api.builders.MessageFactory;
+import com.mwr.jdiesel.api.builders.ReflectionResponseFactory;
+import com.mwr.jdiesel.api.handlers.AbstractReflectionMessageHandler;
+import com.mwr.jdiesel.reflection.Reflector;
+import com.mwr.jdiesel.reflection.types.ReflectedType;
 
 public class ReflectionMessageHandler extends AbstractReflectionMessageHandler {
 	
