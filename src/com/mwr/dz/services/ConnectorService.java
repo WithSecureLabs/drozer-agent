@@ -7,7 +7,7 @@ import java.util.List;
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
 import com.mwr.common.logging.OnLogMessageListener;
-import com.mwr.dz.connector.ConnectorParameters;
+import com.mwr.dz.connector.Connector;
 
 import android.app.Service;
 import android.content.Intent;
@@ -96,7 +96,7 @@ public abstract class ConnectorService extends Service implements Logger {
 	 */
 	public void log(LogMessage msg) {
 		Bundle data = new Bundle();
-		data.putBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE, msg.toBundle());
+		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, msg.toBundle());
 		
 		this.broadcastLogMessageBundle(data);
 	}

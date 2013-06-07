@@ -1,60 +1,71 @@
 package com.mwr.dz.connector;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.common.logging.Logger;
-import com.mwr.jdiesel.api.transport.Transport;
-import com.mwr.jdiesel.connection.AbstractConnector;
+import com.mwr.common.logging.OnLogMessageListener;
 
-
-public abstract class Connector extends AbstractConnector {
+public abstract class Connector extends Observable implements Logger {
 	
-	protected ConnectorParameters parameters = null;
+	public static final String CONNECTOR_CONNECTED = "connector:connected";
+	public static final String CONNECTOR_ENABLED = "connector:enabled";
+	public static final String CONNECTOR_LOG_MESSAGE = "connector:logmessage";
+	public static final String CONNECTOR_OPEN_SESSIONS = "connector:opensessions";
+	public static final String CONNECTOR_SSL_FINGERPRINT = "certificate:fingerprint";
 	
-	private Logger logger = null;
+	public enum Status { ACTIVE, CONNECTING, UNKNOWN, UPDATING, ONLINE, OFFLINE };
 	
-	public Connector(ConnectorParameters parameters) {
-		this.parameters = parameters;
-		this.setSessionCollection(new SessionCollection(this));
-	}
+	public volatile boolean enabled = false;
+	private List<LogMessage> log_messages = new ArrayList<LogMessage>();
+	private OnLogMessageListener on_log_message_listener;
+	public volatile Status status = Status.UNKNOWN;
 	
-	public abstract void setStatus(ConnectorParameters.Status status);
-	
-	@Override
-	protected void createConnection(Transport transport) {
-		if(transport.isLive()) {
-			this.connection = new Connection(this, transport);
-			this.connection.start();
-		}
+	public synchronized boolean isEnabled() {
+		return this.enabled;
 	}
 	
 	@Override
-	public Session getSession(String session_id) {
-		return (Session)super.getSession(session_id);
+	public List<LogMessage> getLogMessages() {
+		return this.log_messages;
+	}
+	
+	public synchronized Status getStatus() {
+		return this.status;
 	}
 	
 	public void log(String message) {
 		this.log(new LogMessage(message));
 	}
-
-	public void log(int level, String message) {
-		this.log(new LogMessage(level, message));		
-	}
 	
+	@Override
 	public void log(LogMessage message) {
-		if(this.logger != null)
-			this.logger.log(this.parameters, message);
+		this.log_messages.add(message);
+		
+		if(this.on_log_message_listener != null)
+			this.on_log_message_listener.onLogMessage(this, message);
 	}
 	
-	public void setLogger(Logger logger) {
-		this.logger = logger;
+	@Override
+	public void log(Logger logger, LogMessage message) {
+		this.log(message);
 	}
 	
-	public Session startSession(String password) {
-		if(this.parameters.verifyPassword(password))
-			return (Session)this.createSession();
-		else
-			return null;
+	public void setOnLogMessageListener(OnLogMessageListener listener) {
+		this.on_log_message_listener = listener;
 	}
+	
+	public synchronized void setStatus(Status status) {
+		if(this.status != status) {
+			this.status = status;
+			
+			this.setChanged();
+			this.notifyObservers();
+		}
+	}
+
+	public abstract boolean verifyPassword(String password);
 
 }

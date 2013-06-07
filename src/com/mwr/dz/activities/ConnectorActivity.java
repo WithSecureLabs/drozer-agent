@@ -4,7 +4,7 @@ import java.lang.ref.WeakReference;
 
 import com.mwr.dz.Agent;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.ConnectorParameters;
+import com.mwr.dz.connector.Connector;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,8 +32,8 @@ public abstract class ConnectorActivity extends Activity {
 			ConnectorActivity context = (ConnectorActivity)this.context.get();
 			Bundle data = msg.getData();
 			
-			if(data.getString(ConnectorParameters.CONNECTOR_SSL_FINGERPRINT) != null)
-				context.receiveFingerprint(data.getString(ConnectorParameters.CONNECTOR_SSL_FINGERPRINT));
+			if(data.getString(Connector.CONNECTOR_SSL_FINGERPRINT) != null)
+				context.receiveFingerprint(data.getString(Connector.CONNECTOR_SSL_FINGERPRINT));
 			else
 				context.receiveFingerprint(context.getString(R.string.ssl_no_fingerprint));
 		}

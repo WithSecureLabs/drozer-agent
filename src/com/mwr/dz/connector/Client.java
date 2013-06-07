@@ -8,11 +8,11 @@ import java.security.KeyManagementException;
 
 import com.mwr.common.logging.LogMessage;
 
-import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.dz.connector.Connector.Status;
 import com.mwr.jdiesel.api.transport.SocketTransport;
 import com.mwr.jdiesel.connection.SecureConnection;
 
-public class Client extends Connector {
+public class Client extends Link {
 	
 	public static final int RESET_TIMEOUT = 5000;
 	

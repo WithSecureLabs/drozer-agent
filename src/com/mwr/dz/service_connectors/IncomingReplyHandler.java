@@ -8,7 +8,7 @@ import android.os.Message;
 
 import com.mwr.common.logging.LogMessage;
 import com.mwr.dz.Agent;
-import com.mwr.dz.connector.ConnectorParameters;
+import com.mwr.dz.connector.Connector;
 import com.mwr.dz.connector.Endpoint;
 import com.mwr.dz.connector.ServerParameters;
 import com.mwr.dz.services.ClientService;
@@ -49,9 +49,9 @@ public class IncomingReplyHandler extends Handler {
 
 		case ConnectorService.MSG_LOG_MESSAGE:
 			if (data.containsKey(Endpoint.ENDPOINT_ID))
-				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).log(LogMessage.fromBundle(data.getBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE)));
+				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).log(LogMessage.fromBundle(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE)));
 			else
-				agent.getServerParameters().log(LogMessage.fromBundle(data.getBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE)));
+				agent.getServerParameters().log(LogMessage.fromBundle(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE)));
 			break;
 
 		default:

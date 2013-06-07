@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.mwr.common.tls.trust_managers.KeyStoreTrustManager;
 
-public class Endpoint extends ConnectorParameters {
+public class Endpoint extends Connector {
 	
 	public static final String ENDPOINT_DELETED = "endpoint:deleted";
 	public static final String ENDPOINT_HOST = "endpoint:host";

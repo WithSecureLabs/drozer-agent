@@ -11,11 +11,11 @@ import java.security.cert.CertificateException;
 
 import com.mwr.common.logging.LogMessage;
 
-import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.dz.connector.Connector.Status;
 import com.mwr.jdiesel.api.transport.SocketTransport;
 import com.mwr.jdiesel.connection.SecureConnection;
 
-public class Server extends Connector {
+public class Server extends Link {
 	
 	private ServerSocket server_socket = null;
 	

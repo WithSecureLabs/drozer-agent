@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.ConnectorParameters;
+import com.mwr.dz.connector.Connector;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 public class ConnectorStatusIndicator extends LinearLayout implements Observer {
 	
 	private AnimationDrawable animation = null;
-	private ConnectorParameters connector_parameters = null;
+	private Connector connector_parameters = null;
 	private ImageView status_image = null;
 	
 	public ConnectorStatusIndicator(Context context) {
@@ -31,7 +31,7 @@ public class ConnectorStatusIndicator extends LinearLayout implements Observer {
 		this.setUpView();
 	}
 	
-	public void setConnector(ConnectorParameters connector_parameters) {
+	public void setConnector(Connector connector_parameters) {
 		if(this.connector_parameters != null)
 			this.connector_parameters.deleteObserver(this);
 		
@@ -51,7 +51,7 @@ public class ConnectorStatusIndicator extends LinearLayout implements Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		ConnectorParameters connector_parameters = (ConnectorParameters)observable;
+		Connector connector_parameters = (Connector)observable;
 		
 		switch(connector_parameters.getStatus()) {
 		case ACTIVE:

@@ -19,7 +19,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
-public class ServerParameters extends ConnectorParameters implements OnSharedPreferenceChangeListener {
+public class ServerParameters extends Connector implements OnSharedPreferenceChangeListener {
 	
 	public static final String SERVER_KEY_PASSWORD = "server:key:password";
 	public static final String SERVER_KEYSTORE_PASSWORD = "server:ks:password";

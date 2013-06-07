@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.dz.connector.Endpoint;
-import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.dz.connector.Connector.Status;
 import com.mwr.dz.connector.Endpoint.EndpointSerializer;
 
 import android.content.ContentValues;

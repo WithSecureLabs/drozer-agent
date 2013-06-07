@@ -12,11 +12,11 @@ import com.mwr.jdiesel.reflection.ObjectStore;
 
 public class Session extends AbstractSession {
 	
-	private Connector connector = null;
+	private Link connector = null;
 	public ObjectStore object_store = new ObjectStore();
 	private MessageHandler reflection_message_handler = new ReflectionMessageHandler(this);
 	
-	public Session(Connector connector) {
+	public Session(Link connector) {
 		super();
 		
 		this.connector = connector;

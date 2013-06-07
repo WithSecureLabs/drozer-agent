@@ -1,7 +1,7 @@
 package com.mwr.dz.connector;
 
 import com.mwr.dz.Agent;
-import com.mwr.dz.connector.ConnectorParameters.Status;
+import com.mwr.dz.connector.Connector.Status;
 import com.mwr.dz.service_connectors.SessionServiceConnection;
 import com.mwr.dz.services.SessionService;
 import com.mwr.jdiesel.connection.AbstractSession;
@@ -9,10 +9,10 @@ import com.mwr.jdiesel.connection.AbstractSessionCollection;
 
 public class SessionCollection extends AbstractSessionCollection {
 	
-	private Connector connector = null;
+	private Link connector = null;
 	private SessionServiceConnection session_service_connection = null;
 	
-	public SessionCollection(Connector connector) {
+	public SessionCollection(Link connector) {
 		this.connector = connector;
 		this.session_service_connection = new SessionServiceConnection();
 		

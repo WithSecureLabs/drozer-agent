@@ -18,7 +18,7 @@ import com.mwr.dz.Agent;
 import com.mwr.dz.EndpointManager;
 import com.mwr.dz.R;
 import com.mwr.dz.connector.Client;
-import com.mwr.dz.connector.ConnectorParameters;
+import com.mwr.dz.connector.Connector;
 import com.mwr.dz.connector.Endpoint;
 
 public class ClientService extends ConnectorService {
@@ -163,7 +163,7 @@ public class ClientService extends ConnectorService {
 	public void log(Logger logger, LogMessage msg) {
 		Bundle data = new Bundle();
 		data.putInt(Endpoint.ENDPOINT_ID, ((Endpoint)logger).getId());
-		data.putBundle(ConnectorParameters.CONNECTOR_LOG_MESSAGE, msg.toBundle());
+		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, msg.toBundle());
 		
 		this.broadcastLogMessageBundle(data);
 	}
