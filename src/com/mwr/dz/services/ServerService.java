@@ -14,8 +14,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Server;
+import com.mwr.dz.models.ServerSettings;
 import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.jdiesel.api.links.Server;
 
 public class ServerService extends ConnectorService {
 	
@@ -184,7 +185,7 @@ public class ServerService extends ConnectorService {
 	
 	public void startServer() {
 		if(this.server == null) {
-			this.server_parameters.setFromPreferences();
+			(new ServerSettings()).load(this.server_parameters);
 			
 			this.server_parameters.enabled = true;
 			this.server = new Server(this.server_parameters);

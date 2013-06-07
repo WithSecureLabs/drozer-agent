@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.mwr.dz.R;
+import com.mwr.dz.models.EndpointManager;
 import com.mwr.dz.service_connectors.ClientServiceConnection;
 import com.mwr.dz.service_connectors.IncomingReplyHandler;
 import com.mwr.dz.service_connectors.ServerServiceConnection;

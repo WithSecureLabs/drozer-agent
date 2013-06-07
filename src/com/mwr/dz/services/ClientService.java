@@ -13,11 +13,10 @@ import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.mwr.dz.Agent;
-import com.mwr.dz.EndpointManager;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Client;
-import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.dz.models.EndpointManager;
 import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.links.Client;
 
 public class ClientService extends ConnectorService {
 	

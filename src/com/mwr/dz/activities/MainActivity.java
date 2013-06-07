@@ -6,7 +6,6 @@ import com.mwr.dz.R;
 import com.mwr.dz.views.EndpointListView;
 import com.mwr.dz.views.ServerListRowView;
 import com.mwr.jdiesel.api.connectors.Endpoint;
-import com.mwr.jdiesel.api.connectors.Server;
 
 import android.os.Bundle;
 import android.os.RemoteException;

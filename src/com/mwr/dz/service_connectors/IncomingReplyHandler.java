@@ -12,7 +12,6 @@ import com.mwr.dz.services.ConnectorService;
 import com.mwr.dz.services.ServerService;
 import com.mwr.jdiesel.api.connectors.Connector;
 import com.mwr.jdiesel.api.connectors.Endpoint;
-import com.mwr.jdiesel.api.connectors.Server;
 import com.mwr.jdiesel.logger.LogMessage;
 
 public class IncomingReplyHandler extends Handler {

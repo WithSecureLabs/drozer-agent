@@ -1,4 +1,4 @@
-package com.mwr.dz;
+package com.mwr.dz.models;
 
 import java.util.ArrayList;
 import java.util.List;

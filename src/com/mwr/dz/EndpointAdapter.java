@@ -1,5 +1,6 @@
 package com.mwr.dz;
 
+import com.mwr.dz.models.EndpointManager;
 import com.mwr.dz.views.EndpointListRowView;
 import com.mwr.jdiesel.api.connectors.Endpoint;
 
