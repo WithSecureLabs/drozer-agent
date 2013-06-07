@@ -38,7 +38,7 @@
             android:name=".activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.mwr.dz.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
 
         <service
@@ -48,7 +48,7 @@
             android:name=".services.ServerService"
             android:process=":remote" />
         <service
-            android:name=".services.SessionService"
+            android:name="com.mwr.dz.services.SessionService"
             android:process=":remote" />
     </application>
 
