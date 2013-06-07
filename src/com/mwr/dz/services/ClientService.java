@@ -12,14 +12,12 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 
-import com.mwr.common.logging.LogMessage;
-import com.mwr.common.logging.Logger;
 import com.mwr.dz.Agent;
 import com.mwr.dz.EndpointManager;
 import com.mwr.dz.R;
 import com.mwr.dz.connector.Client;
-import com.mwr.dz.connector.Connector;
-import com.mwr.dz.connector.Endpoint;
+import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 public class ClientService extends ConnectorService {
 	
@@ -160,15 +158,6 @@ public class ClientService extends ConnectorService {
 	}
 	
 	@Override
-	public void log(Logger logger, LogMessage msg) {
-		Bundle data = new Bundle();
-		data.putInt(Endpoint.ENDPOINT_ID, ((Endpoint)logger).getId());
-		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, msg.toBundle());
-		
-		this.broadcastLogMessageBundle(data);
-	}
-	
-	@Override
 	public void onCreate() {
 		super.onCreate();
 		
@@ -215,7 +204,8 @@ public class ClientService extends ConnectorService {
 			Endpoint endpoint = this.endpoint_manager.get(id, true);
 			
 			Client client = new Client(endpoint);
-			client.setLogger(this);
+			client.setLogger(endpoint.getLogger());
+			endpoint.getLogger().addOnLogMessageListener(this);
 			
 			this.clients.put(id, client);
 			

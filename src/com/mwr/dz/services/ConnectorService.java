@@ -2,12 +2,11 @@ package com.mwr.dz.services;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.mwr.common.logging.LogMessage;
-import com.mwr.common.logging.Logger;
-import com.mwr.common.logging.OnLogMessageListener;
-import com.mwr.dz.connector.Connector;
+import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.jdiesel.logger.LogMessage;
+import com.mwr.jdiesel.logger.Logger;
+import com.mwr.jdiesel.logger.OnLogMessageListener;
 
 import android.app.Service;
 import android.content.Intent;
@@ -18,7 +17,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-public abstract class ConnectorService extends Service implements Logger {
+public abstract class ConnectorService extends Service implements OnLogMessageListener {
 
 	public static final int MSG_LOG_MESSAGE = 1;
 	
@@ -48,10 +47,9 @@ public abstract class ConnectorService extends Service implements Logger {
 		}
 		
 	}
-
+	
 	private final Messenger messenger = new Messenger(new IncomingHandler(this));
 	private final ArrayList<Messenger> messengers = new ArrayList<Messenger>();
-	private OnLogMessageListener on_log_message_listener = null;
 	protected static boolean running = false;
 	
 	/**
@@ -73,14 +71,6 @@ public abstract class ConnectorService extends Service implements Logger {
 			this.messengers.add(messenger);
 	}
 	
-	@Override
-	/**
-	 * Required by Logger interface. Not used.
-	 */
-	public List<LogMessage> getLogMessages() {
-		return null;
-	}
-	
 	/**
 	 * handleMessage() is handed every message that is passed to this service,
 	 * to process and send any replies.
@@ -90,32 +80,16 @@ public abstract class ConnectorService extends Service implements Logger {
 	public abstract void handleMessage(Message msg);
 	
 	@Override
-	/**
-	 * Broadcast a log message to all messengers that have previously sent a
-	 * message to this service.
-	 */
-	public void log(LogMessage msg) {
-		Bundle data = new Bundle();
-		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, msg.toBundle());
-		
-		this.broadcastLogMessageBundle(data);
-	}
-	
-	@Override
-	/**
-	 * Broadcast a log message to all messengers that have previously sent a
-	 * message to this service.
-	 */
-	public void log(Logger logger, LogMessage msg) {
-		if(this.on_log_message_listener != null)
-			this.on_log_message_listener.onLogMessage(logger, msg);
-		
-		this.log(msg);
-	}
-	
-	@Override
 	public IBinder onBind(Intent intent) {
 		return this.messenger.getBinder();
+	}
+	
+	@Override
+	public void onLogMessage(Logger logger, LogMessage message) {
+		Bundle data = new Bundle();
+		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, message.toBundle());
+		
+		this.broadcastLogMessageBundle(data);
 	}
 	
 	@Override
@@ -134,15 +108,6 @@ public abstract class ConnectorService extends Service implements Logger {
 			}
 			catch(RemoteException e) {}
 		}
-	}
-	
-	@Override
-	/**
-	 * Set an OnLogMessageListener, that will be handed every message logged
-	 * by this ConnectorService.
-	 */
-	public void setOnLogMessageListener(OnLogMessageListener listener) {
-		this.on_log_message_listener = listener;
 	}
 
 }

@@ -8,18 +8,17 @@ import java.security.KeyStoreException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
-
-import com.mwr.common.logging.LogMessage;
-
-import com.mwr.dz.connector.Connector.Status;
+import com.mwr.jdiesel.api.connectors.ServerSocketFactory;
+import com.mwr.jdiesel.api.connectors.Connector.Status;
 import com.mwr.jdiesel.api.transport.SocketTransport;
 import com.mwr.jdiesel.connection.SecureConnection;
+import com.mwr.jdiesel.logger.LogMessage;
 
 public class Server extends Link {
 	
 	private ServerSocket server_socket = null;
 	
-	public Server(ServerParameters parameters) {
+	public Server(com.mwr.jdiesel.api.connectors.Server parameters) {
 		super(parameters);
 	}
 	
@@ -42,7 +41,7 @@ public class Server extends Link {
 	
 	@Override
 	public void resetConnection() {
-		this.parameters.setStatus(ServerParameters.Status.CONNECTING);
+		this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.CONNECTING);
 		
 		Thread.yield();
 		
@@ -62,24 +61,24 @@ public class Server extends Link {
 	public void run() {
 		this.running = true;
 		
-		this.log("Starting Server...");
+		this.log(LogMessage.INFO, "Starting Server...");
 		while(this.running) {
 			try {
 				if(this.connection == null) {
-					this.parameters.setStatus(ServerParameters.Status.CONNECTING);
+					this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.CONNECTING);
 					
-					this.log("Attempting to bind to port " + ((ServerParameters)this.parameters).getPort() + "...");
-					this.server_socket = new ServerSocketFactory().createSocket((ServerParameters)this.parameters);
+					this.log(LogMessage.INFO, "Attempting to bind to port " + ((com.mwr.jdiesel.api.connectors.Server)this.parameters).getPort() + "...");
+					this.server_socket = new ServerSocketFactory().createSocket((com.mwr.jdiesel.api.connectors.Server)this.parameters);
 					
-					this.log("Waiting for connections...");
+					this.log(LogMessage.INFO, "Waiting for connections...");
 					Socket socket = this.server_socket.accept();
 					
 					if(socket != null) {
-						this.parameters.setStatus(ServerParameters.Status.ONLINE);
+						this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.ONLINE);
 						
-						this.log("Accepted connection...");
+						this.log(LogMessage.INFO, "Accepted connection...");
 						
-						this.log("Starting Mercury thread...");
+						this.log(LogMessage.INFO, "Starting Mercury thread...");
 						this.createConnection(new SocketTransport(socket));
 					}
 				}
@@ -128,8 +127,8 @@ public class Server extends Link {
 			
 		}
 		
-		this.log("Stopped.");
-		this.parameters.setStatus(ServerParameters.Status.OFFLINE);
+		this.log(LogMessage.INFO, "Stopped.");
+		this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.OFFLINE);
 	}
 
 	@Override

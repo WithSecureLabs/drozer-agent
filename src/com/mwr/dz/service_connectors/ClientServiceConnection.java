@@ -10,8 +10,8 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import com.mwr.dz.Agent;
-import com.mwr.dz.connector.Endpoint;
 import com.mwr.dz.services.ClientService;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 public class ClientServiceConnection implements ServiceConnection {
 	

@@ -2,7 +2,7 @@ package com.mwr.dz.activities;
 
 import com.mwr.dz.Agent;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Endpoint;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 import android.content.Intent;
 import android.os.Bundle;

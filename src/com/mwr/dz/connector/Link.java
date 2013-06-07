@@ -1,10 +1,10 @@
 package com.mwr.dz.connector;
 
-
-import com.mwr.common.logging.LogMessage;
-import com.mwr.common.logging.Logger;
+import com.mwr.jdiesel.api.connectors.Connector;
 import com.mwr.jdiesel.api.transport.Transport;
 import com.mwr.jdiesel.connection.AbstractLink;
+import com.mwr.jdiesel.logger.LogMessage;
+import com.mwr.jdiesel.logger.Logger;
 
 
 public abstract class Link extends AbstractLink {
@@ -32,18 +32,13 @@ public abstract class Link extends AbstractLink {
 	public Session getSession(String session_id) {
 		return (Session)super.getSession(session_id);
 	}
-	
-	public void log(String message) {
-		this.log(new LogMessage(message));
-	}
 
 	public void log(int level, String message) {
-		this.log(new LogMessage(level, message));		
+		this.logger.log(level, message);		
 	}
 	
 	public void log(LogMessage message) {
-		if(this.logger != null)
-			this.logger.log(this.parameters, message);
+		this.logger.log(message);
 	}
 	
 	public void setLogger(Logger logger) {

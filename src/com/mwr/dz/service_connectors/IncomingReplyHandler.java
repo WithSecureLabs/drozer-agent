@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.mwr.common.logging.LogMessage;
 import com.mwr.dz.Agent;
-import com.mwr.dz.connector.Connector;
-import com.mwr.dz.connector.Endpoint;
-import com.mwr.dz.connector.ServerParameters;
 import com.mwr.dz.services.ClientService;
 import com.mwr.dz.services.ConnectorService;
 import com.mwr.dz.services.ServerService;
+import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.Server;
+import com.mwr.jdiesel.logger.LogMessage;
 
 public class IncomingReplyHandler extends Handler {
 	
@@ -44,14 +44,16 @@ public class IncomingReplyHandler extends Handler {
 			break;
 
 		case ServerService.MSG_GET_SERVER_STATUS:
-			agent.getServerParameters().setStatus(ServerParameters.Status.values()[data.getInt("server")]);
+			agent.getServerParameters().setStatus(Connector.Status.values()[data.getInt("server")]);
 			break;
 
 		case ConnectorService.MSG_LOG_MESSAGE:
+			LogMessage log_message = new LogMessage(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE));
+			System.out.println("gui received log message");
 			if (data.containsKey(Endpoint.ENDPOINT_ID))
-				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).log(LogMessage.fromBundle(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE)));
+				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).getLogger().log(log_message);
 			else
-				agent.getServerParameters().log(LogMessage.fromBundle(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE)));
+				agent.getServerParameters().getLogger().log(log_message);
 			break;
 
 		default:

@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Connector;
+import com.mwr.jdiesel.api.connectors.Connector;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;

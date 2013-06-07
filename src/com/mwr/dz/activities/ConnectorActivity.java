@@ -4,7 +4,7 @@ import java.lang.ref.WeakReference;
 
 import com.mwr.dz.Agent;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Connector;
+import com.mwr.jdiesel.api.connectors.Connector;
 
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -5,12 +5,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 
-
-import com.mwr.common.logging.LogMessage;
-
-import com.mwr.dz.connector.Connector.Status;
+import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.EndpointSocketFactory;
+import com.mwr.jdiesel.api.connectors.Connector.Status;
 import com.mwr.jdiesel.api.transport.SocketTransport;
 import com.mwr.jdiesel.connection.SecureConnection;
+import com.mwr.jdiesel.logger.LogMessage;
 
 public class Client extends Link {
 	
@@ -44,7 +44,7 @@ public class Client extends Link {
 	public void run() {
 		Endpoint endpoint = (Endpoint)this.parameters;
 		
-		this.log("Starting...");
+		this.log(LogMessage.INFO, "Starting...");
 		this.running = true;
 		
 		while(this.running) {
@@ -52,13 +52,13 @@ public class Client extends Link {
 				if(this.connection == null) {
 					this.parameters.setStatus(Endpoint.Status.CONNECTING);
 					
-					this.log("Attempting connection to " + endpoint.toConnectionString() + "...");
+					this.log(LogMessage.INFO, "Attempting connection to " + endpoint.toConnectionString() + "...");
 					Socket socket = new EndpointSocketFactory().createSocket(endpoint);
 					
 					if(socket != null) {
-						this.log("Socket connected.");
+						this.log(LogMessage.INFO, "Socket connected.");
 						
-						this.log("Attempting to start Mercury thread...");
+						this.log(LogMessage.INFO, "Attempting to start Mercury thread...");
 						this.createConnection(new SocketTransport(socket));
 					}
 				}
@@ -72,7 +72,7 @@ public class Client extends Link {
 					}
 					
 					if(this.connection.started && !this.connection.running) {
-						this.log("Connection was reset.");
+						this.log(LogMessage.INFO, "Connection was reset.");
 						
 						this.resetConnection();
 					}
@@ -95,7 +95,7 @@ public class Client extends Link {
 			}
 		}
 		
-		this.log("Stopped.");
+		this.log(LogMessage.INFO, "Stopped.");
 	}
 
 	@Override

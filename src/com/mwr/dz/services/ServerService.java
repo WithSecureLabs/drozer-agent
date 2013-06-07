@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.mwr.dz.R;
 import com.mwr.dz.connector.Server;
-import com.mwr.dz.connector.ServerParameters;
+import com.mwr.jdiesel.api.connectors.Connector;
 
 public class ServerService extends ConnectorService {
 	
@@ -26,34 +26,34 @@ public class ServerService extends ConnectorService {
 	public static final int MSG_STOP_SERVER = 25;
 	
 	private Server server = null;
-	private ServerParameters server_parameters = new ServerParameters();
+	private com.mwr.jdiesel.api.connectors.Server server_parameters = new com.mwr.jdiesel.api.connectors.Server();
 	
 	public Bundle getDetailedStatus() {
 		Bundle data = new Bundle();
 		
-		data.putBoolean(ServerParameters.CONNECTOR_ENABLED, server_parameters.isEnabled());
-		data.putBoolean(ServerParameters.SERVER_PASSWORD, server_parameters.hasPassword());
-    	data.putBoolean(ServerParameters.SERVER_SSL, server_parameters.isSSL());
+		data.putBoolean(Connector.CONNECTOR_ENABLED, server_parameters.isEnabled());
+		data.putBoolean(com.mwr.jdiesel.api.connectors.Server.SERVER_PASSWORD, server_parameters.hasPassword());
+    	data.putBoolean(com.mwr.jdiesel.api.connectors.Server.SERVER_SSL, server_parameters.isSSL());
     	
     	switch(server_parameters.getStatus()) {
     	case ACTIVE:
-    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, true);
-    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, true);
+    		data.putBoolean(Connector.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(Connector.CONNECTOR_OPEN_SESSIONS, true);
     		break;
     		
     	case CONNECTING:
-    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, false);
-    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
+    		data.putBoolean(Connector.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(Connector.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	case ONLINE:
-    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, true);
-    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
+    		data.putBoolean(Connector.CONNECTOR_CONNECTED, true);
+    		data.putBoolean(Connector.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     		
     	default:
-    		data.putBoolean(ServerParameters.CONNECTOR_CONNECTED, false);
-    		data.putBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS, false);
+    		data.putBoolean(Connector.CONNECTOR_CONNECTED, false);
+    		data.putBoolean(Connector.CONNECTOR_OPEN_SESSIONS, false);
     		break;
     	}
     	
@@ -64,9 +64,9 @@ public class ServerService extends ConnectorService {
 		Bundle data = new Bundle();
 
 		if(this.server != null)
-			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, this.server.getHostCertificateFingerprint());
+			data.putString(Connector.CONNECTOR_SSL_FINGERPRINT, this.server.getHostCertificateFingerprint());
 		else
-			data.putString(ServerParameters.CONNECTOR_SSL_FINGERPRINT, "No running server.");
+			data.putString(Connector.CONNECTOR_SSL_FINGERPRINT, "No running server.");
 		
 		return data;
 	}
@@ -166,7 +166,7 @@ public class ServerService extends ConnectorService {
 			
 		});
 		
-		this.server_parameters.setStatus(ServerParameters.Status.OFFLINE);
+		this.server_parameters.setStatus(Connector.Status.OFFLINE);
 	}
 	
 	@Override
@@ -188,7 +188,8 @@ public class ServerService extends ConnectorService {
 			
 			this.server_parameters.enabled = true;
 			this.server = new Server(this.server_parameters);
-			this.server.setLogger(this);
+			this.server.setLogger(this.server_parameters.getLogger());
+			this.server_parameters.getLogger().addOnLogMessageListener(this);
 			
 			this.server.start();
 			

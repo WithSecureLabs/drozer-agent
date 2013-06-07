@@ -1,7 +1,7 @@
 package com.mwr.dz;
 
-import com.mwr.dz.connector.Endpoint;
 import com.mwr.dz.views.EndpointListRowView;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 import android.content.Context;
 import android.view.View;

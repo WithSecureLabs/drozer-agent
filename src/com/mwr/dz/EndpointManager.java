@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.mwr.dz.connector.Endpoint;
-import com.mwr.dz.connector.Connector.Status;
-import com.mwr.dz.connector.Endpoint.EndpointSerializer;
+import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.Connector.Status;
+import com.mwr.jdiesel.api.connectors.Endpoint.EndpointSerializer;
 
 import android.content.ContentValues;
 import android.content.Context;

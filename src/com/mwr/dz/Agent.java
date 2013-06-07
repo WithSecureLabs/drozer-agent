@@ -14,12 +14,12 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.ServerParameters;
 import com.mwr.dz.service_connectors.ClientServiceConnection;
 import com.mwr.dz.service_connectors.IncomingReplyHandler;
 import com.mwr.dz.service_connectors.ServerServiceConnection;
 import com.mwr.dz.services.ClientService;
 import com.mwr.dz.services.ServerService;
+import com.mwr.jdiesel.api.connectors.Server;
 
 public class Agent {
 	
@@ -34,7 +34,7 @@ public class Agent {
 	private Context context = null;
 	private EndpointManager endpoint_manager = null;
 	private Messenger messenger = null;
-	private ServerParameters server_parameters = null;
+	private Server server_parameters = null;
 	private ServerServiceConnection server_service_connection = null;
 	private String uid = null;
 	
@@ -103,9 +103,9 @@ public class Agent {
 		return this.messenger;
 	}
 
-	public ServerParameters getServerParameters() {
+	public Server getServerParameters() {
 		if(this.server_parameters == null)
-			this.server_parameters = new ServerParameters();
+			this.server_parameters = new Server();
 		
 		return this.server_parameters;
 	}

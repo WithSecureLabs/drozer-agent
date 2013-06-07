@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Endpoint;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -1,20 +1,18 @@
 package com.mwr.dz.connector;
 
-
-import com.mwr.common.logging.LogMessage;
-
 import com.mwr.dz.Agent;
 import com.mwr.dz.api.handlers.SystemMessageHandler;
-import com.mwr.dz.connector.Connector.Status;
 import com.mwr.jdiesel.api.Protobuf.Message;
 import com.mwr.jdiesel.api.builders.MessageFactory;
 import com.mwr.jdiesel.api.builders.SystemRequestFactory;
+import com.mwr.jdiesel.api.connectors.Connector.Status;
 import com.mwr.jdiesel.api.handlers.MessageHandler;
 import com.mwr.jdiesel.api.transport.SecureTransport;
 import com.mwr.jdiesel.api.transport.Transport;
 import com.mwr.jdiesel.connection.AbstractConnection;
 import com.mwr.jdiesel.connection.AbstractLink;
 import com.mwr.jdiesel.connection.SecureConnection;
+import com.mwr.jdiesel.logger.LogMessage;
 
 /**
  * A Connection is created by a Connector when a live transport connection is available.
@@ -109,13 +107,6 @@ public class Connection extends AbstractConnection implements SecureConnection {
 	@Override
 	protected Message handleSystemResponse(Message message) {
 		return null;
-	}
-	
-	/**
-	 * Send a log message, at the default log level.
-	 */
-	public void log(String message) {
-		this.getConnector().log(message);
 	}
 	
 	/**

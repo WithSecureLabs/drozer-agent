@@ -3,13 +3,13 @@ package com.mwr.dz.activities;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.mwr.android.widget.LogMessageAdapter;
 import com.mwr.dz.Agent;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Endpoint;
-import com.mwr.dz.connector.ServerParameters;
 import com.mwr.dz.views.CheckListItemView;
 import com.mwr.dz.views.ConnectorStatusIndicator;
+import com.mwr.dz.views.logger.LogMessageAdapter;
+import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.Server;
 
 import android.os.Bundle;
 import android.os.Messenger;
@@ -20,9 +20,9 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ServerActivity extends ConnectorActivity implements Observer, ServerParameters.OnDetailedStatusListener {
+public class ServerActivity extends ConnectorActivity implements Observer, Server.OnDetailedStatusListener {
 
-	private ServerParameters parameters = null;
+	private Server parameters = null;
 	
 	private CompoundButton server_enabled = null;
 	private ListView server_messages = null;
@@ -80,11 +80,11 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 
 	@Override
 	public void onDetailedStatus(Bundle status) {
-    	this.status_enabled.setStatus(status.getBoolean(ServerParameters.CONNECTOR_ENABLED));
-    	this.status_listening.setStatus(status.getBoolean(ServerParameters.CONNECTOR_CONNECTED));
-    	this.status_password.setStatus(status.getBoolean(ServerParameters.SERVER_PASSWORD));
-    	this.status_sessions.setStatus(status.getBoolean(ServerParameters.CONNECTOR_OPEN_SESSIONS));
-    	this.status_ssl.setStatus(status.getBoolean(ServerParameters.SERVER_SSL));
+    	this.status_enabled.setStatus(status.getBoolean(Server.CONNECTOR_ENABLED));
+    	this.status_listening.setStatus(status.getBoolean(Server.CONNECTOR_CONNECTED));
+    	this.status_password.setStatus(status.getBoolean(Server.SERVER_PASSWORD));
+    	this.status_sessions.setStatus(status.getBoolean(Server.CONNECTOR_OPEN_SESSIONS));
+    	this.status_ssl.setStatus(status.getBoolean(Server.SERVER_SSL));
 	}
     
     @Override
@@ -95,14 +95,14 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	this.getDetailedServerStatus();
     }
     
-    private void setServerParameters(ServerParameters parameters) {
+    private void setServerParameters(Server parameters) {
     	if(this.parameters != null)
     		this.parameters.deleteObserver(this);
     	
     	this.parameters = parameters;
     	
     	this.server_enabled.setChecked(this.parameters.isEnabled());
-    	this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters));
+    	this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters.getLogger()));
     	this.server_status_indicator.setConnector(this.parameters);
     	
     	this.parameters.addObserver(this);
@@ -147,12 +147,12 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     protected void startServer() {
 		try {
 			this.parameters.enabled = true;
-			this.parameters.setStatus(ServerParameters.Status.UPDATING);
+			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.UPDATING);
 			
 			Agent.getInstance().getServerService().startServer(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
-			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
+			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.OFFLINE);
 			
 			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
@@ -161,12 +161,12 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     protected void stopServer() {
 		try {
 			this.parameters.enabled = false;
-			this.parameters.setStatus(ServerParameters.Status.UPDATING);
+			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.UPDATING);
 			
 			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
-			this.parameters.setStatus(ServerParameters.Status.OFFLINE);
+			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.OFFLINE);
 			
 			Toast.makeText(this, R.string.service_offline, Toast.LENGTH_SHORT).show();
 		}
@@ -174,7 +174,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 
 	@Override
 	public void update(Observable observable, Object data) {
-		this.setServerParameters((ServerParameters)observable);
+		this.setServerParameters((Server)observable);
 		this.refreshStatus();
 	}
 

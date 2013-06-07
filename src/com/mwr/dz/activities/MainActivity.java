@@ -3,10 +3,10 @@ package com.mwr.dz.activities;
 import com.mwr.dz.Agent;
 import com.mwr.dz.EndpointAdapter;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Endpoint;
-import com.mwr.dz.connector.ServerParameters;
 import com.mwr.dz.views.EndpointListView;
 import com.mwr.dz.views.ServerListRowView;
+import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.Server;
 
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
     
     protected void updateServerStatus() {
 		try {
-			Agent.getInstance().getServerParameters().setStatus(ServerParameters.Status.UPDATING);
+			Agent.getInstance().getServerParameters().setStatus(com.mwr.jdiesel.api.connectors.Server.Status.UPDATING);
 			
 			Agent.getInstance().getServerService().getServerStatus(Agent.getInstance().getMessenger());
 		}

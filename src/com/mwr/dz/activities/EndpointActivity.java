@@ -12,12 +12,12 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.mwr.android.widget.LogMessageAdapter;
 import com.mwr.dz.Agent;
 import com.mwr.dz.R;
-import com.mwr.dz.connector.Endpoint;
 import com.mwr.dz.views.CheckListItemView;
 import com.mwr.dz.views.ConnectorStatusIndicator;
+import com.mwr.dz.views.logger.LogMessageAdapter;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 public class EndpointActivity extends ConnectorActivity implements Observer, Endpoint.OnDetailedStatusListener {
 	
@@ -113,7 +113,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
     	this.setTitle(this.endpoint.getName());
     	
     	this.endpoint_enabled.setChecked(this.endpoint.isEnabled());
-    	this.endpoint_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.endpoint));
+    	this.endpoint_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.endpoint.getLogger()));
     	this.endpoint_status_indicator.setConnector(this.endpoint);
     	
     	this.endpoint.addObserver(this);

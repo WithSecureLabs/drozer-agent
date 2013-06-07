@@ -7,14 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mwr.dz.R;
-import com.mwr.dz.connector.ServerParameters;
-import com.mwr.dz.connector.ServerParameters.OnChangeListener;
+import com.mwr.jdiesel.api.connectors.Server;
+import com.mwr.jdiesel.api.connectors.Server.OnChangeListener;
 
 public class ServerListRowView extends LinearLayout {
 	
 	private TextView adb_server_port_field = null;
 	private ConnectorStatusIndicator adb_server_status_indicator = null;
-	private ServerParameters server_parameters = null;
+	private Server server_parameters = null;
 	
 	public ServerListRowView(Context context) {
 		super(context);
@@ -37,13 +37,13 @@ public class ServerListRowView extends LinearLayout {
 		this.adb_server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.adb_server_status_indicator);
 	}
 	
-	public void setServerParameters(ServerParameters server_parameters) {
+	public void setServerParameters(Server server_parameters) {
 		this.server_parameters = server_parameters;
 		
 		this.server_parameters.setOnChangeListener(new OnChangeListener() {
 
 			@Override
-			public void onChange(ServerParameters parameters) {
+			public void onChange(Server parameters) {
 				ServerListRowView.this.adb_server_port_field.setText(Integer.valueOf(parameters.getPort()).toString());
 			}
 			

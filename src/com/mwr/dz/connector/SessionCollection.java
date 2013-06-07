@@ -1,9 +1,9 @@
 package com.mwr.dz.connector;
 
 import com.mwr.dz.Agent;
-import com.mwr.dz.connector.Connector.Status;
 import com.mwr.dz.service_connectors.SessionServiceConnection;
 import com.mwr.dz.services.SessionService;
+import com.mwr.jdiesel.api.connectors.Connector.Status;
 import com.mwr.jdiesel.connection.AbstractSession;
 import com.mwr.jdiesel.connection.AbstractSessionCollection;
 

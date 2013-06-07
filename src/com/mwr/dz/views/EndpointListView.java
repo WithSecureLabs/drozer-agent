@@ -1,6 +1,6 @@
 package com.mwr.dz.views;
 
-import com.mwr.dz.connector.Endpoint;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 
 import android.content.Context;
 import android.util.AttributeSet;
