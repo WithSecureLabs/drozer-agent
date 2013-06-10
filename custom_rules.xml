@@ -1,13 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="agent" default="help">
-
-  <target name="-pre-compile">
-    <exec executable="protoc">
-      <arg value="--java_out=gen" />
-      <arg value="common/protobuf.proto" />
-    </exec>
-
-    <exec executable="ndk-build" />
-  </target>
-
 </project>
