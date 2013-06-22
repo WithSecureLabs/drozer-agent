@@ -20,6 +20,7 @@ import com.mwr.dz.service_connectors.IncomingReplyHandler;
 import com.mwr.dz.service_connectors.ServerServiceConnection;
 import com.mwr.dz.services.ClientService;
 import com.mwr.dz.services.ServerService;
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.connectors.Server;
 
 public class Agent {
@@ -84,6 +85,13 @@ public class Agent {
 			this.client_service_connection = new ClientServiceConnection();
 
 		return this.client_service_connection;
+	}
+	
+	public DeviceInfo getDeviceInfo() {
+		return new DeviceInfo(this.getUID(),
+				android.os.Build.MANUFACTURER,
+				android.os.Build.MODEL,
+				android.os.Build.VERSION.RELEASE);
 	}
 
 	public Context getMercuryContext() {

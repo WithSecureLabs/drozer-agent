@@ -202,7 +202,7 @@ public class ClientService extends ConnectorService {
 		if(this.clients.get(id) == null) {
 			Endpoint endpoint = this.endpoint_manager.get(id, true);
 			
-			Client client = new Client(endpoint);
+			Client client = new Client(endpoint, Agent.getInstance().getDeviceInfo());
 			client.setLogger(endpoint.getLogger());
 			endpoint.getLogger().addOnLogMessageListener(this);
 			
