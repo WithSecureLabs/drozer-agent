@@ -47,7 +47,7 @@
 	    android:title="@string/system_settings"
 	    android:key="system_settings">
 	    <Preference
-	        android:key="about_mercury"
+	        android:key="about_drozer"
 	        android:title="@string/title_about"
 	        android:summary="@string/about_summary" />
 	</PreferenceCategory>

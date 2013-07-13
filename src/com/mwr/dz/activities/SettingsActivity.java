@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity {
 	
-	public static final String ABOUT_MERCURY_PREFERENCE = "about_mercury";
+	public static final String ABOUT_DROZER_PREFERENCE = "about_drozer";
 	public static final String ENDPOINT_SETTINGS_PREFERENCE = "endpoint_settings";
 	
 	public static final int NEW_ENDPOINT = 1;
@@ -93,7 +93,7 @@ public class SettingsActivity extends PreferenceActivity {
 		
 		this.addPreferencesFromResource(R.xml.preferences);
 		
-		this.about_preference = (Preference)this.findPreference(ABOUT_MERCURY_PREFERENCE);
+		this.about_preference = (Preference)this.findPreference(ABOUT_DROZER_PREFERENCE);
 		this.about_preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
 			@Override

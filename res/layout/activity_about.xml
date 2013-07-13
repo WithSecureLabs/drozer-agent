@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/about_mercury"
+    android:id="@+id/about_drozer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/about_description"
+        android:layout_below="@id/about_description"
         android:text="@string/about_copyright"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

@@ -4,12 +4,14 @@
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/mercury_graphic"
+        android:id="@+id/drozer_graphic"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/mercury"
+        android:src="@drawable/drozer"
         android:contentDescription="@string/app_name" />
 
     <com.mwr.dz.views.EndpointListView
@@ -17,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/server_list_row_view"
-        android:layout_below="@+id/mercury_graphic"
+        android:layout_below="@id/drozer_graphic"
         android:layout_alignParentLeft="true" />
     
     <com.mwr.dz.views.ServerListRowView
