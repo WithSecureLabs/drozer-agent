@@ -17,24 +17,24 @@ The drozer agent can be built in Eclipse or using the ant build system.
 
 You need to make some other sources available for building:
 
-  $ <workspace>/agent => this directory
-  $ <workspace>/jdiesel => cloned from https://github.com/mwrlabs
-  $ <workspace>/mwr-android => cloned from https://github.com/mwr-android
-  $ <workspace>/mwr-tls => cloned from https://github.com/mwr-tls
+  * $ <workspace>/agent => this directory
+  * $ <workspace>/jdiesel => cloned from https://github.com/mwrlabs/jdiesel
+  * $ <workspace>/mwr-android => cloned from https://github.com/mwrlabs/mwr-android
+  * $ <workspace>/mwr-tls => cloned from https://github.com/mwrlabs/mwr-tls
 
 You must also update the Git submodules in jdiesel:
 
-  $ cd jdiesel
-  $ git submodule init && git submodule update
+  * `$ cd jdiesel`
+  * `$ git submodule init && git submodule update`
 
 Then, either import the projects into Eclipse and build, or run:
 
-  $ cd agent
-  $ ant debug
+  * `$ cd agent`
+  * `$ ant debug`
 
 It is recommended to install the drozer agent using adb:
 
-  $ adb install bin/agent.apk
+  * `$ adb install bin/agent.apk`
 
 
 License
@@ -59,4 +59,3 @@ Bug reports, feature requests, comments and questions can be submitted sent to:
 Follow the latest drozer news, follow the project on Twitter:
 
   @mwrdrozer
-
