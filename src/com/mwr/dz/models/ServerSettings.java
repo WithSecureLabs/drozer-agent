@@ -9,15 +9,15 @@ import com.mwr.jdiesel.api.connectors.Server;
 public class ServerSettings implements OnSharedPreferenceChangeListener {
 	
 	private char[] getKeyPassword() {
-		return this.getSettings().getString(Server.SERVER_KEY_PASSWORD, "mercury").toCharArray();
+		return this.getSettings().getString(Server.SERVER_KEY_PASSWORD, "drozer").toCharArray();
 	}
 	
 	private char[] getKeyStorePassword() {
-		return this.getSettings().getString(Server.SERVER_KEYSTORE_PASSWORD, "mercury").toCharArray();
+		return this.getSettings().getString(Server.SERVER_KEYSTORE_PASSWORD, "drozer").toCharArray();
 	}
 	
 	private String getKeyStorePath() {
-		return this.getSettings().getString(Server.SERVER_KEYSTORE_PATH, "/data/data/com.mwr.dz/files/mercury.bks");
+		return this.getSettings().getString(Server.SERVER_KEYSTORE_PATH, "/data/data/com.mwr.dz/files/drozer.bks");
 	}
 	
 	private String getPassword() {
