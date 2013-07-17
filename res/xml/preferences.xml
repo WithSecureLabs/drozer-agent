@@ -23,19 +23,19 @@
 	    <EditTextPreference
 	        android:key="server:ks:path"
 	        android:dependency="server:ssl"
-	        android:defaultValue="/data/data/com.mwr.droidhg.agent/files/agent.bks"
+	        android:defaultValue="/data/data/com.mwr.dz/files/agent.bks"
 	        android:title="@string/ssl_keystore_path"
 	        android:summary="@string/ssl_keystore_path_description" />
 	    <EditTextPreference
 	        android:key="ssl:ks:password"
 	        android:dependency="server:ssl"
-	        android:defaultValue="mercury"
+	        android:defaultValue="drozer"
 	        android:title="@string/ssl_keystore_password"
 	        android:summary="@string/ssl_keystore_password_description" />
 	    <EditTextPreference
 	        android:key="server:key:password"
 	        android:dependency="server:ssl"
-	        android:defaultValue="mercury"
+	        android:defaultValue="drozer"
 	        android:title="@string/ssl_key_password"
 	        android:summary="@string/ssl_key_password_description" />
 	</PreferenceCategory>
