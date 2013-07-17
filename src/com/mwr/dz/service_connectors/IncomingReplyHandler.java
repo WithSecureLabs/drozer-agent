@@ -48,7 +48,6 @@ public class IncomingReplyHandler extends Handler {
 
 		case ConnectorService.MSG_LOG_MESSAGE:
 			LogMessage log_message = new LogMessage(data.getBundle(Connector.CONNECTOR_LOG_MESSAGE));
-			System.out.println("gui received log message");
 			if (data.containsKey(Endpoint.ENDPOINT_ID))
 				agent.getEndpointManager().get(data.getInt(Endpoint.ENDPOINT_ID)).getLogger().log(log_message);
 			else
