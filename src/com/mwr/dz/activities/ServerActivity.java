@@ -74,7 +74,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
         this.status_sessions = (CheckListItemView)this.findViewById(R.id.server_status_sessions);
         this.status_ssl = (CheckListItemView)this.findViewById(R.id.server_status_ssl);
         
-        this.setServerParameters(Agent.getInstance().getServerParameters());
+        this.setServerParameters(Agent.getInstance().getServerParameters(), this.getIntent().getBooleanExtra("com.mwr.dz.AUTO_START", false));
         this.refreshStatus();
     }
 
@@ -95,7 +95,13 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	this.getDetailedServerStatus();
     }
     
-    private void setServerParameters(Server parameters) {
+    /**
+     * 
+     * @param parameters the server parameters
+     * @param auto_start start the server automatically
+     */
+    		
+    private void setServerParameters(Server parameters, boolean auto_start) {
     	if(this.parameters != null)
     		this.parameters.deleteObserver(this);
     	
@@ -107,6 +113,11 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	
     	this.parameters.addObserver(this);
     	this.parameters.setOnDetailedStatusListener(this);
+    	
+    	if(auto_start){
+    		ServerActivity.this.startServer();
+    		((CompoundButton)this.findViewById(R.id.server_enabled)).setSelected(true);
+    	}
     }
     
     private Dialog spinner;
@@ -174,7 +185,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 
 	@Override
 	public void update(Observable observable, Object data) {
-		this.setServerParameters((Server)observable);
+		this.setServerParameters((Server)observable, false);
 		this.refreshStatus();
 	}
 

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,24 +22,31 @@ public class MainActivity extends Activity {
 	private EndpointListView endpoint_list_view = null;
 	private ServerListRowView server_list_row_view = null;
 	
-	private void launchEndpointActivity(Endpoint endpoint) {
+	private void launchEndpointActivity(Endpoint endpoint, boolean autostart) {
 		Intent intent = new Intent(MainActivity.this, EndpointActivity.class);
 		intent.putExtra(Endpoint.ENDPOINT_ID, endpoint.getId());
+		intent.putExtra("com.mwr.dz.AUTO_START", autostart);
 		
 		MainActivity.this.startActivity(intent);
 	}
 	
-	private void launchServerActivity() {
-		MainActivity.this.startActivity(new Intent(MainActivity.this, ServerActivity.class));
+	private void launchServerActivity(boolean autostart) {
+		Intent intent = new Intent(MainActivity.this, ServerActivity.class);
+		intent.putExtra("com.mwr.dz.AUTO_START", autostart);
+		MainActivity.this.startActivity(intent);
 	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_main);
+        
         
         Agent.getInstance().setContext(this.getApplicationContext());
+        
+        
+        
+        setContentView(R.layout.activity_main);
         
         this.endpoint_list_view = (EndpointListView)this.findViewById(R.id.endpoint_list_view);
         this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager()));
@@ -46,7 +54,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onEndpointSelect(Endpoint endpoint) {
-				MainActivity.this.launchEndpointActivity(endpoint);
+				MainActivity.this.launchEndpointActivity(endpoint, false);
 			}
 			
 		});
@@ -57,7 +65,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				MainActivity.this.launchServerActivity();
+				MainActivity.this.launchServerActivity(false);
 			}
         	
         });
@@ -90,7 +98,44 @@ public class MainActivity extends Activity {
     protected void onPause() {
     	super.onPause();
     	
+    
     	Agent.getInstance().unbindServices();
+    }
+    
+    @Override
+    protected void onStart(){
+    	super.onStart();
+    	
+    	Intent intent = this.getIntent();
+    	if(intent.getExtras() != null && !intent.getExtras().containsKey("com.mwr.dz.USED")){
+    		intent.putExtra("com.mwr.dz.USED", true);
+	        if(intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")){
+	        	Bundle b = intent.getExtras();
+	        	String name = b.getString("com.mwr.dz.ENDPOINT_NAME");
+	        	String address = b.getString("com.mwr.dz.ENDPOINT_ADDRESS");
+	        	int port = b.getInt("com.mwr.dz.ENDPOINT_PORT");
+	        	boolean start_now = b.getBoolean("com.mwr.dz.ENDPOINT_START");
+	        	
+	        	Endpoint new_endpoint = new Endpoint(0, name, address, port);
+	        	
+	        	Agent.getInstance().getEndpointManager().add(new_endpoint);
+	        	
+	        	Log.i("com.mwr.dz", "new Endpoint Created: " + new_endpoint.toString());
+	        	this.updateEndpointStatuses();
+	        	if(start_now){
+	        		
+	        		MainActivity.this.launchEndpointActivity(new_endpoint, start_now);
+	        	}
+	        	
+	        }
+    	}
+        else if(intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")){
+        	if(intent.getExtras() == null || !intent.getBooleanExtra("com.mwr.dz.USED", false)){
+	        	intent.putExtra("com.mwr.dz.USED", true);
+	        	MainActivity.this.launchServerActivity(true);
+        	}
+        }
+    	
     }
     
     @Override
@@ -98,6 +143,8 @@ public class MainActivity extends Activity {
     	super.onResume();
     	
     	Agent.getInstance().bindServices();
+    	
+    	
     }
     
     protected void updateEndpointStatuses() {
