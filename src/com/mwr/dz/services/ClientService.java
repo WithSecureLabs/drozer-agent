@@ -157,6 +157,37 @@ public class ClientService extends ConnectorService {
 	}
 	
 	@Override
+	public int onStartCommand(Intent intent, int flags, int startId){
+		int ret_val = super.onStartCommand(intent, flags, startId);
+		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")){
+			if(intent.getExtras() != null){
+				
+				Bundle endpoint_data = intent.getExtras();
+				String name = endpoint_data.getString("name");
+				String host = endpoint_data.getString("host");
+				int port = endpoint_data.getInt("port");
+				boolean ssl = endpoint_data.getBoolean("ssl");
+				String password = endpoint_data.getString("password");
+				String ts_path = endpoint_data.getString("ts_path");
+				String ts_password = endpoint_data.getString("ts_password");
+				
+				if(name != null && host != null){
+					Endpoint new_endpoint = new Endpoint(name, host, port, ssl, ts_path != null ? ts_path : "", ts_password != null ? ts_password : "", password != null ? password : "");
+					Log.i("ClientService", "adding new endpoint: " + new_endpoint);
+					this.endpoint_manager.add(new_endpoint);
+					Log.i("ClientService", "new_endpoint: " + new_endpoint.getId());
+					
+					if(intent.getCategories().contains("com.mwr.dz.START_ENDPOINT"))
+						this.startEndpoint(new_endpoint.getId());
+				}
+				
+			}
+			
+		}
+		return ret_val;
+	}
+	
+	@Override
 	public void onCreate() {
 		super.onCreate();
 		

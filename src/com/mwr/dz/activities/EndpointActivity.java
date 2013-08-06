@@ -76,8 +76,14 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
         this.status_sessions = (CheckListItemView)this.findViewById(R.id.endpoint_status_sessions);
         this.status_ssl = (CheckListItemView)this.findViewById(R.id.endpoint_status_ssl);
         
-        this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt(Endpoint.ENDPOINT_ID)), this.getIntent().getBooleanExtra("com.mwr.dz.AUTO_START", false));
+        this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt(Endpoint.ENDPOINT_ID)));
         this.refreshStatus();
+       
+        
+        if(this.getIntent().getBooleanExtra("com.mwr.dz.AUTO_START", false)){
+    		EndpointActivity.this.startEndpoint();
+    		((CompoundButton)this.findViewById(R.id.endpoint_enabled)).setSelected(true);
+    	}
     }
 
 	@Override
@@ -105,9 +111,8 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
      * to get future changes.
      * 
      * @param endpoint the endpoint given to this activity from the intent
-     * @param auto_start start the endpoint automatically
      */
-    private void setEndpoint(Endpoint endpoint, boolean auto_start) {
+    private void setEndpoint(Endpoint endpoint) {
     	if(this.endpoint != null)
     		this.endpoint.deleteObserver(this);
     	
@@ -122,10 +127,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
     	this.endpoint.addObserver(this);
     	this.endpoint.setOnDetailedStatusListener(this);
     	
-    	if(auto_start){
-    		EndpointActivity.this.startEndpoint();
-    		((CompoundButton)this.findViewById(R.id.endpoint_enabled)).setSelected(true);
-    	}
+    	
     }
     
 	@Override
@@ -197,7 +199,7 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
 	 * indicators with the most up-to-date information.
 	 */
 	public void update(Observable observable, Object data) {
-		this.setEndpoint((Endpoint)observable, false);
+		this.setEndpoint((Endpoint)observable);
 		this.refreshStatus();
 	}
 

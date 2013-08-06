@@ -103,42 +103,6 @@ public class MainActivity extends Activity {
     }
     
     @Override
-    protected void onStart(){
-    	super.onStart();
-    	
-    	Intent intent = this.getIntent();
-    	if(intent.getExtras() != null && !intent.getExtras().containsKey("com.mwr.dz.USED")){
-    		intent.putExtra("com.mwr.dz.USED", true);
-	        if(intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")){
-	        	Bundle b = intent.getExtras();
-	        	String name = b.getString("com.mwr.dz.ENDPOINT_NAME");
-	        	String address = b.getString("com.mwr.dz.ENDPOINT_ADDRESS");
-	        	int port = b.getInt("com.mwr.dz.ENDPOINT_PORT");
-	        	boolean start_now = b.getBoolean("com.mwr.dz.ENDPOINT_START");
-	        	
-	        	Endpoint new_endpoint = new Endpoint(0, name, address, port);
-	        	
-	        	Agent.getInstance().getEndpointManager().add(new_endpoint);
-	        	
-	        	Log.i("com.mwr.dz", "new Endpoint Created: " + new_endpoint.toString());
-	        	this.updateEndpointStatuses();
-	        	if(start_now){
-	        		
-	        		MainActivity.this.launchEndpointActivity(new_endpoint, start_now);
-	        	}
-	        	
-	        }
-    	}
-        else if(intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")){
-        	if(intent.getExtras() == null || !intent.getBooleanExtra("com.mwr.dz.USED", false)){
-	        	intent.putExtra("com.mwr.dz.USED", true);
-	        	MainActivity.this.launchServerActivity(true);
-        	}
-        }
-    	
-    }
-    
-    @Override
     protected void onResume() {
     	super.onResume();
     	
