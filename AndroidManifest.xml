@@ -40,6 +40,14 @@
         <activity
             android:name="com.mwr.dz.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
+        <receiver 
+            android:name="com.mwr.dz.broadcasts.Receiver"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.mwr.dz.PWN"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".services.ClientService"

@@ -154,6 +154,7 @@ public class ServerService extends ConnectorService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
+		Log.i("com.mwr.dz","onStartCommand, Server Service");
 		int ret_val = super.onStartCommand(intent, flags, startId);
 		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")){
 			this.startServer();

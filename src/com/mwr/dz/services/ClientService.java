@@ -158,6 +158,7 @@ public class ClientService extends ConnectorService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
+		Log.i("com.mwr.dz", "onStartCommand, Client Service");
 		int ret_val = super.onStartCommand(intent, flags, startId);
 		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")){
 			if(intent.getExtras() != null){
