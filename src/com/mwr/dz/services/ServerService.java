@@ -157,6 +157,7 @@ public class ServerService extends ConnectorService {
 		Log.i("com.mwr.dz","onStartCommand, Server Service");
 		int ret_val = super.onStartCommand(intent, flags, startId);
 		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")){
+			Agent.getInstance().setContext(this.getApplicationContext());
 			this.startServer();
 		}
 		return ret_val;
