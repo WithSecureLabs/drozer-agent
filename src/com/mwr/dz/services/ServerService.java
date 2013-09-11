@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
@@ -154,12 +153,13 @@ public class ServerService extends ConnectorService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
-		Log.i("com.mwr.dz","onStartCommand, Server Service");
 		int ret_val = super.onStartCommand(intent, flags, startId);
-		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")){
+		
+		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.START_EMBEDDED")) {
 			Agent.getInstance().setContext(this.getApplicationContext());
 			this.startServer();
 		}
+		
 		return ret_val;
 	}
 	

@@ -158,11 +158,12 @@ public class ClientService extends ConnectorService {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId){
-		Log.i("com.mwr.dz", "onStartCommand, Client Service");
 		int ret_val = super.onStartCommand(intent, flags, startId);
-		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")){
-			if(intent.getExtras() != null){
-				
+		
+		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")) {
+			Agent.getInstance().setContext(this.getApplicationContext());
+			
+			if(intent.getExtras() != null) {
 				Bundle endpoint_data = intent.getExtras();
 				String name = endpoint_data.getString("name");
 				String host = endpoint_data.getString("host");
@@ -174,17 +175,14 @@ public class ClientService extends ConnectorService {
 				
 				if(name != null && host != null){
 					Endpoint new_endpoint = new Endpoint(name, host, port, ssl, ts_path != null ? ts_path : "", ts_password != null ? ts_password : "", password != null ? password : "");
-					Log.i("ClientService", "adding new endpoint: " + new_endpoint);
 					this.endpoint_manager.add(new_endpoint);
-					Log.i("ClientService", "new_endpoint: " + new_endpoint.getId());
 					
 					if(intent.getCategories().contains("com.mwr.dz.START_ENDPOINT"))
 						this.startEndpoint(new_endpoint.getId());
 				}
-				
 			}
-			
 		}
+		
 		return ret_val;
 	}
 	
