@@ -103,7 +103,7 @@
     <string name="about_contributors">Contributors</string>
     <string name="about_copyright">Copyright © 2013 MWR InfoSecurity.</string>
     <string name="about_description">drozer Agent v%s</string>
-    <string name="about_license">drozer Agent is released under the MWR Code License v2.</string>
+    <string name="about_license">drozer Agent is released under a 3-clause BSD license.</string>
     <string name="about_summary"></string>
     
     <!-- .EndpointActivity -->

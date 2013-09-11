@@ -24,7 +24,6 @@
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-				<category android:name="com.mwr.dz.CREATE_ENDPOINT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -38,10 +37,11 @@
             android:name=".activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity
-            android:name="com.mwr.dz.activities.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
+        
         <receiver 
-            android:name="com.mwr.dz.broadcasts.Receiver"
+            android:name=".receivers.Receiver"
             android:exported="true"
             android:process=":remote">
             <intent-filter>
