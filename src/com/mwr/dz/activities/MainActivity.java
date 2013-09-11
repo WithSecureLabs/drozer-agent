@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,29 +21,22 @@ public class MainActivity extends Activity {
 	private EndpointListView endpoint_list_view = null;
 	private ServerListRowView server_list_row_view = null;
 	
-	private void launchEndpointActivity(Endpoint endpoint, boolean autostart) {
+	private void launchEndpointActivity(Endpoint endpoint) {
 		Intent intent = new Intent(MainActivity.this, EndpointActivity.class);
 		intent.putExtra(Endpoint.ENDPOINT_ID, endpoint.getId());
-		intent.putExtra("com.mwr.dz.AUTO_START", autostart);
 		
 		MainActivity.this.startActivity(intent);
 	}
 	
-	private void launchServerActivity(boolean autostart) {
-		Intent intent = new Intent(MainActivity.this, ServerActivity.class);
-		intent.putExtra("com.mwr.dz.AUTO_START", autostart);
-		MainActivity.this.startActivity(intent);
+	private void launchServerActivity() {
+		MainActivity.this.startActivity(new Intent(MainActivity.this, ServerActivity.class));
 	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        
-        
         Agent.getInstance().setContext(this.getApplicationContext());
-        
-        
         
         setContentView(R.layout.activity_main);
         
@@ -54,7 +46,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onEndpointSelect(Endpoint endpoint) {
-				MainActivity.this.launchEndpointActivity(endpoint, false);
+				MainActivity.this.launchEndpointActivity(endpoint);
 			}
 			
 		});
@@ -65,7 +57,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				MainActivity.this.launchServerActivity(false);
+				MainActivity.this.launchServerActivity();
 			}
         	
         });
@@ -98,7 +90,6 @@ public class MainActivity extends Activity {
     protected void onPause() {
     	super.onPause();
     	
-    
     	Agent.getInstance().unbindServices();
     }
     
@@ -107,8 +98,6 @@ public class MainActivity extends Activity {
     	super.onResume();
     	
     	Agent.getInstance().bindServices();
-    	
-    	
     }
     
     protected void updateEndpointStatuses() {

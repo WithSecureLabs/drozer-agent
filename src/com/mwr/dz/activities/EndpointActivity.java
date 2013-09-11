@@ -78,12 +78,6 @@ public class EndpointActivity extends ConnectorActivity implements Observer, End
         
         this.setEndpoint(Agent.getInstance().getEndpointManager().get(extras.getInt(Endpoint.ENDPOINT_ID)));
         this.refreshStatus();
-       
-        
-        if(this.getIntent().getBooleanExtra("com.mwr.dz.AUTO_START", false)){
-    		EndpointActivity.this.startEndpoint();
-    		((CompoundButton)this.findViewById(R.id.endpoint_enabled)).setSelected(true);
-    	}
     }
 
 	@Override
