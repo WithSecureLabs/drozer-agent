@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,6 +26,10 @@ import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.connectors.Server;
 
 public class Agent {
+	
+	private static String[] DEFAULT_UIDS = new String[]{
+		"9774d56d682e549c",
+		"0000000000000000" };
 	
 	private static final Agent INSTANCE = new Agent();
 	
@@ -51,6 +56,18 @@ public class Agent {
 	
 	public static Agent getInstance() {
 		return INSTANCE;
+	}
+	
+	private static boolean isDefaultUID(String uid) {
+		if(uid == null)
+			return false;
+		
+		for(String default_uid : Agent.DEFAULT_UIDS) {
+			if(uid.equals(default_uid))
+				return true;
+		}
+		
+		return false;
 	}
 
 	public void bindServices() {
@@ -151,7 +168,7 @@ public class Agent {
 		this.uid = Settings.Secure.getString(this.getMercuryContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 		// sometimes, a device will not have an ANDROID_ID, particularly if we
 		// are in lower API versions; in that case we generate one at random
-		if(this.uid == null)
+		if(this.uid == null || Agent.isDefaultUID(this.uid))
 			this.uid = this.createRandomUID();
 		// store whatever UID we have created in the Preferences
 		Editor edit = this.getSettings().edit();
