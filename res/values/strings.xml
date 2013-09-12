@@ -22,6 +22,11 @@
     <string name="system_settings">System</string>
     <string name="yes">Yes</string>
     
+    <!-- Agent -->
+    <string name="agent">Agent</string>
+    <string name="custom_uid">Custom UID</string>
+    <string name="custom_uid_summary">Set a custom UID for this device, that will be displayed on any drozer sever / console that connects to this agent.</string>
+       
     <!-- Embedded Server -->
     <string name="embedded_server">Embedded Server</string>
     <string name="embedded_server_details">Server Details</string>

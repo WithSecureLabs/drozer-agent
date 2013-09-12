@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Messenger;
 import android.provider.Settings;
 import android.util.Log;
@@ -30,6 +31,8 @@ public class Agent {
 	public static final String DEFAULT_KEYSTORE = "agent.bks";
 	public static final String DEFAULT_TRUSTSTORE = "ca.bks";
 	
+	private static final String CREATED_UID_KEY = "agent:uid";
+	
 	public static final String TAG = "agent";
 
 	private ClientServiceConnection client_service_connection = null;
@@ -44,6 +47,20 @@ public class Agent {
 	
 	public static Context getContext() {
 		return Agent.getInstance().getMercuryContext();
+	}
+	
+	private String getCustomUID(){
+		return this.getSettings().getString(Agent.CREATED_UID_KEY, null);
+		
+	}
+	
+	private String createRandomUID(){
+		
+		String uid = new BigInteger(64, new SecureRandom()).toString(32);
+		Editor edit = this.getSettings().edit();
+		edit.putString(Agent.CREATED_UID_KEY, uid);
+		edit.commit();
+		return uid;
 	}
 	
 	public static Agent getInstance() {
@@ -131,13 +148,16 @@ public class Agent {
 	}
 
 	public String getUID() {
-		if(this.uid == null)
+		this.uid = this.getCustomUID();
+		
+		if(this.uid == null || this.uid.equals(""))
+			
 			this.uid = Settings.Secure.getString(this.getMercuryContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		// sometimes, a device will not have an ANDROID_ID, particularly if we
 		// are in lower API versions; in that case we generate one at random
 		if(this.uid == null)
-			this.uid = new BigInteger(64, new SecureRandom()).toString(32);
+			this.uid = this.createRandomUID();
 
 		return this.uid;
 	}
