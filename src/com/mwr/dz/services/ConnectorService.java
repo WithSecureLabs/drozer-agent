@@ -4,6 +4,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import com.mwr.jdiesel.api.connectors.Connector;
+import com.mwr.jdiesel.api.connectors.Endpoint;
 import com.mwr.jdiesel.logger.LogMessage;
 import com.mwr.jdiesel.logger.Logger;
 import com.mwr.jdiesel.logger.OnLogMessageListener;
@@ -89,6 +90,9 @@ public abstract class ConnectorService extends Service implements OnLogMessageLi
 		Bundle data = new Bundle();
 		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, message.toBundle());
 		
+		int endpoint_id = logger.getEndpointID();
+		if(endpoint_id != -1)
+			data.putInt(Endpoint.ENDPOINT_ID, endpoint_id);
 		this.broadcastLogMessageBundle(data);
 	}
 	
