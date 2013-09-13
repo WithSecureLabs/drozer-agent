@@ -1,9 +1,11 @@
 package com.mwr.dz.views;
 
+import com.mwr.dz.R;
 import com.mwr.jdiesel.api.connectors.Endpoint;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,6 +15,7 @@ public class EndpointListView extends ListView implements AdapterView.OnItemClic
 	public interface OnEndpointSelectListener {
 		
 		public void onEndpointSelect(Endpoint endpoint);
+		public void onEndpointToggle(Endpoint endpoint, boolean toggle);
 		
 	}
 	
@@ -22,6 +25,7 @@ public class EndpointListView extends ListView implements AdapterView.OnItemClic
 		super(context, attrs);
 		
 		this.setOnItemClickListener(this);
+		
 	}
 
 	@Override
@@ -32,8 +36,16 @@ public class EndpointListView extends ListView implements AdapterView.OnItemClic
 			this.on_endpoint_select_listener.onEndpointSelect(endpoint);
 	}
 	
+	public void onToggle(AdapterView<?> parent, int pos, boolean isChecked){
+		final Endpoint endpoint = (Endpoint)parent.getItemAtPosition(pos);
+		
+		if(this.on_endpoint_select_listener != null)
+			this.on_endpoint_select_listener.onEndpointToggle(endpoint, isChecked);
+	}
+	
 	public void setOnEndpointSelectListener(OnEndpointSelectListener listener) {
 		this.on_endpoint_select_listener = listener;
 	}
+	
 
 }

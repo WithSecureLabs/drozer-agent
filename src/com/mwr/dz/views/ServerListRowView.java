@@ -3,8 +3,10 @@ package com.mwr.dz.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.mwr.dz.R;
 import com.mwr.jdiesel.api.connectors.Server;
@@ -14,6 +16,7 @@ public class ServerListRowView extends LinearLayout {
 	
 	private TextView adb_server_port_field = null;
 	private ConnectorStatusIndicator adb_server_status_indicator = null;
+	private ToggleButton quick_start = null;
 	private Server server_parameters = null;
 	
 	public ServerListRowView(Context context) {
@@ -35,6 +38,11 @@ public class ServerListRowView extends LinearLayout {
 		
 		this.adb_server_port_field = (TextView)this.findViewById(R.id.adb_server_port);
 		this.adb_server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.adb_server_status_indicator);
+		this.quick_start = (ToggleButton)this.findViewById(R.id.adb_server_toggle);
+	}
+	
+	public ToggleButton getToggleButton(){
+		return this.quick_start;
 	}
 	
 	public void setServerParameters(Server server_parameters) {
@@ -45,6 +53,7 @@ public class ServerListRowView extends LinearLayout {
 			@Override
 			public void onChange(Server parameters) {
 				ServerListRowView.this.adb_server_port_field.setText(Integer.valueOf(parameters.getPort()).toString());
+				ServerListRowView.this.quick_start.setChecked(parameters.enabled);
 			}
 			
 		});

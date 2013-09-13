@@ -8,31 +8,43 @@
     android:paddingRight="8dp"
     android:paddingTop="2dp"
     android:paddingBottom="2dp" >
-
-    <TextView
-        android:id="@+id/endpoint_name"
+	
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+        android:id="@+id/endpoint_description_layout">
+	    <TextView
+	        android:id="@+id/endpoint_name"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentTop="true"
+	        android:text="@string/endpoint_name"
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	    <TextView
+	        android:id="@+id/endpoint_connection_string"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_below="@+id/endpoint_name"
+	        android:text="@string/endpoint_connection_string"
+	        android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	    <com.mwr.dz.views.ConnectorStatusIndicator
+	        android:id="@+id/endpoint_status_indicator"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignTop="@+id/endpoint_name"
+	        android:layout_alignBottom="@+id/endpoint_name"
+	        android:layout_toRightOf="@+id/endpoint_name"
+	        android:layout_marginLeft="5dip" />
+	</RelativeLayout>
+    <ToggleButton
+        android:id="@+id/endpoint_toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/endpoint_name"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    <TextView
-        android:id="@+id/endpoint_connection_string"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/endpoint_name"
-        android:text="@string/endpoint_connection_string"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <com.mwr.dz.views.ConnectorStatusIndicator
-        android:id="@+id/endpoint_status_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/endpoint_name"
-        android:layout_alignBottom="@+id/endpoint_name"
-        android:layout_toRightOf="@+id/endpoint_name"
-        android:layout_marginLeft="5dip" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
 
 </RelativeLayout>

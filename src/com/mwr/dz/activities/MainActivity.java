@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -41,12 +44,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         this.endpoint_list_view = (EndpointListView)this.findViewById(R.id.endpoint_list_view);
-        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager()));
+        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager(), this.endpoint_list_view));
         this.endpoint_list_view.setOnEndpointSelectListener(new EndpointListView.OnEndpointSelectListener() {
 			
 			@Override
 			public void onEndpointSelect(Endpoint endpoint) {
 				MainActivity.this.launchEndpointActivity(endpoint);
+			}
+
+			@Override
+			public void onEndpointToggle(Endpoint endpoint, boolean isChecked) {
+				if(isChecked){
+					MainActivity.this.startEndpoint(endpoint);
+				}else{
+					MainActivity.this.stopEndpoint(endpoint);
+				}
+				
 			}
 			
 		});
@@ -58,6 +71,20 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				MainActivity.this.launchServerActivity();
+			}
+        	
+        });
+        this.server_list_row_view.getToggleButton().setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if(isChecked){
+					MainActivity.this.startServer();
+				}else{
+					MainActivity.this.stopServer();
+				}
+				
 			}
         	
         });
@@ -98,6 +125,42 @@ public class MainActivity extends Activity {
     	super.onResume();
     	
     	Agent.getInstance().bindServices();
+    }
+    
+    private void startServer(){
+    	try {
+			Agent.getInstance().getServerService().startServer(Agent.getInstance().getMessenger());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    private void stopServer(){
+    	try {
+			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    private void startEndpoint(Endpoint endpoint){
+    	try {
+    		Agent.getInstance().getClientService().startEndpoint(endpoint.getId(), Agent.getInstance().getMessenger());
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    private void stopEndpoint(Endpoint endpoint){
+    	try {
+    		Agent.getInstance().getClientService().stopEndpoint(endpoint.getId(), Agent.getInstance().getMessenger());
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     protected void updateEndpointStatuses() {

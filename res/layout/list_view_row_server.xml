@@ -34,4 +34,12 @@
         android:layout_toRightOf="@+id/adb_server_name"
         android:layout_marginLeft="5dip" />
 
+    <ToggleButton
+        android:id="@+id/adb_server_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="ToggleButton" />
+
 </RelativeLayout>
