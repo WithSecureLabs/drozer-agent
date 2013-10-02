@@ -18,7 +18,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-public abstract class ConnectorService extends Service implements OnLogMessageListener {
+public abstract class ConnectorService extends Service implements OnLogMessageListener<Connector> {
 
 	public static final int MSG_LOG_MESSAGE = 1;
 	
@@ -86,13 +86,14 @@ public abstract class ConnectorService extends Service implements OnLogMessageLi
 	}
 	
 	@Override
-	public void onLogMessage(Logger logger, LogMessage message) {
+	public void onLogMessage(Logger<Connector> logger, LogMessage message) {
 		Bundle data = new Bundle();
 		data.putBundle(Connector.CONNECTOR_LOG_MESSAGE, message.toBundle());
 		
-		int endpoint_id = logger.getEndpointID();
-		if(endpoint_id != -1)
-			data.putInt(Endpoint.ENDPOINT_ID, endpoint_id);
+		Connector connector = logger.getOwner();
+		
+		if(connector instanceof Endpoint)
+			data.putInt(Endpoint.ENDPOINT_ID, ((Endpoint)connector).getId());
 		this.broadcastLogMessageBundle(data);
 	}
 	
