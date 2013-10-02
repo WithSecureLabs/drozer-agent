@@ -34,6 +34,8 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 	private CheckListItemView status_sessions = null;
 	private CheckListItemView status_ssl = null;
 	
+	private volatile boolean setting_server = false;
+	
 	protected void getDetailedServerStatus() {
 		try {
 			Agent.getInstance().getServerService().getDetailedServerStatus(Agent.getInstance().getMessenger());
@@ -56,6 +58,9 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(ServerActivity.this.setting_server)
+					return;
+				
 				if(isChecked)
 					ServerActivity.this.startServer();
 				else
@@ -77,8 +82,6 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
         
         this.setServerParameters(Agent.getInstance().getServerParameters());
         this.refreshStatus();
-        
-        
     }
 
 	@Override
@@ -108,16 +111,16 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	if(this.parameters != null)
     		this.parameters.deleteObserver(this);
     	
+    	this.setting_server = true;
     	this.parameters = parameters;
     	
     	this.server_enabled.setChecked(this.parameters.isEnabled());
     	this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters.getLogger()));
     	this.server_status_indicator.setConnector(this.parameters);
+    	this.setting_server = false;
     	
     	this.parameters.addObserver(this);
     	this.parameters.setOnDetailedStatusListener(this);
-    	
-    	
     }
     
     private Dialog spinner;
@@ -160,7 +163,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.parameters.enabled = true;
 			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.UPDATING);
 			
-			Agent.getInstance().getServerService().startServer(Agent.getInstance().getMessenger());
+			Agent.getInstance().getServerService().startServer(Agent.getInstance().getServerParameters(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
 			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.OFFLINE);
@@ -174,7 +177,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 			this.parameters.enabled = false;
 			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.UPDATING);
 			
-			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
+			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getServerParameters(), Agent.getInstance().getMessenger());
 		}
 		catch(RemoteException e) {			
 			this.parameters.setStatus(com.mwr.jdiesel.api.connectors.Server.Status.OFFLINE);

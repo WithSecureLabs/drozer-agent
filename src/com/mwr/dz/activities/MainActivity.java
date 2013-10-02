@@ -14,8 +14,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -72,18 +70,17 @@ public class MainActivity extends Activity {
 			}
         	
         });
-        this.server_list_row_view.getToggleButton().setOnCheckedChangeListener(new OnCheckedChangeListener(){
-
+        this.server_list_row_view.setServerViewListener(new ServerListRowView.OnServerViewListener() {
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked)
+			public void onToggle(boolean toggle) {
+				if(toggle)
 					MainActivity.this.startServer();
 				else
 					MainActivity.this.stopServer();
-				
 			}
-        	
-        });
+			
+		});
     }
     
     @Override
@@ -125,7 +122,7 @@ public class MainActivity extends Activity {
     
     private void startServer(){
     	try {
-			Agent.getInstance().getServerService().startServer(Agent.getInstance().getMessenger());
+			Agent.getInstance().getServerService().startServer(Agent.getInstance().getServerParameters(), Agent.getInstance().getMessenger());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,7 +130,7 @@ public class MainActivity extends Activity {
     }
     private void stopServer(){
     	try {
-			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getMessenger());
+			Agent.getInstance().getServerService().stopServer(Agent.getInstance().getServerParameters(), Agent.getInstance().getMessenger());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

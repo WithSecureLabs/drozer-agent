@@ -10,6 +10,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 
 import com.mwr.dz.services.ServerService;
+import com.mwr.jdiesel.api.connectors.Server;
 
 public class ServerServiceConnection implements ServiceConnection {
 	
@@ -61,18 +62,24 @@ public class ServerServiceConnection implements ServiceConnection {
 		this.service.send(msg);
 	}
 	
-	public void startServer(Messenger replyTo) throws RemoteException {
+	public void startServer(Server server, Messenger replyTo) throws RemoteException {
 		Message msg = Message.obtain(null, ServerService.MSG_START_SERVER);
 		msg.replyTo = replyTo;
 		
 		this.send(msg);
+		
+		server.enabled = true;
+		server.notifyObservers();
 	}
 	
-	public void stopServer(Messenger replyTo) throws RemoteException {
+	public void stopServer(Server server, Messenger replyTo) throws RemoteException {
 		Message msg = Message.obtain(null, ServerService.MSG_STOP_SERVER);
 		msg.replyTo = replyTo;
 		
 		this.send(msg);
+		
+		server.enabled = false;
+		server.notifyObservers();
 	}
 	
 	public void unbind(Context context) {
