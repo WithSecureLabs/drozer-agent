@@ -127,7 +127,7 @@ public class EndpointSettingsActivity extends PreferenceActivity {
 					EndpointSettingsActivity.this.endpoint.setStatus(Endpoint.Status.UPDATING);
 					
 					try {
-						Agent.getInstance().getClientService().stopEndpoint(EndpointSettingsActivity.this.endpoint.getId(), Agent.getInstance().getMessenger());
+						Agent.getInstance().getClientService().stopEndpoint(EndpointSettingsActivity.this.endpoint, Agent.getInstance().getMessenger());
 					}
 					catch(RemoteException e) {}
 					

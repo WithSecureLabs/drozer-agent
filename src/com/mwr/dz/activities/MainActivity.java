@@ -142,7 +142,7 @@ public class MainActivity extends Activity {
     
     private void startEndpoint(Endpoint endpoint){
     	try {
-    		Agent.getInstance().getClientService().startEndpoint(endpoint.getId(), Agent.getInstance().getMessenger());
+    		Agent.getInstance().getClientService().startEndpoint(endpoint, Agent.getInstance().getMessenger());
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -151,7 +151,7 @@ public class MainActivity extends Activity {
     }
     private void stopEndpoint(Endpoint endpoint){
     	try {
-    		Agent.getInstance().getClientService().stopEndpoint(endpoint.getId(), Agent.getInstance().getMessenger());
+    		Agent.getInstance().getClientService().stopEndpoint(endpoint, Agent.getInstance().getMessenger());
 			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

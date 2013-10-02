@@ -27,6 +27,8 @@ public class EndpointListRowView extends LinearLayout implements Observer, Compo
 	
 	private EndpointAdapter.OnEndpointSelectListener endpoint_listener = null;
 	
+	private volatile boolean setting_endpoint = false; 
+	
 	public EndpointListRowView(Context context) {
 		super(context);
 		
@@ -43,11 +45,14 @@ public class EndpointListRowView extends LinearLayout implements Observer, Compo
 		if(this.endpoint != null)
     		this.endpoint.deleteObserver(this);
 		
+		this.setting_endpoint = true;
 		this.endpoint = endpoint;
 		
 		this.endpoint_connection_string_field.setText(this.endpoint.toConnectionString());
 		this.endpoint_name_field.setText(this.endpoint.getName());
 		this.endpoint_status_indicator.setConnector(this.endpoint);
+		this.endpoint_toggle_button.setChecked(this.endpoint.isEnabled());
+		this.setting_endpoint = false;
 		
 		this.endpoint.addObserver(this);
 	}
@@ -71,7 +76,7 @@ public class EndpointListRowView extends LinearLayout implements Observer, Compo
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if(this.endpoint_listener != null)
+		if(!this.setting_endpoint && this.endpoint_listener != null)
 			this.endpoint_listener.onEndpointToggle(this.endpoint, isChecked);
 	}
 

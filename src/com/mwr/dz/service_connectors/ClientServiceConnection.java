@@ -69,27 +69,33 @@ public class ClientServiceConnection implements ServiceConnection {
 		this.service.send(msg);
 	}
 	
-	public void startEndpoint(int id, Messenger replyTo) throws RemoteException {
+	public void startEndpoint(Endpoint endpoint, Messenger replyTo) throws RemoteException {
 		Bundle data = new Bundle();
-		data.putInt(Endpoint.ENDPOINT_ID, id);
+		data.putInt(Endpoint.ENDPOINT_ID, endpoint.getId());
 		
 		Message msg = Message.obtain(null, ClientService.MSG_START_ENDPOINT);
 		msg.replyTo = replyTo;
 		msg.setData(data);
 		
 		this.send(msg);
+		
+		endpoint.enabled = true;
+		endpoint.notifyObservers();
 	}
 	
-	public void stopEndpoint(int id, Messenger replyTo) throws RemoteException {
+	public void stopEndpoint(Endpoint endpoint, Messenger replyTo) throws RemoteException {
 		Bundle data = new Bundle();
 		
-		data.putInt(Endpoint.ENDPOINT_ID, id);
+		data.putInt(Endpoint.ENDPOINT_ID, endpoint.getId());
 		
 		Message msg = Message.obtain(null, ClientService.MSG_STOP_ENDPOINT);
 		msg.replyTo = replyTo;
 		msg.setData(data);
 		
 		this.send(msg);
+		
+		endpoint.enabled = false;
+		endpoint.notifyObservers();
 	}
 	
 	public void unbind(Context context) {
