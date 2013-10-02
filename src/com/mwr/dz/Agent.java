@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.mwr.dz.R;
 import com.mwr.dz.models.EndpointManager;
+import com.mwr.dz.models.ServerSettings;
 import com.mwr.dz.service_connectors.ClientServiceConnection;
 import com.mwr.dz.service_connectors.IncomingReplyHandler;
 import com.mwr.dz.service_connectors.ServerServiceConnection;
@@ -140,8 +141,11 @@ public class Agent {
 	}
 
 	public Server getServerParameters() {
-		if(this.server_parameters == null)
+		if(this.server_parameters == null) {
 			this.server_parameters = new Server();
+			
+			(new ServerSettings()).load(this.server_parameters);
+		}
 		
 		return this.server_parameters;
 	}
