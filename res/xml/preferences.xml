@@ -4,13 +4,11 @@
     <PreferenceCategory
         android:title="@string/agent"
         android:key="agent_settings">
-        
          <EditTextPreference 
             android:key="agent:uid"
             android:title="@string/custom_uid"
             android:summary="@string/custom_uid_summary"
             android:defaultValue=""/>
-      	
     </PreferenceCategory>
     
     <PreferenceCategory

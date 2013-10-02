@@ -30,8 +30,8 @@ public class Agent {
 	
 	public static final String DEFAULT_KEYSTORE = "agent.bks";
 	public static final String DEFAULT_TRUSTSTORE = "ca.bks";
-	
-	private static final String CREATED_UID_KEY = "agent:uid";
+
+	private static final String AGENT_ID = "agent:uid";
 	
 	public static final String TAG = "agent";
 
@@ -47,20 +47,6 @@ public class Agent {
 	
 	public static Context getContext() {
 		return Agent.getInstance().getMercuryContext();
-	}
-	
-	private String getCustomUID(){
-		return this.getSettings().getString(Agent.CREATED_UID_KEY, null);
-		
-	}
-	
-	private String createRandomUID(){
-		
-		String uid = new BigInteger(64, new SecureRandom()).toString(32);
-		Editor edit = this.getSettings().edit();
-		edit.putString(Agent.CREATED_UID_KEY, uid);
-		edit.commit();
-		return uid;
 	}
 	
 	public static Agent getInstance() {
@@ -83,6 +69,10 @@ public class Agent {
 			Log.e(TAG, "Failed to write default key material.");
 		}
 	}
+	
+	private String createRandomUID(){
+		return new BigInteger(64, new SecureRandom()).toString(32);
+	}
 
 	private void copyResourceToFile(int resId, FileOutputStream file) throws IOException {
 		InputStream in = this.context.getResources().openRawResource(resId);
@@ -102,6 +92,10 @@ public class Agent {
 			this.client_service_connection = new ClientServiceConnection();
 
 		return this.client_service_connection;
+	}
+	
+	private String getCustomUID() {
+		return this.getSettings().getString(Agent.AGENT_ID, null);
 	}
 	
 	public DeviceInfo getDeviceInfo() {
@@ -149,16 +143,21 @@ public class Agent {
 
 	public String getUID() {
 		this.uid = this.getCustomUID();
+		// if the UID is set in preferences, return it immediately
+		if(this.uid != null && !this.uid.equals(""))
+			return this.uid;
 		
-		if(this.uid == null || this.uid.equals(""))
-			
-			this.uid = Settings.Secure.getString(this.getMercuryContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-
+		// otherwise, try to read the ANDROID_ID from Settings.Secure
+		this.uid = Settings.Secure.getString(this.getMercuryContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 		// sometimes, a device will not have an ANDROID_ID, particularly if we
 		// are in lower API versions; in that case we generate one at random
 		if(this.uid == null)
 			this.uid = this.createRandomUID();
-
+		// store whatever UID we have created in the Preferences
+		Editor edit = this.getSettings().edit();
+		edit.putString(Agent.AGENT_ID, this.uid);
+		edit.commit();
+		
 		return this.uid;
 	}
 
