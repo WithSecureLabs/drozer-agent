@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,25 +43,24 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         this.endpoint_list_view = (EndpointListView)this.findViewById(R.id.endpoint_list_view);
-        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager(), this.endpoint_list_view));
-        this.endpoint_list_view.setOnEndpointSelectListener(new EndpointListView.OnEndpointSelectListener() {
-			
-			@Override
-			public void onEndpointSelect(Endpoint endpoint) {
-				MainActivity.this.launchEndpointActivity(endpoint);
-			}
+        this.endpoint_list_view.setAdapter(new EndpointAdapter(this.getApplicationContext(), Agent.getInstance().getEndpointManager(),
+        		new EndpointAdapter.OnEndpointSelectListener() {
 
-			@Override
-			public void onEndpointToggle(Endpoint endpoint, boolean isChecked) {
-				if(isChecked){
-					MainActivity.this.startEndpoint(endpoint);
-				}else{
-					MainActivity.this.stopEndpoint(endpoint);
-				}
-				
-			}
-			
-		});
+		        	@Override
+					public void onEndpointSelect(Endpoint endpoint) {
+						MainActivity.this.launchEndpointActivity(endpoint);
+					}
+		
+					@Override
+					public void onEndpointToggle(Endpoint endpoint, boolean isChecked) {
+						if(isChecked)
+							MainActivity.this.startEndpoint(endpoint);
+						else
+							MainActivity.this.stopEndpoint(endpoint);
+						
+					}
+					
+		}));
         
         this.server_list_row_view = (ServerListRowView)this.findViewById(R.id.server_list_row_view);
         this.server_list_row_view.setServerParameters(Agent.getInstance().getServerParameters());
@@ -77,13 +75,11 @@ public class MainActivity extends Activity {
         this.server_list_row_view.getToggleButton().setOnCheckedChangeListener(new OnCheckedChangeListener(){
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				if(isChecked){
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked)
 					MainActivity.this.startServer();
-				}else{
+				else
 					MainActivity.this.stopServer();
-				}
 				
 			}
         	

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 import android.content.Context;
 import android.content.SharedPreferences;
