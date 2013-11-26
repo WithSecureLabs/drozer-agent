@@ -60,9 +60,10 @@
 	        android:key="about_drozer"
 	        android:title="@string/title_about"
 	        android:summary="@string/about_summary" />
-	    <CheckBoxPreference android:key="resume_after_crash"
-			android:title="@string/resume_after_crash"
-			android:summary="@string/resume_summary"/>
+	    <CheckBoxPreference android:key="restore_after_crash"
+			android:title="@string/restore_after_crash"
+			android:summary="@string/restore_summary"
+			android:defaultValue="true"/>
 	</PreferenceCategory>
     
 </PreferenceScreen>

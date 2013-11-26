@@ -53,7 +53,7 @@ public class ServerServiceConnection implements ServiceConnection {
 	public void onServiceConnected(ComponentName className, IBinder service) {
 		this.service = new Messenger(service);
 		this.bound = true;		
-		if(Agent.getInstance().getSettings().getBoolean("localServerEnabled", false) && Agent.getInstance().getSettings().getBoolean("resume_after_crash", true)){
+		if(Agent.getInstance().getSettings().getBoolean("localServerEnabled", false) && Agent.getInstance().getSettings().getBoolean("restore_after_crash", true)){
 			try {
 				ServerServiceConnection ssc = Agent.getInstance().getServerService();
 				Server server = Agent.getInstance().getServerParameters();
