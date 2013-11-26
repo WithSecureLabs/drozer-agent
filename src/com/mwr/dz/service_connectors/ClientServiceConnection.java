@@ -8,10 +8,13 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.mwr.dz.Agent;
 import com.mwr.dz.services.ClientService;
 import com.mwr.jdiesel.api.connectors.Endpoint;
+import com.mwr.jdiesel.api.connectors.Server;
 
 public class ClientServiceConnection implements ServiceConnection {
 	
@@ -57,6 +60,7 @@ public class ClientServiceConnection implements ServiceConnection {
 	public void onServiceConnected(ComponentName className, IBinder service) {
 		this.service = new Messenger(service);
 		this.bound = true;
+
 	}
 	
 	@Override

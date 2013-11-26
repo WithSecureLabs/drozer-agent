@@ -3,12 +3,15 @@ package com.mwr.dz.service_connectors;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
+import com.mwr.dz.Agent;
 import com.mwr.dz.services.ServerService;
 import com.mwr.jdiesel.api.connectors.Server;
 
@@ -49,7 +52,18 @@ public class ServerServiceConnection implements ServiceConnection {
 	@Override
 	public void onServiceConnected(ComponentName className, IBinder service) {
 		this.service = new Messenger(service);
-		this.bound = true;
+		this.bound = true;		
+		if(Agent.getInstance().getSettings().getBoolean("localServerEnabled", false) && Agent.getInstance().getSettings().getBoolean("resume_after_crash", true)){
+			try {
+				ServerServiceConnection ssc = Agent.getInstance().getServerService();
+				Server server = Agent.getInstance().getServerParameters();
+				Messenger messenger = Agent.getInstance().getMessenger();
+				
+				ssc.startServer(server, messenger);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -68,6 +82,10 @@ public class ServerServiceConnection implements ServiceConnection {
 		
 		this.send(msg);
 		
+		Editor edit = Agent.getInstance().getSettings().edit();
+		edit.putBoolean("localServerEnabled", true);
+		edit.commit();
+		
 		server.enabled = true;
 		server.notifyObservers();
 	}
@@ -77,6 +95,10 @@ public class ServerServiceConnection implements ServiceConnection {
 		msg.replyTo = replyTo;
 		
 		this.send(msg);
+		
+		Editor edit = Agent.getInstance().getSettings().edit();
+		edit.putBoolean("localServerEnabled", false);
+		edit.commit();
 		
 		server.enabled = false;
 		server.notifyObservers();

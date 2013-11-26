@@ -55,7 +55,6 @@ public class MainActivity extends Activity {
 							MainActivity.this.startEndpoint(endpoint);
 						else
 							MainActivity.this.stopEndpoint(endpoint);
-						
 					}
 					
 		}));

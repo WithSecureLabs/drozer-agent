@@ -122,5 +122,7 @@
     
     <!-- .SettingsActivity -->
     <string name="title_activity_settings">drozer Settings</string>
+    <string name="resume_after_crash">Resume drozer after crash</string>
+    <string name="resume_summary">Resume drozer after an unexpected shutdown</string>
     
 </resources>
