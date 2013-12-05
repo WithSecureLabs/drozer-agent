@@ -68,7 +68,8 @@ public class SettingsActivity extends PreferenceActivity {
 							bundle.getBoolean(Endpoint.ENDPOINT_SSL),
 							bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PATH),
 							bundle.getString(Endpoint.ENDPOINT_TRUSTSTORE_PASSWORD),
-							bundle.getString(Endpoint.ENDPOINT_PASSWORD));
+							bundle.getString(Endpoint.ENDPOINT_PASSWORD),
+							false);
 					
 					if(Agent.getInstance().getEndpointManager().update(endpoint)) {
 						Preference preference = this.endpoint_preferences.findPreference("endpoint_" + endpoint.getId());

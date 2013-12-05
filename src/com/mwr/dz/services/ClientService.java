@@ -232,6 +232,8 @@ public class ClientService extends ConnectorService {
 		if(this.clients.get(id) == null) {
 			Endpoint endpoint = this.endpoint_manager.get(id, true);
 			
+			Agent.getInstance().getEndpointManager().setActive(endpoint.getId(), true);
+			
 			Client client = new Client(endpoint, Agent.getInstance().getDeviceInfo());
 			client.setLogger(endpoint.getLogger());
 			endpoint.getLogger().addOnLogMessageListener(this);
@@ -248,6 +250,8 @@ public class ClientService extends ConnectorService {
 	public void stopEndpoint(int id) {
 		Endpoint endpoint = this.endpoint_manager.get(id);
 		Client client = this.clients.get(id);
+		
+		Agent.getInstance().getEndpointManager().setActive(endpoint.getId(), false);
 		
 		if(client != null) {
 			client.stopConnector();

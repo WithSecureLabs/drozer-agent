@@ -61,6 +61,19 @@ public class ClientServiceConnection implements ServiceConnection {
 		this.service = new Messenger(service);
 		this.bound = true;
 
+		if(Agent.getInstance().getSettings().getBoolean("restore_after_crash", true)){
+			for(Endpoint e : Agent.getInstance().getEndpointManager().all()){
+				if(e.isActive()){
+					try {
+						Log.d("ClientService", "Resuming connection to endpoint...");
+						Agent.getInstance().getClientService().startEndpoint(e, Agent.getInstance().getMessenger());
+					} catch (RemoteException re) {
+						re.printStackTrace();
+					}
+				}
+			}
+		}
+
 	}
 	
 	@Override

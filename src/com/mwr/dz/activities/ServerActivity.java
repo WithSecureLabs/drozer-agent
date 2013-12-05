@@ -16,6 +16,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;

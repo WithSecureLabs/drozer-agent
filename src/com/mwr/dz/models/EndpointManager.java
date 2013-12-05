@@ -29,10 +29,12 @@ public class EndpointManager extends SQLiteOpenHelper {
 	public static final String SSL_ENABLED_COLUMN = "ssl";
 	public static final String SSL_TRUSTSTORE_PASSWORD_COLUMN = "ssl_truststore_password";
 	public static final String SSL_TRUSTSTORE_PATH_COLUMN = "ssl_truststore_path";
+	public static final String ACTIVE_COLUMN = "active";
 	
 	// 1 -> 2 add ssl field to endpoints
 	// 2 -> 3 add password field to endpoints
-	private static final int DATABASE_VERSION = 3;
+	// 3 -> 4 add active field to endpoints
+	private static final int DATABASE_VERSION = 4;
 	
 	public interface OnDatasetChangeListener {
 		
@@ -54,7 +56,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 		public Endpoint deserialize(Object ser) {
 			Cursor cur = (Cursor)ser;
 			
-			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1, cur.getString(5), cur.getString(6), cur.getString(7));
+			return new Endpoint(cur.getInt(0), cur.getString(1), cur.getString(2), cur.getInt(3), cur.getInt(4) == 1, cur.getString(5), cur.getString(6), cur.getString(7), cur.getInt(8)==1);
 		}
 
 		@Override
@@ -68,6 +70,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 			cv.put(SSL_TRUSTSTORE_PATH_COLUMN, endpoint.getSSLTrustStorePath());
 			cv.put(SSL_TRUSTSTORE_PASSWORD_COLUMN, endpoint.getSSLTrustStorePassword());
 			cv.put(PASSWORD_COLUMN, endpoint.getPassword());
+			cv.put(ACTIVE_COLUMN, endpoint.isEnabled() ? 1 : 0);
 			
 			return cv;
 		}
@@ -132,6 +135,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 							if(endpoint.getStatus() == Endpoint.Status.ONLINE) {
 								EndpointManager.this.on_endpoint_status_change_listener.onEndpointStarted(endpoint);
 							}
+
 							else if(endpoint.getStatus() == Endpoint.Status.OFFLINE) {
 								EndpointManager.this.on_endpoint_status_change_listener.onEndpointStopped(endpoint);
 							}
@@ -195,6 +199,14 @@ public class EndpointManager extends SQLiteOpenHelper {
 		return endpoint;
 	}
 	
+	public void setActive(int id, boolean state){
+		Log.d("Endpoint Manager", state?"Enabled":"Disabled");
+		ContentValues cv = new ContentValues();
+		
+		cv.put(ACTIVE_COLUMN, state?1:0);
+		this.getWritableDatabase().update(TABLE_NAME, cv, ID_COLUMN+"="+id, null);
+	}
+	
 	private Endpoint getFromDatabase(int id) {
 		Endpoint endpoint = null;
 		
@@ -225,6 +237,7 @@ public class EndpointManager extends SQLiteOpenHelper {
 			
 			// update the status to UNKNOWN, but probably offline
 			endpoint.setStatus(Status.OFFLINE);
+			
 			// finally, add the new endpoint to the collection
 			this.endpoints.add(endpoint);
 		}
@@ -245,7 +258,8 @@ public class EndpointManager extends SQLiteOpenHelper {
 				SSL_ENABLED_COLUMN + " integer DEFAULT 0 NOT NULL, " +
 				SSL_TRUSTSTORE_PATH_COLUMN + " varchar(255) DEFAULT '' NOT NULL, " +
 				SSL_TRUSTSTORE_PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL, " +
-				PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL)");
+				PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL, "+
+				ACTIVE_COLUMN + " integer DEFAULT 0 NOT NULL);");
 	}
 
 	@Override
@@ -257,9 +271,12 @@ public class EndpointManager extends SQLiteOpenHelper {
 			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_TRUSTSTORE_PATH_COLUMN + " ssl_truststore_path varchar(255) DEFAULT '' NOT NULL");
 			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + SSL_TRUSTSTORE_PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL");
 		}
-		
+
 		if(oldVersion <= 2)
 			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + PASSWORD_COLUMN + " varchar(255) DEFAULT '' NOT NULL");
+		
+		if(oldVersion <= 3)
+			db.execSQL("ALTER TABLE " + TABLE_NAME + " ADD " + ACTIVE_COLUMN + " integer DEFAULT 0 NOT NULL");
 	}
 	
 	public boolean remove(Endpoint endpoint) {
