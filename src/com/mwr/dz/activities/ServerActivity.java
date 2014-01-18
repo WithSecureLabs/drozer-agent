@@ -8,6 +8,7 @@ import com.mwr.dz.R;
 import com.mwr.dz.views.CheckListItemView;
 import com.mwr.dz.views.ConnectorStatusIndicator;
 import com.mwr.dz.views.logger.LogMessageAdapter;
+import com.mwr.jdiesel.api.connectors.Connector;
 import com.mwr.jdiesel.api.connectors.Endpoint;
 import com.mwr.jdiesel.api.connectors.Server;
 
@@ -16,7 +17,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -116,7 +116,7 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
     	this.parameters = parameters;
     	
     	this.server_enabled.setChecked(this.parameters.isEnabled());
-    	this.server_messages.setAdapter(new LogMessageAdapter(this.getApplicationContext(), this.parameters.getLogger()));
+    	this.server_messages.setAdapter(new LogMessageAdapter<Connector>(this.getApplicationContext(), this.parameters.getLogger()));
     	this.server_status_indicator.setConnector(this.parameters);
     	this.setting_server = false;
     	

@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-public class LogMessageAdapter extends BaseAdapter implements OnLogMessageListener {
+public class LogMessageAdapter<T> extends BaseAdapter implements OnLogMessageListener<T> {
 	
 	private Context context = null;
-	private Logger logger = null;
+	private Logger<T> logger = null;
 	
-	public LogMessageAdapter(Context context, Logger logger) {
+	public LogMessageAdapter(Context context, Logger<T> logger) {
 		this.context = context;
 		this.logger = logger;
 		
@@ -46,7 +46,7 @@ public class LogMessageAdapter extends BaseAdapter implements OnLogMessageListen
 	}
 	
 	@Override
-	public void onLogMessage(Logger logger, LogMessage message) {
+	public void onLogMessage(Logger<T> logger, LogMessage message) {
 		this.notifyDataSetChanged();
 	}
 
