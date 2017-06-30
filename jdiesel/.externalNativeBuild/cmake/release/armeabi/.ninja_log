@@ -1,5 +1,0 @@
-# ninja log v5
-0	61	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	dc7c422676bd409a
-61	73	0	../../../../build/intermediates/cmake/release/obj/armeabi/libmstring.so	ae2f0792b3f06eec
-0	69	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	dc7c422676bd409a
-69	79	0	../../../../build/intermediates/cmake/release/obj/armeabi/libmstring.so	ae2f0792b3f06eec
