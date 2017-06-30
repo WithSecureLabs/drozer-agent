@@ -1,0 +1,3 @@
+/home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/rebuild_cache.dir
+/home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/edit_cache.dir
+/home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/release/armeabi/CMakeFiles/mstring.dir

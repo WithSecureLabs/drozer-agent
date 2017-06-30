@@ -1,0 +1,435 @@
+The target system is: Android - 9 - i686
+The host system is: Linux - 4.4.0-83-generic - x86_64
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_15aa1"
+[1/2] Building C object CMakeFiles/cmTC_15aa1.dir/testCCompiler.c.o
+[2/2] Linking C executable cmTC_15aa1
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_b03f1"
+[1/2] Building C object CMakeFiles/cmTC_b03f1.dir/CMakeCCompilerABI.c.o
+[2/2] Linking C executable cmTC_b03f1
+Android clang version 3.8.275480  (based on LLVM 3.8.275480)
+Target: i686-none-linux-android
+Thread model: posix
+InstalledDir: /opt/android-ndk-r14b/toolchains/llvm/prebuilt/linux-x86_64/bin
+Found candidate GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x
+Selected GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x
+Candidate multilib: .;@m32
+Selected multilib: .;@m32
+ "/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld" --sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86 -z relro --eh-frame-hdr -m elf_i386 -dynamic-linker /system/bin/linker -o cmTC_b03f1 /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib -L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc CMakeFiles/cmTC_b03f1.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(i686-linux-android-ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_b03f1"]
+  ignore line: [[1/2] Building C object CMakeFiles/cmTC_b03f1.dir/CMakeCCompilerABI.c.o]
+  ignore line: [[2/2] Linking C executable cmTC_b03f1]
+  ignore line: [Android clang version 3.8.275480  (based on LLVM 3.8.275480)]
+  ignore line: [Target: i686-none-linux-android]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /opt/android-ndk-r14b/toolchains/llvm/prebuilt/linux-x86_64/bin]
+  ignore line: [Found candidate GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  ignore line: [Selected GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  ignore line: [Candidate multilib: .]
+  ignore line: [@m32]
+  ignore line: [Selected multilib: .]
+  ignore line: [@m32]
+  link line: [ "/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld" --sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86 -z relro --eh-frame-hdr -m elf_i386 -dynamic-linker /system/bin/linker -o cmTC_b03f1 /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib -L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc CMakeFiles/cmTC_b03f1.dir/CMakeCCompilerABI.c.o -lgcc -ldl -lc -lgcc -ldl /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o]
+    arg [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld] ==> ignore
+    arg [--sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_i386] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/system/bin/linker] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_b03f1] ==> ignore
+    arg [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o] ==> ignore
+    arg [-L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x] ==> dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+    arg [-L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib] ==> dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib]
+    arg [-L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib] ==> dir [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+    arg [--build-id] ==> ignore
+    arg [--warn-shared-textrel] ==> ignore
+    arg [--fatal-warnings] ==> ignore
+    arg [--no-undefined] ==> ignore
+    arg [-znoexecstack] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-znow] ==> ignore
+    arg [--gc-sections] ==> ignore
+    arg [-znocopyreloc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--warn-shared-textrel] ==> ignore
+    arg [--fatal-warnings] ==> ignore
+    arg [--no-undefined] ==> ignore
+    arg [-znoexecstack] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-znow] ==> ignore
+    arg [--gc-sections] ==> ignore
+    arg [-znocopyreloc] ==> ignore
+    arg [CMakeFiles/cmTC_b03f1.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [-ldl] ==> lib [dl]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-ldl] ==> lib [dl]
+    arg [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc]
+  collapse library dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x] ==> [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  collapse library dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib] ==> [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/i686-linux-android/lib]
+  collapse library dir [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib] ==> [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+  implicit libs: [dl;c;dl]
+  implicit dirs: [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x;/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/i686-linux-android/lib;/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_7e06a"
+[1/2] Building C object CMakeFiles/cmTC_7e06a.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_7e06a
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_a6398"
+[1/2] Building C object CMakeFiles/cmTC_a6398.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_a6398
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_80160"
+[1/2] Building C object CMakeFiles/cmTC_80160.dir/feature_tests.c.o
+[2/2] Linking C executable cmTC_80160
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_922f0"
+[1/2] Building CXX object CMakeFiles/cmTC_922f0.dir/testCXXCompiler.cxx.o
+[2/2] Linking CXX executable cmTC_922f0
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_18162"
+[1/2] Building CXX object CMakeFiles/cmTC_18162.dir/CMakeCXXCompilerABI.cpp.o
+[2/2] Linking CXX executable cmTC_18162
+Android clang version 3.8.275480  (based on LLVM 3.8.275480)
+Target: i686-none-linux-android
+Thread model: posix
+InstalledDir: /opt/android-ndk-r14b/toolchains/llvm/prebuilt/linux-x86_64/bin
+Found candidate GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x
+Selected GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x
+Candidate multilib: .;@m32
+Selected multilib: .;@m32
+ "/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld" --sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86 -z relro --eh-frame-hdr -m elf_i386 -dynamic-linker /system/bin/linker -o cmTC_18162 /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib -L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc CMakeFiles/cmTC_18162.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc -lgcc -ldl -lc -lgcc -lgcc -ldl /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(i686-linux-android-ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_18162"]
+  ignore line: [[1/2] Building CXX object CMakeFiles/cmTC_18162.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [[2/2] Linking CXX executable cmTC_18162]
+  ignore line: [Android clang version 3.8.275480  (based on LLVM 3.8.275480)]
+  ignore line: [Target: i686-none-linux-android]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /opt/android-ndk-r14b/toolchains/llvm/prebuilt/linux-x86_64/bin]
+  ignore line: [Found candidate GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  ignore line: [Selected GCC installation: /opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  ignore line: [Candidate multilib: .]
+  ignore line: [@m32]
+  ignore line: [Selected multilib: .]
+  ignore line: [@m32]
+  link line: [ "/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld" --sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86 -z relro --eh-frame-hdr -m elf_i386 -dynamic-linker /system/bin/linker -o cmTC_18162 /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x -L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib -L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc --build-id --warn-shared-textrel --fatal-warnings --no-undefined -z noexecstack -z relro -z now --gc-sections -z nocopyreloc CMakeFiles/cmTC_18162.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc -lgcc -ldl -lc -lgcc -lgcc -ldl /opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o]
+    arg [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/bin/ld] ==> ignore
+    arg [--sysroot=/opt/android-ndk-r14b/platforms/android-9/arch-x86] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_i386] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/system/bin/linker] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_18162] ==> ignore
+    arg [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtbegin_dynamic.o] ==> ignore
+    arg [-L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x] ==> dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+    arg [-L/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib] ==> dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib]
+    arg [-L/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib] ==> dir [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+    arg [--build-id] ==> ignore
+    arg [--warn-shared-textrel] ==> ignore
+    arg [--fatal-warnings] ==> ignore
+    arg [--no-undefined] ==> ignore
+    arg [-znoexecstack] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-znow] ==> ignore
+    arg [--gc-sections] ==> ignore
+    arg [-znocopyreloc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--warn-shared-textrel] ==> ignore
+    arg [--fatal-warnings] ==> ignore
+    arg [--no-undefined] ==> ignore
+    arg [-znoexecstack] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-znow] ==> ignore
+    arg [--gc-sections] ==> ignore
+    arg [-znocopyreloc] ==> ignore
+    arg [CMakeFiles/cmTC_18162.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-ldl] ==> lib [dl]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-ldl] ==> lib [dl]
+    arg [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib/crtend_android.o] ==> ignore
+  remove lib [gcc]
+  remove lib [gcc]
+  remove lib [gcc]
+  remove lib [gcc]
+  collapse library dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x] ==> [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x]
+  collapse library dir [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x/../../../../i686-linux-android/lib] ==> [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/i686-linux-android/lib]
+  collapse library dir [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib] ==> [/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+  implicit libs: [stdc++;m;dl;c;dl]
+  implicit dirs: [/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/lib/gcc/i686-linux-android/4.9.x;/opt/android-ndk-r14b/toolchains/x86-4.9/prebuilt/linux-x86_64/i686-linux-android/lib;/opt/android-ndk-r14b/platforms/android-9/arch-x86/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_0a540"
+[1/2] Building CXX object CMakeFiles/cmTC_0a540.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_0a540
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_ac99f"
+[1/2] Building CXX object CMakeFiles/cmTC_ac99f.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_ac99f
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/amar/workspace/drozer-agent/jdiesel/.externalNativeBuild/cmake/debug/x86/CMakeFiles/CMakeTmp
+
+Run Build Command:"/opt/android-sdk-linux/cmake/3.6.4111459/bin/ninja" "cmTC_1a59a"
+[1/2] Building CXX object CMakeFiles/cmTC_1a59a.dir/feature_tests.cxx.o
+[2/2] Linking CXX executable cmTC_1a59a
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates

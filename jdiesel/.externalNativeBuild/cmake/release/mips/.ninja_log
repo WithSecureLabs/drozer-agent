@@ -1,0 +1,5 @@
+# ninja log v5
+0	62	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	b23b5340c880af66
+62	74	0	../../../../build/intermediates/cmake/release/obj/mips/libmstring.so	2f324684800ff1fd
+0	84	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	b23b5340c880af66
+85	97	0	../../../../build/intermediates/cmake/release/obj/mips/libmstring.so	2f324684800ff1fd

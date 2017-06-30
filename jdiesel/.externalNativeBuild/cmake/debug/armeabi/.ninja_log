@@ -1,0 +1,5 @@
+# ninja log v5
+0	50	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	7eee5cbadf30df29
+51	61	0	../../../../build/intermediates/cmake/debug/obj/armeabi/libmstring.so	a90bc553fb9d07dd
+0	47	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	7eee5cbadf30df29
+47	60	0	../../../../build/intermediates/cmake/debug/obj/armeabi/libmstring.so	a90bc553fb9d07dd

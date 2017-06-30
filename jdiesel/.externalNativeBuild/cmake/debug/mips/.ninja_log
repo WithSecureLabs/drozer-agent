@@ -1,0 +1,5 @@
+# ninja log v5
+0	48	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	60006268ad930f09
+49	60	0	../../../../build/intermediates/cmake/debug/obj/mips/libmstring.so	e08e495f121cd4a2
+0	36	0	CMakeFiles/mstring.dir/src/main/cpp/libmstring/mstring.cpp.o	60006268ad930f09
+36	48	0	../../../../build/intermediates/cmake/debug/obj/mips/libmstring.so	e08e495f121cd4a2
