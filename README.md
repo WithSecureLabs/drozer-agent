@@ -12,32 +12,30 @@ drozer is open source software, maintained by MWR InfoSecurity, and can be downl
     mwr.to/drozer
 
 
-Installing
-----------
+Building Using Android Studio
+-----------------------------
 
-The drozer agent can be built in Eclipse or using the ant build system.
+1. Open Android Studio and launch the Android SDK manager from it (Tools > Android > SDK Manager)
+1. Check that these two components are installed and updated to the latest version. Install or upgrade
+   them if necessary.
+   1. *Android SDK Platform Tools*
+   2. *Android Support Library*
+   3. *Google Play Services*
+   4. *Google Repository*
+   5. *Android NDK tools*
+1. Return to Android Studio and select *Import Project*
+1. Select the **drozer-agent** directory
+1. Select "Import from existing model - Gradle"
 
-You need to make some other sources available for building:
+**IMPORTANT**: Once you've imported drozer-agent, make sure you sync the project with the Gradle files.
 
-  * $ <workspace>/agent => this directory
-  * $ <workspace>/jdiesel => cloned from https://github.com/mwrlabs/jdiesel
-  * $ <workspace>/mwr-android => cloned from https://github.com/mwrlabs/mwr-android
-  * $ <workspace>/mwr-tls => cloned from https://github.com/mwrlabs/mwr-tls
 
-You must also update the Git submodules in jdiesel:
+Build Dependencies
+------------------
 
-  * `$ cd jdiesel`
-  * `$ git submodule init && git submodule update`
-
-Then, either import the projects into Eclipse and build, or run:
-
-  * `$ cd agent`
-  * `$ ant debug`
-
-It is recommended to install the drozer agent using adb:
-
-  * `$ adb install bin/agent.apk`
-
+1. Java 1.7
+2. libprotobuf-java 2.6.1 or higher
+3. protobuf-compiler 2.6 or higher
 
 License
 -------
