@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.google.protobuf'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "26.0.0"
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 17
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
+    }
+
+    sourceSets {
+        main {
+            proto {
+                srcDir 'src/main/proto'
+            }
+            java {
+                srcDir 'src/main/java'
+            }
+        }
+    }
+}
+
+dependencies {
+    compile project(':mwrtls')
+    compile files('lib/protobuf-java-2.6.1.jar')
+}
+
+protobuf {
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java { }
+            }
+        }
+    }
+}

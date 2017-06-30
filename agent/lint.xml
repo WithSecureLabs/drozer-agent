@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="UnknownIdInLayout">
+        <ignore path="res/layout/activity_endpoint.xml" />
+        <ignore path="res/layout/activity_server.xml" />
+    </issue>
+</lint>
