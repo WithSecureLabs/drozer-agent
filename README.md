@@ -27,8 +27,7 @@ Building Using Android Studio
 1. Select the **drozer-agent** directory
 1. Select "Import from existing model - Gradle"
 
-**IMPORTANT**: Once you've imported drozer-agent, make sure you sync the project with the Gradle files.
-
+**IMPORTANT**: Once imported make sure the project has been synchronized with the Gradle files.
 
 Build Dependencies
 ------------------
