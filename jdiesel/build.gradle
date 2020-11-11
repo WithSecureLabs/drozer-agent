@@ -40,6 +40,14 @@ dependencies {
 }
 
 protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:2.6.1"
+    }
+    plugins {
+        lite {
+            artifact = "com.google.protobuf:protoc-gen-javalite:2.6.1"
+        }
+    }
     generateProtoTasks {
         all().each { task ->
             task.builtins {

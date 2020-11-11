@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     compileSdkVersion 17
     buildToolsVersion "26.0.0"
 
@@ -19,7 +23,7 @@ android {
 }
 
 dependencies {
-    compile project(':jdiesel')
-    compile project(':mwrtls')
-    compile project(':mwrandroid')
+    implementation project(':jdiesel')
+    implementation project(':mwrtls')
+    implementation project(':mwrandroid')
 }
