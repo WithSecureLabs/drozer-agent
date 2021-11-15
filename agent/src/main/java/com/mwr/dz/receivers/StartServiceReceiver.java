@@ -5,7 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
-public class Receiver extends BroadcastReceiver {
+public class StartServiceReceiver extends BroadcastReceiver {
 	
 	public static final String PWN_INTENT = "com.mwr.dz.PWN";
 

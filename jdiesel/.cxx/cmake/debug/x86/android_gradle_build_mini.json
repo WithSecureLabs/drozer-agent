@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/kengannon/Desktop/git/drozer-agent/jdiesel/CMakeLists.txt",
+    "/Users/kengannon/Library/Android/sdk/ndk/21.1.6352462/build/cmake/android.toolchain.cmake",
+    "/Users/kengannon/Library/Android/sdk/ndk/21.1.6352462/build/cmake/platforms.cmake"
+  ],
+  "cleanCommands": [
+    "/Users/kengannon/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86\" clean"
+  ],
+  "buildTargetsCommand": "/Users/kengannon/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "mstring-Debug-x86": {
+      "artifactName": "mstring",
+      "buildCommand": "/Users/kengannon/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86\" mstring",
+      "abi": "x86",
+      "output": "/Users/kengannon/Desktop/git/drozer-agent/jdiesel/build/intermediates/cmake/debug/obj/x86/libmstring.so",
+      "runtimeFiles": []
+    }
+  }
+}
