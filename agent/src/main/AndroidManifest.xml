@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mwr.dz"
-    android:versionCode="6"
-    android:versionName="2.4.0" >
+    android:versionCode="7"
+    android:versionName="2.5.0" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -27,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.StartBroadcastActivity"
+            android:exported="true"
+            />
         <activity
             android:name=".activities.EndpointActivity"
             android:label="@string/title_activity_endpoint" />
@@ -71,6 +75,12 @@
         <service
             android:name="com.mwr.dz.services.SessionService"
             android:process=":remote" />
+
+        <provider
+            android:authorities=".providers.Provider"
+            android:name=".providers.Provider"
+            android:exported="true"
+            />
     </application>
 
 </manifest>

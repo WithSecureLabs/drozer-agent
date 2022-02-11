@@ -106,7 +106,9 @@
       "moduleRootFolder": "/Users/kengannon/Desktop/git/drozer-agent/jdiesel",
       "ndkDefaultAbiList": [
         "ARMEABI_V7A",
-        "X86"
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
       ],
       "ndkFolder": "/Users/kengannon/Library/Android/sdk/ndk/21.1.6352462",
       "ndkMetaAbiList": [
@@ -158,7 +160,9 @@
       },
       "ndkSupportedAbiList": [
         "ARMEABI_V7A",
-        "X86"
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
       ],
       "ndkDefaultStl": "LIBCXX_STATIC",
       "ndkVersion": "21.1.6352462",
@@ -189,7 +193,9 @@
     "variantName": "debug",
     "validAbiList": [
       "ARMEABI_V7A",
-      "X86"
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
     ],
     "prefabDirectory": "/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/prefab",
     "prefabPackageDirectoryList": []
