@@ -1,0 +1,7 @@
+Executable : /Users/kengannon/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86_64
+mstring
+jvmArgs : 
+
