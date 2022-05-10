@@ -47,9 +47,6 @@ public class IntentProxyToContentProvider extends Activity {
                     e.printStackTrace();
                 }
             }
-
-
-            Log.d("yaytagyay", "Result: " + yayuriyay);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
