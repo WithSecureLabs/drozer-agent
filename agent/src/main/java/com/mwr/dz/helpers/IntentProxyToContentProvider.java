@@ -1,7 +1,6 @@
 package com.mwr.dz.helpers;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -9,9 +8,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class IntentProxyToContentProvider extends Activity {
 
@@ -20,18 +21,33 @@ public class IntentProxyToContentProvider extends Activity {
         Uri uri = Uri.parse(getIntent().getDataString());
         try {
             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            Log.d("yaytagyay", String.valueOf(bitmap.getByteCount()));
             String yayuriyay = MediaStore.Images.Media.insertImage(getContentResolver(),
                     bitmap,
                     "yaytitleyay",
                     "yaydescriptionyay");
 
-            String File_Name = "yayuriyay.txt";
-            FileOutputStream fileobj = openFileOutput(File_Name, Context.MODE_PRIVATE);
-            String targetUri = yayuriyay + "\n";
-            byte[] ByteArray = targetUri.getBytes();
-            fileobj.write(ByteArray);
-            fileobj.close();
+            InputStream input = getContentResolver().openInputStream(Uri.parse(yayuriyay));
+            File file = new File(getFilesDir(), "yayoutputyay.jpg");
+            FileOutputStream output = new FileOutputStream(file);
+            try{
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = input.read(buf)) > 0) {
+                    output.write(buf, 0, len);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (input != null)
+                        input.close();
+                    if (output != null)
+                        output.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
 
             Log.d("yaytagyay", "Result: " + yayuriyay);
         } catch (FileNotFoundException e) {
