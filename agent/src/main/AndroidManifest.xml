@@ -62,7 +62,7 @@
             android:exported="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.boops.boops.START"/>
+                <action android:name="com.mwr.dz.START"/>
             </intent-filter>
         </receiver>
 
