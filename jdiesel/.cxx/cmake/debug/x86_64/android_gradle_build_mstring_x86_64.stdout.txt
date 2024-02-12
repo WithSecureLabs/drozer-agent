@@ -1,2 +1,0 @@
-ninja: Entering directory `/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86_64'
-ninja: no work to do.

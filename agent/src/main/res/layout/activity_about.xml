@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    tools:context=".AboutActivity" >
+    tools:context="com.WithSecure.dz.activities.EndpointActivity" >
 
     <TextView
         android:id="@+id/about_description"

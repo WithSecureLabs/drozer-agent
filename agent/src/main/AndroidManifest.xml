@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mwr.dz"
-    android:versionCode="7"
+    android:versionCode="33"
     android:versionName="2.5.2" >
 
-    <uses-sdk
-        android:minSdkVersion="7"
-        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.AboutActivity"
+            android:name="com.WithSecure.dz.activities.AboutActivity"
             android:label="@string/title_about"
-            android:parentActivityName="com.mwr.dz.activities.SettingsActivity" />
+            android:parentActivityName="com.WithSecure.dz.activities.SettingsActivity" />
         <activity
-            android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name="com.WithSecure.dz.activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.StartBroadcastActivity"
+            android:name="com.WithSecure.dz.activities.StartBroadcastActivity"
             android:exported="true"
             />
         <activity
-            android:name=".activities.EndpointActivity"
+            android:name="com.WithSecure.dz.activities.EndpointActivity"
             android:label="@string/title_activity_endpoint" />
         <activity
-            android:name=".activities.EndpointSettingsActivity"
+            android:name="com.WithSecure.dz.activities.EndpointSettingsActivity"
             android:label="@string/endpoint_new" />
         <activity
-            android:name=".activities.ServerActivity"
+            android:name="com.WithSecure.dz.activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.WithSecure.dz.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".helpers.IntentProxyToContentProvider"
+            android:name="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
             android:exported="true"
             />
         
         <receiver 
-            android:name=".receivers.StartServiceReceiver"
+            android:name="com.WithSecure.dz.receivers.StartServiceReceiver"
             android:exported="true"
             android:process=":remote">
             <intent-filter>
@@ -58,27 +57,27 @@
         </receiver>
 
         <receiver
-            android:name=".receivers.StartMainActivityReceiver"
+            android:name="com.WithSecure.dz.receivers.StartMainActivityReceiver"
             android:exported="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.mwr.dz.START"/>
+                <action android:name="com.boops.boops.START"/>
             </intent-filter>
         </receiver>
 
         <service
-            android:name=".services.ClientService"
+            android:name="com.WithSecure.dz.services.ClientService"
             android:process=":remote" />
         <service
-            android:name=".services.ServerService"
+            android:name="com.WithSecure.dz.services.ServerService"
             android:process=":remote" />
         <service
-            android:name="com.mwr.dz.services.SessionService"
+            android:name="com.WithSecure.dz.services.SessionService"
             android:process=":remote" />
 
         <provider
             android:authorities=".providers.Provider"
-            android:name=".providers.Provider"
+            android:name="com.WithSecure.dz.providers.Provider"
             android:exported="true"
             />
     </application>

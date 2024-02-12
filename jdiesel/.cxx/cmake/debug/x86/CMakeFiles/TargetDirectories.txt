@@ -1,3 +1,0 @@
-/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86/CMakeFiles/rebuild_cache.dir
-/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86/CMakeFiles/edit_cache.dir
-/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/x86/CMakeFiles/mstring.dir
