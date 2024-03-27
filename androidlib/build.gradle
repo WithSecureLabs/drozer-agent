@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+
+android {
+    namespace 'com.WithSecure.androidlib'
+    compileSdkVersion 33
+
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 33
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            jniDebuggable true
+        }
+        debug {
+            jniDebuggable true
+            minifyEnabled false
+        }
+    }
+}
+
+dependencies {
+}

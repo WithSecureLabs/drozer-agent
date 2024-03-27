@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    tools:context=".EndpointActivity" >
+    tools:context="com.WithSecure.dz.activities.EndpointActivity" >
 
-    <com.mwr.dz.views.ConnectorStatusIndicator
+    <com.WithSecure.dz.views.ConnectorStatusIndicator
         android:id="@+id/endpoint_status_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,35 +28,35 @@
         android:paddingTop="24dp"
         android:text="@string/endpoint_details"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-    <com.mwr.dz.views.CheckListItemView
+    <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/endpoint_status_ssl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/label_endpoint_details"
         app:text="@string/ssl_enabled" />
-    <com.mwr.dz.views.CheckListItemView
+    <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/endpoint_status_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/endpoint_status_ssl"
         app:text="@string/endpoint_password_protected" />
-    <com.mwr.dz.views.CheckListItemView
+    <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/endpoint_status_enabled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
 		android:layout_below="@id/endpoint_status_password"
 		app:text="@string/enabled" />
-    <com.mwr.dz.views.CheckListItemView
+    <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/endpoint_status_connected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
 		android:layout_below="@id/endpoint_status_enabled"
 		app:text="@string/connected" />
-    <com.mwr.dz.views.CheckListItemView
+    <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/endpoint_status_sessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

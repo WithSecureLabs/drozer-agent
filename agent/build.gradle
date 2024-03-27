@@ -1,35 +1,51 @@
 apply plugin: 'com.android.application'
 
 android {
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-    compileSdkVersion 28
-    buildToolsVersion "26.0.0"
+    namespace 'com.WithSecure.dz'
+    compileSdkVersion 33
 
     defaultConfig {
-        applicationId "com.mwr.dz"
-        minSdkVersion 14
-        targetSdkVersion 28
+        applicationId "com.withsecure.dz"
+        minSdkVersion 17
+        targetSdkVersion 33
+        multiDexEnabled true
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            jniDebuggable true
         }
+        debug {
+            debuggable true
+            jniDebuggable true
+            minifyEnabled false
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+
+        }
+    }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation project(':jdiesel')
-    implementation project(':mwrtls')
-    implementation project(':mwrandroid')
+    implementation 'com.android.support:multidex:2.0.1'
+    implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation project(':jsolar')
+    implementation project(':tlslib')
+    implementation project(':androidlib')
 }

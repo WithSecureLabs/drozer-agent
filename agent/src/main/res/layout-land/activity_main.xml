@@ -14,14 +14,14 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/drozer" />
 
-    <com.mwr.dz.views.EndpointListView
+    <com.WithSecure.dz.views.EndpointListView
         android:id="@+id/endpoint_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/drozer_graphic" />
 
-    <com.mwr.dz.views.ServerListRowView
+    <com.WithSecure.dz.views.ServerListRowView
         android:id="@+id/server_list_row_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

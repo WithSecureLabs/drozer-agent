@@ -1,2 +1,0 @@
-ninja: Entering directory `/Users/kengannon/Desktop/git/drozer-agent/jdiesel/.cxx/cmake/debug/arm64-v8a'
-ninja: no work to do.
