@@ -1,4 +1,4 @@
-drozer
+drozer-agent
 ======
 
 drozer (formerly Mercury) is a leading security testing framework for Android.
