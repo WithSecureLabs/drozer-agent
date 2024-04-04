@@ -33,7 +33,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Drozer-Agent-Revival"
+rootProject.name = "drozer-agent"
 include ':agent'
 include ':jsolar'
 include ':tlslib'
