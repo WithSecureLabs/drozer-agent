@@ -14,17 +14,17 @@ public class StartServiceReceiver extends BroadcastReceiver {
 		Intent start_service = new Intent();
 		start_service.putExtras(intent);
 		
-		if(intent.getCategories().contains("com.withsecure.dz.START_EMBEDDED")) {
-			start_service.addCategory("com.withsecure.dz.START_EMBEDDED");
-			start_service.setComponent(new ComponentName("com.withsecure.dz", "com.withsecure.dz.services.ServerService"));
+		if(intent.getCategories().contains("com.WithSecure.dz.START_EMBEDDED")) {
+			start_service.addCategory("com.WithSecure.dz.START_EMBEDDED");
+			start_service.setComponent(new ComponentName(context.getPackageName(), "com.WithSecure.dz.services.ServerService"));
 		}
 		else {
-			if(intent.getCategories().contains("com.withsecure.dz.CREATE_ENDPOINT"))
-				start_service.addCategory("com.withsecure.dz.CREATE_ENDPOINT");
-			if(intent.getCategories().contains("com.withsecure.dz.START_ENDPOINT"))
-				start_service.addCategory("com.withsecure.dz.START_ENDPOINT");
+			if(intent.getCategories().contains("com.WithSecure.dz.CREATE_ENDPOINT"))
+				start_service.addCategory("com.WithSecure.dz.CREATE_ENDPOINT");
+			if(intent.getCategories().contains("com.WithSecure.dz.START_ENDPOINT"))
+				start_service.addCategory("com.WithSecure.dz.START_ENDPOINT");
 			
-			start_service.setComponent(new ComponentName("com.withsecure.dz", "com.withsecure.dz.services.ClientService"));
+			start_service.setComponent(new ComponentName(context.getPackageName(), "com.WithSecure.dz.services.ClientService"));
 		}
 
 		context.startService(start_service);
