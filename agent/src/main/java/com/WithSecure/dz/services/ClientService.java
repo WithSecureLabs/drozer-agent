@@ -160,7 +160,7 @@ public class ClientService extends ConnectorService {
 	public int onStartCommand(Intent intent, int flags, int startId){
 		int ret_val = super.onStartCommand(intent, flags, startId);
 		
-		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.mwr.dz.CREATE_ENDPOINT")) {
+		if(intent != null && intent.getCategories() != null && intent.getCategories().contains("com.WithSecure.dz.CREATE_ENDPOINT")) {
 			Agent.getInstance().setContext(this.getApplicationContext());
 			
 			if(intent.getExtras() != null) {
@@ -177,7 +177,7 @@ public class ClientService extends ConnectorService {
 					Endpoint new_endpoint = new Endpoint(name, host, port, ssl, ts_path != null ? ts_path : "", ts_password != null ? ts_password : "", password != null ? password : "");
 					this.endpoint_manager.add(new_endpoint);
 					
-					if(intent.getCategories().contains("com.mwr.dz.START_ENDPOINT"))
+					if(intent.getCategories().contains("com.WithSecure.dz.START_ENDPOINT"))
 						this.startEndpoint(new_endpoint.getId());
 				}
 			}
