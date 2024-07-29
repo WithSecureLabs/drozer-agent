@@ -58,27 +58,60 @@
             android:targetActivity="com.WithSecure.dz.activities.StartBroadcastActivity"
             android:exported="true" />
         <activity-alias
-            android:targetActivity=".activities.EndpointActivity"
-            android:name="com.WithSecure.dz.activities.EndpointActivity"
+            android:name=".activities.EndpointActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointActivity"
             android:label="@string/title_activity_endpoint" />
         <activity-alias
-            android:targetActivity=".activities.EndpointSettingsActivity"
-            android:name="com.WithSecure.dz.activities.EndpointSettingsActivity"
+            android:name=".activities.EndpointSettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointSettingsActivity"
             android:label="@string/endpoint_new" />
         <activity-alias
-            android:targetActivity=".activities.ServerActivity"
-            android:name="com.WithSecure.dz.activities.ServerActivity"
+            android:name=".activities.ServerActivity"
+            android:targetActivity="com.WithSecure.dz.activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity-alias
-            android:targetActivity=".activities.SettingsActivity"
-            android:name="com.WithSecure.dz.activities.SettingsActivity"
+            android:name=".activities.SettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity-alias
-            android:targetActivity=".helpers.IntentProxyToContentProvider"
-            android:name="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
+            android:name=".helpers.IntentProxyToContentProvider"
+            android:targetActivity="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
             android:exported="true" />
 
-        
+        <activity-alias
+            android:name="com.withsecure.dz.activities.AboutActivity"
+            android:label="@string/title_about"
+            android:targetActivity="com.WithSecure.dz.activities.AboutActivity" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.MainActivity"
+            android:targetActivity="com.WithSecure.dz.activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:exported="true" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.StartBroadcastActivity"
+            android:targetActivity="com.WithSecure.dz.activities.StartBroadcastActivity"
+            android:exported="true" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.EndpointActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointActivity"
+            android:label="@string/title_activity_endpoint" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.EndpointSettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointSettingsActivity"
+            android:label="@string/endpoint_new" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.ServerActivity"
+            android:targetActivity="com.WithSecure.dz.activities.ServerActivity"
+            android:label="@string/title_activity_server" />
+        <activity-alias
+            android:name="com.withsecure.dz.activities.SettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity-alias
+            android:name="com.withsecure.dz.helpers.IntentProxyToContentProvider"
+            android:targetActivity="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
+            android:exported="true" />
+
         <receiver 
             android:name="com.WithSecure.dz.receivers.StartServiceReceiver"
             android:exported="true"
