@@ -25,7 +25,7 @@ public class Provider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
         Context context = this.getContext();
         Intent yayintentyay = new Intent("android.intent.action.MAIN");
-        ComponentName yaycnyay = new ComponentName("com.withsecure.dz", "com.withsecure.dz.activities.MainActivity");
+        ComponentName yaycnyay = new ComponentName(context.getPackageName(), "com.WithSecure.dz.activities.MainActivity");
         yayintentyay.setComponent(yaycnyay);
         yayintentyay.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
