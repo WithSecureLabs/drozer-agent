@@ -13,38 +13,38 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.WithSecure.dz.activities.AboutActivity"
+            android:name=".activities.AboutActivity"
             android:label="@string/title_about"
             android:parentActivityName="com.WithSecure.dz.activities.SettingsActivity" />
         <activity
-            android:name="com.WithSecure.dz.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:exported="true" />
         <activity
-            android:name="com.WithSecure.dz.activities.StartBroadcastActivity"
+            android:name=".activities.StartBroadcastActivity"
             android:exported="true" />
         <activity
-            android:name="com.WithSecure.dz.activities.EndpointActivity"
+            android:name=".activities.EndpointActivity"
             android:label="@string/title_activity_endpoint" />
         <activity
-            android:name="com.WithSecure.dz.activities.EndpointSettingsActivity"
+            android:name=".activities.EndpointSettingsActivity"
             android:label="@string/endpoint_new" />
         <activity
-            android:name="com.WithSecure.dz.activities.ServerActivity"
+            android:name=".activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity
-            android:name="com.WithSecure.dz.activities.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
+            android:name=".helpers.IntentProxyToContentProvider"
             android:exported="true" />
 
         <activity-alias
-            android:name=".activities.AboutActivity"
+            android:name="com.WithSecure.dz.activities.AboutActivity"
             android:label="@string/title_about"
             android:targetActivity="com.WithSecure.dz.activities.AboutActivity" />
         <activity-alias
-            android:name=".activities.MainActivity"
+            android:name="com.WithSecure.dz.activities.MainActivity"
             android:targetActivity="com.WithSecure.dz.activities.MainActivity"
             android:label="@string/title_activity_main"
             android:exported="true">
@@ -54,27 +54,27 @@
             </intent-filter>
         </activity-alias>
         <activity-alias
-            android:name=".activities.StartBroadcastActivity"
+            android:name="com.WithSecure.dz.activities.StartBroadcastActivity"
             android:targetActivity="com.WithSecure.dz.activities.StartBroadcastActivity"
             android:exported="true" />
         <activity-alias
-            android:name=".activities.EndpointActivity"
+            android:name="com.WithSecure.dz.activities.EndpointActivity"
             android:targetActivity="com.WithSecure.dz.activities.EndpointActivity"
             android:label="@string/title_activity_endpoint" />
         <activity-alias
-            android:name=".activities.EndpointSettingsActivity"
+            android:name="com.WithSecure.dz.activities.EndpointSettingsActivity"
             android:targetActivity="com.WithSecure.dz.activities.EndpointSettingsActivity"
             android:label="@string/endpoint_new" />
         <activity-alias
-            android:name=".activities.ServerActivity"
+            android:name="com.WithSecure.dz.activities.ServerActivity"
             android:targetActivity="com.WithSecure.dz.activities.ServerActivity"
             android:label="@string/title_activity_server" />
         <activity-alias
-            android:name=".activities.SettingsActivity"
+            android:name="com.WithSecure.dz.activities.SettingsActivity"
             android:targetActivity="com.WithSecure.dz.activities.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity-alias
-            android:name=".helpers.IntentProxyToContentProvider"
+            android:name="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
             android:targetActivity="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
             android:exported="true" />
 
@@ -112,6 +112,40 @@
             android:targetActivity="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
             android:exported="true" />
 
+        <activity-alias
+            android:name="com.mwr.dz.activities.AboutActivity"
+            android:label="@string/title_about"
+            android:targetActivity="com.WithSecure.dz.activities.AboutActivity" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.MainActivity"
+            android:targetActivity="com.WithSecure.dz.activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:exported="true" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.StartBroadcastActivity"
+            android:targetActivity="com.WithSecure.dz.activities.StartBroadcastActivity"
+            android:exported="true" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.EndpointActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointActivity"
+            android:label="@string/title_activity_endpoint" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.EndpointSettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.EndpointSettingsActivity"
+            android:label="@string/endpoint_new" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.ServerActivity"
+            android:targetActivity="com.WithSecure.dz.activities.ServerActivity"
+            android:label="@string/title_activity_server" />
+        <activity-alias
+            android:name="com.mwr.dz.activities.SettingsActivity"
+            android:targetActivity="com.WithSecure.dz.activities.SettingsActivity"
+            android:label="@string/title_activity_settings" />
+        <activity-alias
+            android:name="com.mwr.dz.helpers.IntentProxyToContentProvider"
+            android:targetActivity="com.WithSecure.dz.helpers.IntentProxyToContentProvider"
+            android:exported="true" />
+
         <receiver 
             android:name="com.WithSecure.dz.receivers.StartServiceReceiver"
             android:exported="true"
@@ -131,6 +165,7 @@
                 <action android:name="com.boops.boops.START"/>
                 <action android:name="com.withsecure.dz.START"/>
                 <action android:name="com.WithSecure.dz.START"/>
+                <action android:name="com.mwr.dz.START"/>
             </intent-filter>
         </receiver>
 
