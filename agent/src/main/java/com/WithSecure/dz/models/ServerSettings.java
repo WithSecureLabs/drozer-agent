@@ -6,6 +6,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import com.WithSecure.dz.Agent;
 import com.WithSecure.jsolar.api.connectors.Server;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
 public class ServerSettings implements OnSharedPreferenceChangeListener {
 	
 	private Server server;
@@ -87,5 +93,34 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 
 		return editor.commit();
 	}
+
+	public static String interfacesAsString() {
+        try {
+			List<String> ipAddrs = new ArrayList<>();
+
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			while (interfaces.hasMoreElements()) {
+				NetworkInterface i = interfaces.nextElement();
+
+				if (!i.isUp()) {
+					continue;
+				}
+
+				Enumeration<InetAddress> ips = i.getInetAddresses();
+				while (ips.hasMoreElements()) {
+					InetAddress ip = ips.nextElement();
+
+					if (ip.isLinkLocalAddress() || ip.isLoopbackAddress()) {
+						continue;
+					}
+
+					ipAddrs.add(ip.getHostAddress());
+				}
+			}
+
+			return String.join(", ", ipAddrs);
+        } catch (Exception ignored) { }
+		return "could not retrieve interfaces";
+    }
 
 }

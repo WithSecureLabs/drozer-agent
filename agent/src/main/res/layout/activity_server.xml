@@ -27,12 +27,27 @@
         android:paddingTop="24dp"
         android:text="@string/embedded_server_details"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+    <TextView
+        android:id="@+id/server_endpoint_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/label_server_details"
+        android:text="@string/embedded_server_interfaces"/>
+    <TextView
+        android:id="@+id/server_endpoint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_toRightOf="@+id/server_endpoint_text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/label_server_details"/>
     <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/server_status_ssl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/label_server_details"
+        android:layout_below="@+id/server_endpoint"
         app:text="@string/ssl_enabled" />
     <com.WithSecure.dz.views.CheckListItemView
         android:id="@+id/server_status_password"
