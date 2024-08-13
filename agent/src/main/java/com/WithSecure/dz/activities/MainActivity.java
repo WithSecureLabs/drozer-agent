@@ -7,6 +7,8 @@ import com.WithSecure.dz.views.EndpointListView;
 import com.WithSecure.dz.views.ServerListRowView;
 import com.WithSecure.jsolar.api.connectors.Endpoint;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
@@ -15,6 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 	
@@ -78,6 +87,27 @@ public class MainActivity extends BaseActivity {
 			}
 			
 		});
+
+		// request all unrequested perms in manifest
+		try {
+			PackageInfo pi = getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_PERMISSIONS);
+			String[] requestedPermissions = pi.requestedPermissions;
+
+			List<String> toRequest = new ArrayList<>();
+			for (String p : requestedPermissions) {
+				if (ContextCompat.checkSelfPermission(getApplicationContext(), p) != PackageManager.PERMISSION_GRANTED) {
+					toRequest.add(p);
+				}
+			}
+
+			if (!toRequest.isEmpty()) {
+				String[] asArray = new String[toRequest.size()];
+				toRequest.toArray(asArray);
+				ActivityCompat.requestPermissions(this, asArray, 1);
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			throw new RuntimeException(e);
+		}
     }
     
     @Override
