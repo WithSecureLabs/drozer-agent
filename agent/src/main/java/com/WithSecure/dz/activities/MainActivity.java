@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 	
 	private EndpointListView endpoint_list_view = null;
 	private ServerListRowView server_list_row_view = null;
@@ -35,8 +35,6 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        Agent.getInstance().setContext(this.getApplicationContext());
         
         setContentView(R.layout.activity_main);
         

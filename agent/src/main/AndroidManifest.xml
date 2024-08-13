@@ -11,7 +11,8 @@
         android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:name=".DzApplication">
         <activity
             android:name=".activities.AboutActivity"
             android:label="@string/title_about"
@@ -180,7 +181,7 @@
             android:process=":remote" />
 
         <provider
-            android:authorities=".providers.Provider"
+            android:authorities="${applicationId}.providers.Provider"
             android:name="com.WithSecure.dz.providers.Provider"
             android:exported="true"
             />

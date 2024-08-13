@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class EndpointSettingsActivity extends PreferenceActivity {
+public class EndpointSettingsActivity extends BasePreferenceActivity {
 	
 	public static final String ENDPOINT_SETTINGS_PREFERENCE = "endpoint_settings";
 	public static final String SECURITY_SETTINGS_PREFERENCE = "security_settings";

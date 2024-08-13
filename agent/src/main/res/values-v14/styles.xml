@@ -1,5 +1,18 @@
 <resources>
+    <style name="AppTheme" parent="android:Theme.Holo">
+    </style>
 
-    <style name="AppTheme" parent="android:Theme.Holo" />
+    <!-- TODO: make themes tolerable -->
+    <style name="dzPurple" parent="android:Theme.Holo">
+        <item name="android:background">#f0f</item>
+    </style>
+
+    <style name="dzRed" parent="android:Theme.Holo">
+        <item name="android:background">#f00</item>
+    </style>
+
+    <style name="dzBlue" parent="android:Theme.Holo">
+        <item name="android:background">#00f</item>
+    </style>
 
 </resources>

@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class StartBroadcastActivity extends Activity {
+public class StartBroadcastActivity extends BaseActivity {
 
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
