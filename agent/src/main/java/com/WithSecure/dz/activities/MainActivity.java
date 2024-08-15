@@ -7,12 +7,16 @@ import com.WithSecure.dz.views.EndpointListView;
 import com.WithSecure.dz.views.ServerListRowView;
 import com.WithSecure.jsolar.api.connectors.Endpoint;
 
+import android.Manifest;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,7 +100,16 @@ public class MainActivity extends BaseActivity {
 			List<String> toRequest = new ArrayList<>();
 			for (String p : requestedPermissions) {
 				if (ContextCompat.checkSelfPermission(getApplicationContext(), p) != PackageManager.PERMISSION_GRANTED) {
-					toRequest.add(p);
+					if (p.equals(Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+							Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+									                   Uri.parse("package:" + getPackageName()));
+							startActivity(intent);
+						}
+					}
+					else {
+						toRequest.add(p);
+					}
 				}
 			}
 
