@@ -2,17 +2,20 @@
     <style name="AppTheme" parent="android:Theme.Holo">
     </style>
 
-    <!-- TODO: make themes tolerable -->
     <style name="dzPurple" parent="android:Theme.Holo">
-        <item name="android:background">#f0f</item>
+        <item name="android:windowBackground">@drawable/background_purple</item>
     </style>
 
     <style name="dzRed" parent="android:Theme.Holo">
-        <item name="android:background">#f00</item>
+        <item name="android:windowBackground">@drawable/background_red</item>
+    </style>
+
+    <style name="dzGreen" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@drawable/background_green</item>
     </style>
 
     <style name="dzBlue" parent="android:Theme.Holo">
-        <item name="android:background">#00f</item>
+        <item name="android:windowBackground">@drawable/background_blue</item>
     </style>
 
 </resources>

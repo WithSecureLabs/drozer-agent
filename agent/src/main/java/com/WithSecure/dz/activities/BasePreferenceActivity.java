@@ -9,8 +9,8 @@ public class BasePreferenceActivity extends PreferenceActivity {
     @Override
     @SuppressWarnings("deprecation")
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         setTheme(GlobalSettings.themeFromString(GlobalSettings.get("theme")));
+
+        super.onCreate(savedInstanceState);
     }
 }

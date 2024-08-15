@@ -70,6 +70,7 @@ public class GlobalSettings {
 
         switch(s) {
             case "red":		return R.style.dzRed;
+            case "green":	return R.style.dzGreen;
             case "purple":	return R.style.dzPurple;
             case "blue":	return R.style.dzBlue;
             default:		return R.style.AppTheme;
