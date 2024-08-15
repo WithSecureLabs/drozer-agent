@@ -64,6 +64,9 @@
 			android:title="@string/restore_after_crash"
 			android:summary="@string/restore_summary"
 			android:defaultValue="true"/>
+		<Preference
+		android:key="reset_preferences"
+		android:title="@string/system_reset"/>
 	</PreferenceCategory>
     
 </PreferenceScreen>
