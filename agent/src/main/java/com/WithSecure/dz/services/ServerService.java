@@ -193,7 +193,7 @@ public class ServerService extends ConnectorService {
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {
 		if(!ServerService.running)
-			context.startService(new Intent(context, ServerService.class));
+			ConnectorService.Start(context, ServerService.class);
 
 		Intent intent = new Intent(context, ServerService.class);
     	context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);

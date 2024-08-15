@@ -3,20 +3,27 @@ package com.WithSecure.dz.services;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import com.WithSecure.dz.Agent;
+import com.WithSecure.dz.models.ForegroundServiceNotification;
 import com.WithSecure.jsolar.api.connectors.Connector;
 import com.WithSecure.jsolar.api.connectors.Endpoint;
 import com.WithSecure.jsolar.logger.LogMessage;
 import com.WithSecure.jsolar.logger.Logger;
 import com.WithSecure.jsolar.logger.OnLogMessageListener;
 
+import android.Manifest;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+
+import androidx.core.content.ContextCompat;
 
 public abstract class ConnectorService extends Service implements OnLogMessageListener<Connector> {
 
@@ -84,7 +91,16 @@ public abstract class ConnectorService extends Service implements OnLogMessageLi
 	public IBinder onBind(Intent intent) {
 		return this.messenger.getBinder();
 	}
-	
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		if (ContextCompat.checkSelfPermission(Agent.getContext(), Manifest.permission.FOREGROUND_SERVICE)
+				== PackageManager.PERMISSION_GRANTED)
+			startForeground(ForegroundServiceNotification.getId(), ForegroundServiceNotification.getNotification());
+	}
+
 	@Override
 	public void onLogMessage(Logger<Connector> logger, LogMessage message) {
 		Bundle data = new Bundle();
@@ -113,6 +129,16 @@ public abstract class ConnectorService extends Service implements OnLogMessageLi
 			}
 			catch(RemoteException e) {}
 		}
+	}
+
+	public static void Start(Context ctx, Class<?> c) {
+		Intent i = new Intent(ctx, c);
+
+		if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.FOREGROUND_SERVICE)
+				== PackageManager.PERMISSION_GRANTED)
+			ContextCompat.startForegroundService(ctx, new Intent(ctx, c));
+		else
+			ctx.startService(i);
 	}
 
 }

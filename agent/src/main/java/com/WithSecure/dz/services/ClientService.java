@@ -222,7 +222,7 @@ public class ClientService extends ConnectorService {
 	
 	public static void startAndBindToService(Context context, ServiceConnection serviceConnection) {
 		if(!ClientService.running)
-			context.startService(new Intent(context, ClientService.class));
+			ConnectorService.Start(context, ClientService.class);
 		
 		Intent intent = new Intent(context, ClientService.class);
     	context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
