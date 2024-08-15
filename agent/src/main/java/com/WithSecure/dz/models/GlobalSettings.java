@@ -19,7 +19,8 @@ public class GlobalSettings {
             String line;
 
             while ((line = confFile.readLine()) != null) {
-                String[] parts = line.split(":");
+                String[] parts = line.split(":", 2);
+
                 if (parts.length != 2) {
                     continue;
                 }
