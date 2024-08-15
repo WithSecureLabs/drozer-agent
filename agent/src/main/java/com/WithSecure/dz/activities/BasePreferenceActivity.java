@@ -7,6 +7,7 @@ import com.WithSecure.dz.models.GlobalSettings;
 
 public class BasePreferenceActivity extends PreferenceActivity {
     @Override
+    @SuppressWarnings("deprecation")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
