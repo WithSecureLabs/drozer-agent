@@ -83,7 +83,7 @@ public class ServerServiceConnection implements ServiceConnection {
 		
 		Editor edit = Agent.getInstance().getSettings().edit();
 		edit.putBoolean("localServerEnabled", true);
-		edit.commit();
+		edit.apply();
 		
 		server.enabled = true;
 		server.notifyObservers();
@@ -97,7 +97,7 @@ public class ServerServiceConnection implements ServiceConnection {
 		
 		Editor edit = Agent.getInstance().getSettings().edit();
 		edit.putBoolean("localServerEnabled", false);
-		edit.commit();
+		edit.apply();
 		
 		server.enabled = false;
 		server.notifyObservers();

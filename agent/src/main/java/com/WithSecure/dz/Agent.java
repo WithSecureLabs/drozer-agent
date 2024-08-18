@@ -176,7 +176,7 @@ public class Agent {
 		// store whatever UID we have created in the Preferences
 		Editor edit = this.getSettings().edit();
 		edit.putString(Agent.AGENT_ID, this.uid);
-		edit.commit();
+		edit.apply();
 		
 		return this.uid;
 	}
