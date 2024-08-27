@@ -62,21 +62,21 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 
 		this.getSettings().registerOnSharedPreferenceChangeListener(this);
 	}
-	
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if(key.equals(Server.SERVER_PORT))
 			this.server.setPort(this.getPort());
 		if(key.equals(Server.SERVER_PASSWORD))
 			this.server.setPassword(this.getPassword());
-		
+
 		if(key.equals(Server.SERVER_SSL)) {
 			this.server.setSSL(this.isSSL());
 			server.setKeyStorePath(this.getKeyStorePath());
 			server.setKeyStorePassword(this.getKeyStorePassword());
 			server.setKeyPassword(this.getKeyPassword());
 		}
-		
+
 		if(key.equals(Server.SERVER_KEYSTORE_PATH))
 			server.setKeyStorePath(this.getKeyStorePath());
 		if(key.equals(Server.SERVER_KEYSTORE_PASSWORD))
@@ -84,7 +84,7 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 		if(key.equals(Server.SERVER_KEY_PASSWORD))
 			server.setKeyPassword(this.getKeyPassword());
 	}
-	
+
 	public boolean save(Server server) {
 		SharedPreferences.Editor editor = Agent.getInstance().getSettings().edit();
 
@@ -94,33 +94,39 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 		return editor.commit();
 	}
 
-	public static String interfacesAsString() {
-        try {
+	public static List<NetworkInterfaceModel> getInterfaces() {
+		List<NetworkInterfaceModel> ret = new ArrayList<>();
+		try {
 			List<String> ipAddrs = new ArrayList<>();
 
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 			while (interfaces.hasMoreElements()) {
-				NetworkInterface i = interfaces.nextElement();
+				NetworkInterface intr = interfaces.nextElement();
 
-				if (!i.isUp()) {
+				if (!intr.isUp()) {
 					continue;
 				}
 
-				Enumeration<InetAddress> ips = i.getInetAddresses();
+				NetworkInterfaceModel inter_data = new NetworkInterfaceModel(intr.getName(), new ArrayList<>());
+
+				Enumeration<InetAddress> ips = intr.getInetAddresses();
 				while (ips.hasMoreElements()) {
 					InetAddress ip = ips.nextElement();
 
-					if (ip.isLinkLocalAddress() || ip.isLoopbackAddress()) {
+					if (ip.isLinkLocalAddress()) {
 						continue;
 					}
 
-					ipAddrs.add(ip.getHostAddress());
+					inter_data.ips.add(ip.getHostAddress());
+				}
+
+				if (!inter_data.ips.isEmpty())
+				{
+					ret.add(inter_data);
 				}
 			}
-
-			return String.join(", ", ipAddrs);
-        } catch (Exception ignored) { }
-		return "could not retrieve interfaces";
+		} catch (Exception ignored) { }
+		return ret;
     }
 
 }
