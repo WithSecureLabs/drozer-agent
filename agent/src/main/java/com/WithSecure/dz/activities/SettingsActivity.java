@@ -18,13 +18,11 @@ public class SettingsActivity extends BasePreferenceActivity {
 	
 	public static final String ABOUT_DROZER_PREFERENCE = "about_drozer";
 	public static final String ENDPOINT_SETTINGS_PREFERENCE = "endpoint_settings";
-	public static final String RESET_DROZER_PREFERENCE = "reset_preferences";
 	
 	public static final int NEW_ENDPOINT = 1;
 	public static final int EDIT_ENDPOINT = 2;
 	
 	private Preference about_preference = null;
-	private Preference reset = null;
 	private PreferenceCategory endpoint_preferences = null;
 
 	@Override
@@ -106,15 +104,6 @@ public class SettingsActivity extends BasePreferenceActivity {
 				return true;
 			}
 			
-		});
-
-		this.reset = (Preference)this.findPreference(RESET_DROZER_PREFERENCE);
-		this.reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-			@Override
-			public boolean onPreferenceClick(Preference arg0) {
-				Agent.getInstance().getSettings().edit().clear().apply();
-				return true;
-			}
 		});
 		
 		this.endpoint_preferences = (PreferenceCategory)this.getPreferenceManager().findPreference(ENDPOINT_SETTINGS_PREFERENCE);

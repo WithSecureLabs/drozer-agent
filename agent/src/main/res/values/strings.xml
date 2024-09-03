@@ -125,6 +125,5 @@
     <string name="title_activity_settings">drozer Settings</string>
     <string name="restore_after_crash">Restore after crash</string>
     <string name="restore_summary">Restore state after an unexpected shutdown</string>
-    <string name="system_reset">Reset</string>
     
 </resources>
