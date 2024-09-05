@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class GlobalSettings {
     private GlobalSettings(Context ctx) {
@@ -25,21 +26,21 @@ public class GlobalSettings {
                     continue;
                 }
 
-                if (ensure(parts[0], parts[1])) {
-                    // make additional changes on a per setting basis
-                    switch (parts[0]) {
-                        case "server-port":
-                            try {
-                                SharedPreferences.Editor e = Agent.getInstance().getSettings().edit();
-                                e.putString(Server.SERVER_PORT, parts[1]);
-                                e.commit();
+                data.put(parts[0], parts[1]);
+
+                // preform additional changes on a per setting basis
+                switch (parts[0]) {
+                    case "server-port":
+                        try {
+                            SharedPreferences.Editor e = Agent.getInstance().getSettings().edit();
+                            e.putString(Server.SERVER_PORT, parts[1]);
+                            e.commit();
                             } catch (NumberFormatException ignored) {
                                 break;
                             }
-                            break;
-                        case "endpoint":
-                            break;
-                    }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -47,20 +48,16 @@ public class GlobalSettings {
         catch (IOException ignored) { }
     }
 
-    private static boolean ensure(String key, String value) {
-        SharedPreferences p = Agent.getInstance().getSettings();
-
-        if (!p.contains(key)) {
-            SharedPreferences.Editor e = p.edit();
-            e.putString(key, value);
-            e.commit();
-            return true;
-        }
-        return false;
+    public static String get(String key) {
+        return get(key, null);
     }
 
-    public static String get(String key) {
-        return Agent.getInstance().getSettings().getString(key, null);
+    public static String get(String key, String fallback) {
+        String value = instance.data.get(key);
+
+        return value != null
+                ? value
+                : fallback;
     }
 
     public static int themeFromString(String s) {
@@ -84,5 +81,5 @@ public class GlobalSettings {
     }
 
     private static GlobalSettings instance = null;
-    private Dictionary<String, String> data;
+    private final Dictionary<String, String> data = new Hashtable<>();
 }
