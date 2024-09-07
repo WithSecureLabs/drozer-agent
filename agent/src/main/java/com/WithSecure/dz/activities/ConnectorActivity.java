@@ -17,7 +17,7 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public abstract class ConnectorActivity extends Activity {
+public abstract class ConnectorActivity extends BaseActivity {
     
     public static class IncomingFingerprintHandler extends Handler {
 		

@@ -14,7 +14,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.widget.Toast;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends BasePreferenceActivity {
 	
 	public static final String ABOUT_DROZER_PREFERENCE = "about_drozer";
 	public static final String ENDPOINT_SETTINGS_PREFERENCE = "endpoint_settings";

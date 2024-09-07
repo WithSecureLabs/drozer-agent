@@ -30,6 +30,7 @@
     <!-- Embedded Server -->
     <string name="embedded_server">Embedded Server</string>
     <string name="embedded_server_details">Server Details</string>
+    <string name="embedded_server_interfaces">Server Interfaces:</string>
     <string name="embdded_server_messages">Messages</string>
     <string name="embedded_server_password">Password</string>
     <string name="embedded_server_password_protected">Password Protected</string>
@@ -124,5 +125,7 @@
     <string name="title_activity_settings">drozer Settings</string>
     <string name="restore_after_crash">Restore after crash</string>
     <string name="restore_summary">Restore state after an unexpected shutdown</string>
+    <string name="disable_config_loading">Disable config file loading</string>
+    <string name="disable_config_loading_summary">Disable auto loading of custom agent settings</string>
     
 </resources>

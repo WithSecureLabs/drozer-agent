@@ -8,7 +8,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.Menu;
 import android.widget.TextView;
 
-public class AboutActivity extends Activity {
+public class AboutActivity extends BaseActivity {
 	
 	private TextView description;
 	
@@ -22,7 +22,7 @@ public class AboutActivity extends Activity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_about);
 		

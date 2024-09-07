@@ -7,16 +7,29 @@ import com.WithSecure.dz.views.EndpointListView;
 import com.WithSecure.dz.views.ServerListRowView;
 import com.WithSecure.jsolar.api.connectors.Endpoint;
 
+import android.Manifest;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.app.Activity;
 import android.content.Intent;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class MainActivity extends BaseActivity {
 	
 	private EndpointListView endpoint_list_view = null;
 	private ServerListRowView server_list_row_view = null;
@@ -35,8 +48,6 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        Agent.getInstance().setContext(this.getApplicationContext());
         
         setContentView(R.layout.activity_main);
         
@@ -80,6 +91,36 @@ public class MainActivity extends Activity {
 			}
 			
 		});
+
+		// request all unrequested perms in manifest
+		try {
+			PackageInfo pi = getPackageManager().getPackageInfo(getApplicationContext().getPackageName(), PackageManager.GET_PERMISSIONS);
+			String[] requestedPermissions = pi.requestedPermissions;
+
+			List<String> toRequest = new ArrayList<>();
+			for (String p : requestedPermissions) {
+				if (ContextCompat.checkSelfPermission(getApplicationContext(), p) != PackageManager.PERMISSION_GRANTED) {
+					if (p.equals(Manifest.permission.SYSTEM_ALERT_WINDOW)) {
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+							Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+									                   Uri.parse("package:" + getPackageName()));
+							startActivity(intent);
+						}
+					}
+					else {
+						toRequest.add(p);
+					}
+				}
+			}
+
+			if (!toRequest.isEmpty()) {
+				String[] asArray = new String[toRequest.size()];
+				toRequest.toArray(asArray);
+				ActivityCompat.requestPermissions(this, asArray, 1);
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			throw new RuntimeException(e);
+		}
     }
     
     @Override

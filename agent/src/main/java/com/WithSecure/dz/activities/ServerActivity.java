@@ -1,12 +1,17 @@
 package com.WithSecure.dz.activities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.WithSecure.dz.Agent;
 import com.WithSecure.dz.R;
+import com.WithSecure.dz.models.NetworkInterfaceModel;
+import com.WithSecure.dz.models.ServerSettings;
 import com.WithSecure.dz.views.CheckListItemView;
 import com.WithSecure.dz.views.ConnectorStatusIndicator;
+import com.WithSecure.dz.views.NetworkInterfaceListAdapter;
 import com.WithSecure.dz.views.logger.LogMessageAdapter;
 import com.WithSecure.jsolar.api.connectors.Connector;
 import com.WithSecure.jsolar.api.connectors.Endpoint;
@@ -28,6 +33,10 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
 	private CompoundButton server_enabled = null;
 	private ListView server_messages = null;
 	private ConnectorStatusIndicator server_status_indicator = null;
+
+	private ListView server_interface_list = null;
+	private NetworkInterfaceListAdapter server_interface_adapter = null;
+	private List<NetworkInterfaceModel> server_interface_data;
 	
 	private CheckListItemView status_enabled = null;
 	private CheckListItemView status_listening = null;
@@ -51,9 +60,18 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
         super.onCreate(savedInstanceState);
         
         this.setContentView(R.layout.activity_server);
-        
-        this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
-        
+
+		this.server_status_indicator = (ConnectorStatusIndicator)this.findViewById(R.id.server_status_indicator);
+
+		this.server_interface_list = (ListView)this.findViewById(R.id.server_endpoint);
+		this.server_interface_data = new ArrayList<>();
+		this.server_interface_adapter = new NetworkInterfaceListAdapter(this, server_interface_data);
+		server_interface_list.setAdapter(server_interface_adapter);
+
+		server_interface_adapter.clear();
+		server_interface_adapter.addAll(ServerSettings.getInterfaces());
+		server_interface_adapter.notifyDataSetChanged();
+
         this.server_enabled = (CompoundButton)this.findViewById(R.id.server_enabled);
         this.server_enabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -99,6 +117,9 @@ public class ServerActivity extends ConnectorActivity implements Observer, Serve
      * Refresh the status indicators, to show the current status of the Endpoint.
      */
     protected void refreshStatus() {
+		server_interface_adapter.clear();
+		server_interface_adapter.addAll(ServerSettings.getInterfaces());
+		server_interface_adapter.notifyDataSetChanged();
     	this.getDetailedServerStatus();
     }
     

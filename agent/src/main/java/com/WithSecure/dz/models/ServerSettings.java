@@ -6,6 +6,12 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import com.WithSecure.dz.Agent;
 import com.WithSecure.jsolar.api.connectors.Server;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
 public class ServerSettings implements OnSharedPreferenceChangeListener {
 	
 	private Server server;
@@ -56,21 +62,21 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 
 		this.getSettings().registerOnSharedPreferenceChangeListener(this);
 	}
-	
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if(key.equals(Server.SERVER_PORT))
 			this.server.setPort(this.getPort());
 		if(key.equals(Server.SERVER_PASSWORD))
 			this.server.setPassword(this.getPassword());
-		
+
 		if(key.equals(Server.SERVER_SSL)) {
 			this.server.setSSL(this.isSSL());
 			server.setKeyStorePath(this.getKeyStorePath());
 			server.setKeyStorePassword(this.getKeyStorePassword());
 			server.setKeyPassword(this.getKeyPassword());
 		}
-		
+
 		if(key.equals(Server.SERVER_KEYSTORE_PATH))
 			server.setKeyStorePath(this.getKeyStorePath());
 		if(key.equals(Server.SERVER_KEYSTORE_PASSWORD))
@@ -78,7 +84,7 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 		if(key.equals(Server.SERVER_KEY_PASSWORD))
 			server.setKeyPassword(this.getKeyPassword());
 	}
-	
+
 	public boolean save(Server server) {
 		SharedPreferences.Editor editor = Agent.getInstance().getSettings().edit();
 
@@ -87,5 +93,40 @@ public class ServerSettings implements OnSharedPreferenceChangeListener {
 
 		return editor.commit();
 	}
+
+	public static List<NetworkInterfaceModel> getInterfaces() {
+		List<NetworkInterfaceModel> ret = new ArrayList<>();
+		try {
+			List<String> ipAddrs = new ArrayList<>();
+
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			while (interfaces.hasMoreElements()) {
+				NetworkInterface intr = interfaces.nextElement();
+
+				if (!intr.isUp()) {
+					continue;
+				}
+
+				NetworkInterfaceModel inter_data = new NetworkInterfaceModel(intr.getName(), new ArrayList<>());
+
+				Enumeration<InetAddress> ips = intr.getInetAddresses();
+				while (ips.hasMoreElements()) {
+					InetAddress ip = ips.nextElement();
+
+					if (ip.isLinkLocalAddress()) {
+						continue;
+					}
+
+					inter_data.ips.add(ip.getHostAddress());
+				}
+
+				if (!inter_data.ips.isEmpty())
+				{
+					ret.add(inter_data);
+				}
+			}
+		} catch (Exception ignored) { }
+		return ret;
+    }
 
 }

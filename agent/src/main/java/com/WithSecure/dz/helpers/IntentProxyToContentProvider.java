@@ -1,15 +1,16 @@
 package com.WithSecure.dz.helpers;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.WithSecure.dz.activities.BaseActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-public class IntentProxyToContentProvider extends Activity {
+public class IntentProxyToContentProvider extends BaseActivity {
     
     // This class is meant to help download files from unexported Content Providers
     // Assuming the unexported Content Provider has GrantURIPermissions set to True
@@ -27,7 +28,7 @@ public class IntentProxyToContentProvider extends Activity {
     
     String filename = "yayoutputyay"; // save file as "yayoutputyay"
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Uri uri = Uri.parse(getIntent().getDataString()); // Get the Uri for the unexported content provider
         if (getIntent().getStringExtra("filename") != null) {

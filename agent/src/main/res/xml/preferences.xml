@@ -64,6 +64,10 @@
 			android:title="@string/restore_after_crash"
 			android:summary="@string/restore_summary"
 			android:defaultValue="true"/>
+		<CheckBoxPreference android:key="disable_config_loading"
+			android:title="@string/disable_config_loading"
+			android:summary="@string/disable_config_loading_summary"
+			android:defaultValue="false"/>
 	</PreferenceCategory>
     
 </PreferenceScreen>
