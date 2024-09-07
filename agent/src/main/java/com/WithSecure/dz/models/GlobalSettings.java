@@ -13,6 +13,10 @@ import java.util.Hashtable;
 
 public class GlobalSettings {
 	private GlobalSettings(Context ctx) {
+		// skip if config loading is disabled
+		if (Agent.getInstance().getSettings().getBoolean("disable_config_loading", false))
+			return;
+
 		// load settings from config file
 		try {
 			BufferedReader confFile = new BufferedReader(new InputStreamReader(

@@ -125,5 +125,7 @@
     <string name="title_activity_settings">drozer Settings</string>
     <string name="restore_after_crash">Restore after crash</string>
     <string name="restore_summary">Restore state after an unexpected shutdown</string>
+    <string name="disable_config_loading">Disable config file loading</string>
+    <string name="disable_config_loading_summary">Disable auto loading of custom agent settings</string>
     
 </resources>
